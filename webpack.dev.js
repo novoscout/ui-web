@@ -1,5 +1,7 @@
 const { merge } = require('webpack-merge');
 const path = require("path")
+const webpack = require('webpack')
+
 const common = require('./webpack.common.js');
 
 const distDir = "dev"
@@ -30,7 +32,15 @@ const defaultSettings = {
   output: {
     path: distPath
   },
-  plugins: [],
+  plugins: [
+    new webpack.DefinePlugin({
+      process: {
+        env: {
+          NODE_ENV: JSON.stringify('development'),
+        }
+      }
+    })
+  ]
 };
 
 const exp = [];

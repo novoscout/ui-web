@@ -3,9 +3,6 @@ const webpack = require("webpack")
 const htmlWebpackPlugin = require("html-webpack-plugin")
 const copyPlugin = require("copy-webpack-plugin")
 
-const hashDigestLength = 20
-const hashFunction = 'sha512'
-
 // Fake file-system for web browsers. Need to do this so
 // trivial-api works. FIXME Move to trivial-api..?
 // Note: see externals below.
@@ -13,15 +10,48 @@ const fs = require('graceful-fs')
 const realFs = require('fs')
 fs.gracefulify(realFs)
 
-externals = {
-  fs: fs
-}
+const externals = [
+  {
+    // Ensure react-native is added to externals, otherwise
+    // the require("react-native") in ui-shared
+    // causes it to be added to the ui-web bundle.
+    "react-native": "react-native",
+
+    fs: fs
+  }
+]
+
+const babelPresets = [
+  [ '@babel/preset-env', { modules: false, targets: { browsers: [ "last 3 versions" ] } } ],
+  [ "@babel/preset-react", {} ]
+]
+
+const babelPlugins = [
+  [ '@babel/plugin-transform-react-jsx', { pragma: "h" } ],
+  [ '@babel/plugin-syntax-dynamic-import', {} ],
+  [ "@babel/plugin-transform-regenerator", {} ],
+  [ '@babel/plugin-syntax-jsx', {} ],
+  [ "transform-react-remove-prop-types", {} ],
+  [ "@babel/plugin-proposal-class-properties", {} ],
+
+  // [ '@babel/plugin-transform-react-jsx-development' ],
+
+  // Reduce bundle size by preventing Babel from
+  // duplicating its helper functions in every file
+  // and instead using this common lib. Note,
+  // this requires @babel/runtime to be added
+  // as a dependency (not a dev dependency).
+  [
+    "@babel/plugin-transform-runtime", {
+      "regenerator": true,
+      "absoluteRuntime": false,
+      "corejs": false,
+      "helpers": false,
+    }
+  ],
+]
 
 let defaultSettings = {
-  // externals: {
-  //   preact: "preact",
-  //   react: "react",
-  // },
   externals: externals,
   entry: path.resolve(__dirname, "src/index.js"),
   module: {
@@ -38,48 +68,20 @@ let defaultSettings = {
             /node_modules[\\\/]webpack[\\\/]buildin/,
           ],
 
-          presets: [
-            [ '@babel/preset-env', { targets: { browsers: [ "last 3 versions" ] } } ],
-            [ "@babel/preset-react" ]
-          ],
+          presets: babelPresets,
 
-          plugins: [
-            // Reduce bundle size by preventing Babel from
-            // duplicating its helper functions in every file
-            // and instead using this common lib. Note,
-            // this requires @babel/runtime to be added
-            // as a dependency (not a dev dependency).
-            [
-              "@babel/transform-runtime", {
-                "regenerator": true,
-                "absoluteRuntime": false,
-                "corejs": false,
-                "helpers": true,
-              }
-            ],
-
-            [ '@babel/plugin-syntax-jsx' ],
-            [ '@babel/plugin-syntax-dynamic-import' ],
-            [ '@babel/plugin-transform-react-jsx', { pragma: "h" } ],
-            // [ '@babel/plugin-transform-react-jsx-development' ],
-          ]
+          plugins: babelPlugins
         },
       },
     }],
   },
   output: {
-    // filename: 'index.js',
-    // chunkFilename: 'index.js',
-    hashDigestLength: hashDigestLength,
-    hashFunction: hashFunction,
+    filename: '[name].js',
+    chunkFilename: '[name].js',
     libraryExport: 'default',
     globalObject: 'this',
   },
   plugins: [
-    // Ensure file hashes don't change unexpectedly
-    new webpack.ids.HashedModuleIdsPlugin({
-      hashFunction: hashFunction,
-    }),
     new htmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html',

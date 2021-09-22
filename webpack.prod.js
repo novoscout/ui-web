@@ -1,21 +1,32 @@
-const { merge } = require('webpack-merge') // Doesn't destroy existing, whereas Object.assign() does.
-const common = require('./webpack.common.js')
-const path = require('path')
-const terser = require("terser-webpack-plugin")
+const { merge } = require('webpack-merge'); // Doesn't destroy existing, whereas Object.assign() does.
+const common = require('./webpack.common.js');
+const path = require('path');
+const terser = require("terser-webpack-plugin");
+const webpack = require('webpack');
 
-const distDir = "dist"
-const distPath = path.resolve(__dirname, distDir)
+const hashDigestLength = 24;
+const hashFunction = 'sha512';
+
+const distDir = "dist";
+const distPath = path.resolve(__dirname, distDir);
 
 const defaultSettings = {
   mode: 'production',
   devtool: 'source-map',
   optimization: {
     splitChunks: {
+      minSize: 1,
+      maxSize: 100000,
+      hidePathInfo: true,
       cacheGroups: {
         vendors: {
-          minSize: 1,
-          maxSize: Infinity,
-          // name: false,
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const plain_name = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+            return plain_name
+          },
         }
       }
     },
@@ -23,14 +34,15 @@ const defaultSettings = {
     minimizer: [
       new terser({
         parallel: true,
-        extractComments: false,
+        // extractComments: true,
         terserOptions: {
-          // Warnings: false,
+          warnings: true,
           compress: {
             keep_infinity: true,
             passes: 2,
           },
           mangle: {
+            ie8: true,
             safari10: true,
             toplevel: true,
           },
@@ -45,9 +57,25 @@ const defaultSettings = {
     ],
   },
   output: {
-    path: distPath
+    path: distPath,
+    filename: '[contenthash].js',
+    chunkFilename: '[contenthash].js',
+    hashFunction: hashFunction,
+    hashDigestLength: hashDigestLength
   },
-  plugins: []
+  plugins: [
+    // Ensure file hashes don't change unexpectedly
+    new webpack.ids.HashedModuleIdsPlugin({
+      hashFunction: hashFunction
+    }),
+    new webpack.DefinePlugin({
+      process: {
+        env: {
+          NODE_ENV: JSON.stringify('production'),
+        }
+      }
+    }),
+  ]
 };
 
 const exp = [];
