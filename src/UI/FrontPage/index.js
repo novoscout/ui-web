@@ -1,5 +1,5 @@
-import { h, render, Component } from "preact"
-import Base from "../../components/Base"
+import { h, render, Component } from "ui-shared/lib/react-preact"
+import Base from "ui-shared/components/Base"
 import Page from "../../components/Page"
 import cxs from 'cxs/component'
 
