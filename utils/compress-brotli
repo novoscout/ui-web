@@ -1,0 +1,9 @@
+#!/bin/bash
+
+thisdir=$(dirname $(readlink -f $0))
+cd $thisdir/..
+
+find {dev,dist} -type f -regex '.*\(html\|js\|map\|css\)$' -exec brotli -fk9 {} \;
+
+tree -h dist
+tree -h dev

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Disable 300ms delay in Chrome and Firefox -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- minimum-scale=1, maximum-scale=1 -->
+
+    <!-- Disable 300ms delay in IE -->
+    <style>html{touch-action:manipulation;-ms-touch-action:manipulation}</style>
+
+    <style>.loading {
+      position: fixed;
+      z-index: 100;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background-image: url("/assets/img/spinner.gif");
+      background-repeat: no-repeat;
+      background-position: center;
+    }</style>
+
+    <style>.loading-element {
+      z-index: 200;
+      height: 100%;
+      width: 100%;
+      background-image: url("/assets/img/spinner.gif");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: #f3f3f3;
+      background-size: 70px 70px;
+      border-radius: 4px;
+    }</style>
+
+    <!-- Polyfill.io: automatic polyfills for many features/browsers -->
+    <script>
+      if (navigator) {
+        if (navigator.onLine) {
+          var p = document.createElement('script');
+          p.src = "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default";
+          // p.async = true;
+          // p.defer = true;
+          p.setAttribute('crossorigin','anonymous')
+          document.head.appendChild(p);
+        }
+      }
+    </script>
+
+    <!-- HTML5shiv: HTML5 elements for older versions of IE -->
+    <!-- respond.js: media-queries for older versions of IE -->
+    <!--[if lt IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+    <![endif]-->
+
+    <!-- normalize -->
+    <!-- /* [type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText};outline-offset:-2px;h1{margin:.67em 0} */ -->
+    <style>html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}</style>
+
+    <!-- semantic-ui.com reset -->
+    <style>*,*:before,*:after{box-sizing:inherit}html{box-sizing:border-box}input[type="text"],input[type="email"],input[type="search"],input[type="password"]{-webkit-appearance:none;-moz-appearance:none}</style>
+
+    <!-- Make all "root" elements max size, and kludge ensuing scrollbar ugliness -->
+    <style>
+      html, body, div#root { height: 100%; height: 100vh; min-height: 100%; min-height: 100vh; width: 100%; width: 100vw; max-width: 100%; }
+      div#root { position: relative; }
+      body {
+        /* font-size: 18px; */
+        overflow-y: hidden;
+        color: #444;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        letter-spacing: 0.4px;
+        line-height: 2;
+      }
+      a {
+        color: deeppink;
+        text-decoration: underline;
+        text-decoration-color: silver;
+      }
+      h1 {
+        margin: 0 auto;
+        text-align: center;
+      }
+      a.title {
+        text-decoration: none;
+        text-decoration-color: none;
+        color: #444;
+      }
+    </style>
+
+    <title></title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div>
+        Please enable JavaScript.
+      </div>
+    </noscript>
+  </body>
+</html>

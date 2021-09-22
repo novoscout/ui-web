@@ -1,5 +1,7 @@
 dist
 dist/*
+dev
+dev/*
 
 # Created by https://www.toptal.com/developers/gitignore/api/emacs,linux,react,node,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=emacs,linux,react,node,git
