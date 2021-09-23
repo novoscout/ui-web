@@ -94,15 +94,26 @@ let defaultSettings = {
 
   resolve: {
     alias: {
-      'react$': 'preact/compat', // /compat',
 
-      'react-dom/test-utils$': 'preact/test-utils',
-      'react-dom': 'preact/compat', // must be below test-utils
-      "react-dom/unstable-native-dependencies$": "preact-responder-event-plugin",
+      // All aliases here need full paths so ui-shared can find them during build.
+      // Any web-related stuff that ui-shared refers to (e.g. React, cxs) must be added here.
+
+      "react$": path.resolve(__dirname,"node_modules/preact"),
+
+      "react-dom/test-utils$": path.resolve(__dirname,"node_modules/preact/test-utils"),
+      "react-dom": path.resolve(__dirname,"node_modules/preact/compat"), // must be below test-utils
+      "react-dom/unstable-native-dependencies$": path.resolve(__dirname,"node_modules/preact-responder-event-plugin"),
+
+      "cxs": path.resolve(__dirname,"node_modules/cxs"),
+      "cxs/component": path.resolve(__dirname,"node_modules/cxs/component"),
 
       // "babel-runtime": "@babel/runtime",
       // "react-addons-test-utils": "preact/test-utils",
       // "react-addons-perf": path.resolve(__dirname, "lib/react-addons-perf-mock"),
+
+      // Resolve files with web-specific extensions or general js/json.
+      // Do NOT resolve native-specific files e.g. ".android.js", ".native.js", ".ios.js", etc.
+      extensions: [".js",".web.js",".json",".web.json"]
     }
   }
 };
