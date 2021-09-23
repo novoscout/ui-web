@@ -1,13 +1,13 @@
 const { merge } = require('webpack-merge');
-const path = require("path")
-const webpack = require('webpack')
+const path = require("path");
+const webpack = require('webpack');
 
 const common = require('./webpack.common.js');
 
-const distDir = "dev"
-const distPath = path.resolve(__dirname, distDir)
+const distDir = "dev";
+const distPath = path.resolve(__dirname, distDir);
 
-const defaultSettings = {
+module.exports = merge(common, {
   mode: 'development',
   devtool: false,
   devServer: {
@@ -41,12 +41,4 @@ const defaultSettings = {
       }
     })
   ]
-};
-
-const exp = [];
-
-common.forEach( (cfg) => {
-  exp.push(merge(cfg,defaultSettings))
 });
-
-module.exports = exp;

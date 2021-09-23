@@ -1,30 +1,31 @@
-const path = require("path")
-const webpack = require("webpack")
-const htmlWebpackPlugin = require("html-webpack-plugin")
-const copyPlugin = require("copy-webpack-plugin")
+const path = require("path");
+const webpack = require("webpack");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const copyPlugin = require("copy-webpack-plugin");
+
 
 // Fake file-system for web browsers. Need to do this so
 // trivial-api works. FIXME Move to trivial-api..?
 // Note: see externals below.
-const fs = require('graceful-fs')
-const realFs = require('fs')
-fs.gracefulify(realFs)
+const fs = require('graceful-fs');
+const realFs = require('fs');
+fs.gracefulify(realFs);
 
 const externals = [
   {
-    // Ensure react-native is added to externals, otherwise
-    // the require("react-native") in ui-shared
+    // Ensure react-native is added to externals
+    // otherwise require("react-native") in ui-shared
     // causes it to be added to the ui-web bundle.
     "react-native": "react-native",
 
     fs: fs
   }
-]
+];
 
 const babelPresets = [
   [ '@babel/preset-env', { modules: false, targets: { browsers: [ "last 3 versions" ] } } ],
   [ "@babel/preset-react", {} ]
-]
+];
 
 const babelPlugins = [
   [ '@babel/plugin-transform-react-jsx', { pragma: "h" } ],
@@ -49,9 +50,9 @@ const babelPlugins = [
       "helpers": false,
     }
   ],
-]
+];
 
-let defaultSettings = {
+module.exports = {
   externals: externals,
   entry: path.resolve(__dirname, "src/index.js"),
   module: {
@@ -69,15 +70,13 @@ let defaultSettings = {
           ],
 
           presets: babelPresets,
-
           plugins: babelPlugins
         },
       },
     }],
   },
   output: {
-    filename: '[name].js',
-    chunkFilename: '[name].js',
+    clean: true,
     libraryExport: 'default',
     globalObject: 'this',
   },
@@ -117,17 +116,3 @@ let defaultSettings = {
     }
   }
 };
-
-// let otherBuildSettings = Object.assign({},defaultSettings,{
-//   entry: {
-//     somethingElse: {
-//       import: "./src/index.js",
-//       filename: "something-else.js",
-//       library: { name: "my-fancy-library" }
-//     }
-//   }
-// });
-
-module.exports = [
-  defaultSettings
-]; // add otherBuildSettings to this array

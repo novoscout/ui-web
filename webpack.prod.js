@@ -4,13 +4,16 @@ const path = require('path');
 const terser = require("terser-webpack-plugin");
 const webpack = require('webpack');
 
+// FIXME Determine best (smallest, most widely compatible) choice:
+// const alts = ["commonjs","commonjs2","commonjs-module","amd","umd","umd2","var","window"];
+
 const hashDigestLength = 24;
 const hashFunction = 'sha512';
 
 const distDir = "dist";
 const distPath = path.resolve(__dirname, distDir);
 
-const defaultSettings = {
+module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
   optimization: {
@@ -76,37 +79,4 @@ const defaultSettings = {
       }
     }),
   ]
-};
-
-const exp = [];
-
-// const alts = ["commonjs","commonjs2","commonjs-module","amd","umd","umd2","var","window"];
-// 
-// alts.forEach( (altType) => {
-//   let cfg = merge({}, common, defaultSettings);
-//   const newEntry = {entry:common.entry};
-//   const oldKey = common.entry;
-//   const newKey = String(oldKey).replace(".js","_" + altType);
-//   const newFilename = String(oldKey).replace(".js", "." + altType);
-// 
-//   cfg.output.filename = newKey + ".min.js";
-// 
-//   Object.defineProperty(
-//     newEntry,
-//     newKey,
-//     Object.getOwnPropertyDescriptor(newEntry, oldKey));
-//   delete newEntry[oldKey];
-// 
-//   newEntry[newKey].filename = newFilename + ".min.js";
-// 
-//   const newCfg = Object.assign({},cfg, { entry: newEntry });
-//   exp.push(merge(defaultSettings, newCfg));
-// });
-// 
-// module.exports = exp;
-
-common.forEach( (cfg) => {
-  exp.push(merge(cfg,defaultSettings))
 });
-
-module.exports = exp;
