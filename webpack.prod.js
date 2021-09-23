@@ -19,15 +19,19 @@ module.exports = merge(common, {
   optimization: {
     splitChunks: {
       minSize: 1,
-      maxSize: 100000,
+      maxSize: Infinity,
       hidePathInfo: true,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
+          chunks: "all",
+          enforce: true,
           name(module) {
             // get the name. E.g. node_modules/packageName/not/this/part.js
             // or node_modules/packageName
-            const plain_name = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+            const plain_name = String(
+              module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+            ).replace("@","_at_")
             return plain_name
           },
         }
