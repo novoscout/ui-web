@@ -28,9 +28,18 @@ module.exports = merge(common, {
   },
   optimization: {
     minimize: false,
+    splitChunks: {
+      // For easier debugging, don't combine files into chunks.
+      // Also retain their path info.
+      minSize: 1,
+      maxSize: 1,
+      hidePathInfo: false,
+    }
   },
   output: {
-    path: distPath
+    path: distPath,
+    filename: "[name].js",
+    chunkFilename: "[name].js"
   },
   plugins: [
     new webpack.DefinePlugin({
