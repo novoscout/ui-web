@@ -1,6 +1,6 @@
-import { h, render, Component } from "preact"
-import { Router } from "preact-router"
+import { h, render, Component } from "ui-shared/lib/react-preact"
 import ThemeProvider from 'cxs/ThemeProvider'
+import { Router } from "preact-router"
 
 import FrontPage from "./FrontPage"
 
