@@ -40,8 +40,6 @@ class _Demo extends Component {
     super(props)
     this.swipeLeft = this.swipeLeft.bind(this)
     this.swipeRight = this.swipeRight.bind(this)
-    this.swipeUp = this.swipeUp.bind(this)
-    this.swipeDown = this.swipeDown.bind(this)
     this.state = {
       bgcol: undefined,
       loading: true
@@ -83,7 +81,7 @@ class _Demo extends Component {
             */ }
            <Swiper
              style={{height:"400px",width:"100%",backgroundColor:this.state.bgcol,display:"block"}}
-             left={this.swipeLeft} right={this.swipeRight} up={this.swipeUp} down={this.swipeDown}>
+             left={this.swipeLeft} right={this.swipeRight}>
              <Text>Some text in a swiper.</Text>
            </Swiper>
         </Page>
