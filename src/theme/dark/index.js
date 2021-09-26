@@ -1,6 +1,10 @@
 import colour from "./colour"
 
-const dark = {}
+const dark = {
+  demo: {
+    backgroundColor: "silver"
+  }
+}
 
 export default dark
 export { dark }
