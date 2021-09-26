@@ -1,10 +1,11 @@
 import { h, render, Component } from "ui-shared/lib/react-preact"
-import ThemeProvider from 'cxs/ThemeProvider'
+import ThemeProvider from "cxs/ThemeProvider"
 import { Router } from "preact-router"
 
-import FrontPage from "./FrontPage"
+import Demo from "./Demo"
 
 import theme from "../theme"
+
 
 // Code-splitting and lazy-loading.
 const doSW = () => {
@@ -58,10 +59,8 @@ class UI extends Component {
     if (this.state.loading) { return <Loading /> }
     const _theme = this.state.darkTheme ? theme.dark : theme.light
 
-    // FIXME Why is theme lost when sub-components re-render?? :(
-
     return (
-        <ThemeProvider theme={_theme} >
+      <ThemeProvider theme={_theme} >
         <div style={{
                display: "block",
                height: "2rem",
@@ -73,7 +72,7 @@ class UI extends Component {
           <input style={{marginRight:"1rem"}} type="checkbox" onchange={this.toggleTheme} />
         </div>
         { /* <Router> */ }
-        <FrontPage path="/" />
+        <Demo path="/" />
         { /* </Router> */ }
       </ThemeProvider>
     )
