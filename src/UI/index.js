@@ -1,10 +1,9 @@
-import { h, render, Component } from "ui-shared/lib/react-preact"
-import ThemeProvider from "cxs/ThemeProvider"
+import { h, Component } from "preact"
+import { useContext } from "preact/compat"
+import { Theme, lightTheme, darkTheme } from "../theme"
 import { Router } from "preact-router"
 
 import Demo from "./Demo"
-
-import theme from "../theme"
 
 
 // Code-splitting and lazy-loading.
@@ -28,7 +27,9 @@ class UI extends Component {
   }
 
   toggleTheme() {
-    this.setState({darkTheme:!this.state.darkTheme})
+    this.setState(function(state,props) {
+      return { darkTheme:!state.darkTheme }
+    })
   }
 
   componentDidMount() {
@@ -57,11 +58,11 @@ class UI extends Component {
 
   render(props,state) {
     if (this.state.loading) { return <Loading /> }
-    const _theme = this.state.darkTheme ? theme.dark : theme.light
+    const theme = this.state.darkTheme ? darkTheme : lightTheme
 
     return (
-      <ThemeProvider theme={_theme} >
-        <div style={{
+      <Theme.Provider value={theme} >
+        <div id="navbar" style={{
                display: "block",
                height: "2rem",
                position: "relative",
@@ -71,10 +72,12 @@ class UI extends Component {
              }}>
           <input style={{marginRight:"1rem"}} type="checkbox" onchange={this.toggleTheme} />
         </div>
-        { /* <Router> */ }
-        <Demo path="/" />
-        { /* </Router> */ }
-      </ThemeProvider>
+        <div id="page" style={{display:"block"}}>
+          { /* <Router> */ }
+          <Demo path="/" />
+          { /* </Router> */ }
+        </div>
+      </Theme.Provider>
     )
   }
 }

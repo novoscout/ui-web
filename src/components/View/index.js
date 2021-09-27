@@ -1,20 +1,21 @@
-import { h, createElement } from "preact"
-import cxs from "cxs/component"
+import { h, Component, createElement } from "preact"
 
-const _View = (props) => {
-  let newProps = props
-  const elem = (newProps.elem ? newProps.elem : "div").toLowerCase()
-
-  // Remove items that otherwise will end up in HTML.
-  delete newProps.elem
-  return createElement(`${elem}`, newProps)
-}
-
-const View = cxs(_View)(function(props) {
-  return {
-    position: "relative",
+class View extends Component {
+  constructor(props) {
+    super(props)
   }
-})
+
+  render() {
+    let newProps = {...this.props}
+    const elem = (newProps.elem ? newProps.elem : "div").toLowerCase()
+
+    newProps.position = newProps.position ? newProps.position : "relative"
+
+    // Remove items that otherwise will end up in HTML.
+    delete newProps.elem
+    return createElement(`${elem}`, newProps)
+  }
+}
 
 export default View
 export { View }

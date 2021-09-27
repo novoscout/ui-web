@@ -1,19 +1,21 @@
-import { h } from "preact"
+import { h, Component } from "preact"
+import { useContext } from "preact/compat"
+import { mergeDeep } from "../../helpers/mergeDeep"
+import { Theme } from "../../theme"
 import View from "../View"
-import cxs from 'cxs/component'
+import cxs from "cxs"
 
 // import quicklink from "quicklink/dist/quicklink.mjs"
 // quicklink()
 
 const Page = (props) => {
+  const theme = useContext(Theme)
+  const className = String(theme.page ? cxs({...theme.page}) : "") + " fullpage"
+  console.log("className",className)
   return (
-    <_Page className={props.className}>{props.children}</_Page>
+    <View className={className} {...props}>{props.children}</View>
   )
 }
-
-const _Page = cxs(View)(function(props) {
-  return props.theme.page
-})
 
 export default Page
 export { Page }

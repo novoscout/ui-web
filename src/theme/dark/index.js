@@ -1,7 +1,7 @@
 import colour from "./colour"
 
 const dark = {
-  demo: {
+  page: {
     backgroundColor: "silver"
   }
 }
