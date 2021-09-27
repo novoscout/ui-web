@@ -11,7 +11,6 @@ import cxs from "cxs"
 const Page = (props) => {
   const theme = useContext(Theme)
   const className = String(theme.page ? cxs({...theme.page}) : "") + " fullpage"
-  console.log("className",className)
   return (
     <View className={className} {...props}>{props.children}</View>
   )

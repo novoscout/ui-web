@@ -4,7 +4,7 @@ if (process.env.novoscout.development) {
   const debug = require("preact/debug")
 }
 
-import { h, render } from "ui-shared/lib/react-preact"
+import { h, render } from "preact"
 import UI from './UI'
 
 render(
