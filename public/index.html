@@ -64,19 +64,19 @@
 
     <!-- Basic flexbox boilerplate -->
     <style>
-      body {
-        display: flex;
-        flex-direction: column;
-      }
-      div#root {
-        display: flex;
-        flex: 1;
-      }
+      /* body { */
+      /*   display: flex; */
+      /*   flex-direction: column; */
+      /* } */
+      /* div#root { */
+      /*   display: flex; */
+      /*   flex: 1; */
+      /* } */
     </style>
 
     <style>
       /* Make all "root" elements max size, and kludge ensuing scrollbar ugliness */
-      html, body, div#root {
+      html, body, div#root, .fullpage {
         height: 100%;
         height: 100vh;
         min-height: 100%;
@@ -88,16 +88,6 @@
         max-width: 100%;
         max-width: 100vw;
       }
-      div#root div {
-        /* This is the ThemeProvider div */
-        width: 100%;
-        width: 100vw;
-        min-width: 100%;
-        min-width: 100vw;
-        max-width: 100%;
-        max-width: 100vw;
-      }
-      /* div#root { position: relative; } */
 
       body {
         /* font-size: 18px; */
