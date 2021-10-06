@@ -16,6 +16,7 @@
     "analytics": " webpack --config webpack.analytics.js --mode production  --env production  --progress --color && yarn serve",
     "build": "     webpack --config webpack.prod.js      --mode production  --env production  --progress --color",
     "build-dev": " webpack --config webpack.dev.js       --mode development --env development --progress --color",
+    "build-debug":"webpack --config webpack.debug.js     --mode development --env development --progress --color",
     "compress": "  yarn gzip",
     "gzip": "      utils/compress-gzip",
     "brotli": "    utils/compress-brotli",
