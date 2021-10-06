@@ -8,9 +8,13 @@
     <!-- Disable 300ms delay in IE -->
     <style>html{touch-action:manipulation;-ms-touch-action:manipulation}</style>
 
+    <!-- 
+         Silly z-index values here.
+         See https://www.sitepoint.com/managing-css-stacking-contexts-hostile-environment/
+      -->
     <style>.loading {
       position: fixed;
-      z-index: 100;
+      z-index: 10000;
       bottom: 0;
       left: 0;
       right: 0;
@@ -23,7 +27,7 @@
     }</style>
 
     <style>.loading-element {
-      z-index: 200;
+      z-index: 20000;
       height: 100%;
       width: 100%;
       background-image: url("/assets/img/spinner.gif");
@@ -76,7 +80,7 @@
 
     <style>
       /* Make all "root" elements max size, and kludge ensuing scrollbar ugliness */
-      html, body, div#root, .fullpage {
+      html, body, div#root {
         height: 100%;
         height: 100vh;
         min-height: 100%;
@@ -91,7 +95,7 @@
 
       body {
         /* font-size: 18px; */
-        overflow-y: hidden;
+        overflow-y: scroll;
         color: #444;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
         letter-spacing: 0.4px;
@@ -111,6 +115,18 @@
         text-decoration-color: none;
         color: #444;
       }
+
+      /**
+       * Rudely interfere with vertical scrolling on smaller
+       * screens because the "articles" will scroll vertically,
+       * and there will be nothing else within the viewport.
+       */
+      @media screen and (max-width:550px) {
+        body, div#root {
+          overflow-y: hidden;
+        }
+      }
+
     </style>
 
     <title></title>
