@@ -1,10 +1,10 @@
-import { View } from "./View"
-import { Page } from "./Page"
+import { Desk } from "./Desk"
+import { Swiper } from "./Swiper"
 
 const exp = {
-  View: View,
-  Page: Page
+  Desk: Desk,
+  Swiper: Swiper
 }
 
 export default exp
-export { View, Page }
+export { Desk, Swiper }

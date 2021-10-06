@@ -66,17 +66,20 @@ class UI extends Component {
                display: "block",
                height: "2rem",
                position: "relative",
-               top: "0",
+               top: 0,
                backgroundColor: "black",
                textAlign: "right"
              }}>
           <input style={{marginRight:"1rem"}} type="checkbox" onchange={this.toggleTheme} />
         </div>
-        <div id="page" style={{display:"block"}}>
-          { /* <Router> */ }
+        { /* <Router> */ }
+        <div id="desk-container" style={{
+               display: "block",
+               position: "relative"
+         }}>
           <Demo path="/" />
-          { /* </Router> */ }
         </div>
+        { /* </Router> */ }
       </Theme.Provider>
     )
   }
