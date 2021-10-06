@@ -40,8 +40,8 @@
         if (navigator.onLine) {
           var p = document.createElement('script');
           p.src = "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default";
-          // p.async = true;
-          // p.defer = true;
+          p.async = true;
+          p.defer = true;
           p.setAttribute('crossorigin','anonymous')
           document.head.appendChild(p);
         }

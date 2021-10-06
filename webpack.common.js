@@ -22,8 +22,23 @@ const externals = [
   }
 ];
 
+// Nice: https://3perf.com/blog/polyfills/
+// Note also core-js aliases so ui-shared can use the necessaries.
+// Add this back in after figuring out whether to use this or polyfill.io!
 const babelPresets = [
-  [ '@babel/preset-env', { modules: false, targets: { browsers: [ "last 3 versions" ] } } ],
+  [ '@babel/preset-env',
+    {
+      modules: false,
+      // corejs: "3.18.2",
+      // useBuiltIns: "usage",
+      // targets: {
+      //   browsers: [
+      //     "> 0.25%",
+      //     "not dead"
+      //   ]
+      // }
+    }
+  ],
   [ "@babel/preset-react", {} ]
 ];
 
@@ -105,6 +120,9 @@ module.exports = {
 
       "cxs": path.resolve(__dirname,"node_modules/cxs"),
       "cxs/component": path.resolve(__dirname,"node_modules/cxs/component"),
+
+      "core-js": path.resolve(__dirname,"node_modules/core-js"),
+      "core-js-compat": path.resolve(__dirname,"node_modules/core-js-compat"),
 
       // "babel-runtime": "@babel/runtime",
       // "react-addons-test-utils": "preact/test-utils",
