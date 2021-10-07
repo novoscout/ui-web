@@ -3,7 +3,7 @@ import { useContext } from "preact/compat"
 import { Theme, lightTheme, darkTheme } from "../theme"
 import { Router } from "preact-router"
 
-import Demo from "./Demo"
+import { Demo } from "./Demo"
 
 
 // Code-splitting and lazy-loading.
