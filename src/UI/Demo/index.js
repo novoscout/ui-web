@@ -5,14 +5,15 @@ import { mergeDeep } from "ui-shared/lib"
 import { Desk, Swiper } from "../../components"
 import { Theme } from "../../theme"
 
-import cxs from "cxs"
+import { LoremIpsum } from "lorem-ipsum"
+
 
 class Demo extends Component {
   constructor(props) {
     super(props)
     this.renderArticles = this.renderArticles.bind(this)
     this.articleSiblings = this.articleSiblings.bind(this)
-    this.articleResetStyles = this.articleResetStyles.bind(this)
+    // this.articleResetStyles = this.articleResetStyles.bind(this)
     this.state = {
       loading: true,
       articleGraph: [
@@ -22,130 +23,127 @@ class Demo extends Component {
     }
   }
 
-  articleSiblings(e) {
+  articleSiblings(ref,numToShow) {
+    numToShow = numToShow ? numToShow : Infinity
     // FIXME This should probably be done with refs instead of DOM nodes.
-    return Array(...this.base.parentNode.children).map( (i) => {
-      if (this.base != i) { return i }
+    return Array(...ref.current.base.parentNode.children).slice(0,numToShow).map( (i) => {
+      if (ref.current.base != i) { return i }
     }).filter((i) => { if (i) { return i } })
   }
 
-  articleResetStyles(e) {
-    this.base.style.transition = "all 0.3s ease-out"
-    this.base.style.removeProperty("transform")
-    this.articleSiblings(e).map( (s) => {
-      s.style.removeProperty("transform")
-    })
+  articleResetStyles(ref,numToShow) {
+    console.log(ref,numToShow)
+    numToShow = numToShow ? numToShow : Infinity
+    ref.current.base.style.transition = "all 0.3s ease-out"
+    ref.current.base.style.removeProperty("transform")
+    // this.articleSiblings(ref,numToShow).map( (s) => {
+    //   s.style.removeProperty("transform")
+    // })
   }
 
-  swipeShouldPreventDefault(coords) {
+  swipeShouldPreventDefault(ref,coords) {
     return coords.xDelta > coords.yDelta
   }
 
-  swipeStart(e) {
-    this.base.style.removeProperty("transition")
+  swipeStart(ref,numToShow) {
+    ref.current.base.style.removeProperty("transition")
   }
 
-  swipeMove(elemRef,e,direction,pointerCoords) {
-    console.log(direction)
-    const reverseDirectionX = direction.left ? "" : "-"
-    var current = 0
-    const numberToShow = 5
-    const siblings = this.articleSiblings(e)
+  swipeEnd(ref,numToShow) {
+    this.articleResetStyles(ref,numToShow)
+  }
 
-    // FIXME This should probably be done with refs instead of DOM nodes.
-    const rect = this.base.getClientRects()[0]
-    const parentRect = this.base.parentNode.getClientRects()[0]
+  swipeCancel(ref,numToShow) {
+    this.articleResetStyles(ref,numToShow)
+  }
 
-    // How far the swiped item has moved relative to its parent.
-    const xEdgeDelta = rect.left > parentRect.left ? rect.left - parentRect.left : parentRect.left - rect.left
-
-    // Limit the travel of each revealed page to 12px relative to each other.
-    const xTravel = Math.min(12, (xEdgeDelta/numberToShow))
-
-    siblings.slice(0,numberToShow).map( (s) => {
-      current = current + 1
-      s.style.transform =
-        "translateX(" + reverseDirectionX + String((numberToShow - current) * xTravel) + "px)"
-    })
-
-    // FIXME is it efficient to remove the others from the DOM or something like that?
-    // siblings.slice(numberToShow).map( (s) => {
-    //   s.style = "display:none !important"
-    // })
-
-    this.base.style.transform =
+  swipeMove(ref,numToShow,pointerCoords) {
+    ref.current.base.style.transform =
       "translateX(" + String((pointerCoords.start.x - pointerCoords.x)*-1) + "px) "
-  }
-
-  swipeLeft(e) {
-    this.articleResetStyles(e)
-  }
-
-  swipeRight(e) {
-    this.articleResetStyles(e)
-  }
-
-  swipeCancel(e) {
-    this.articleResetStyles(e)
-  }
-
-  swipeEnd(e) {
-    this.articleResetStyles(e)
   }
 
   componentDidMount() {
     this.setState({loading:false})
   }
 
-  renderArticles(theme) {
+  renderArticles(theme,numToShow) {
     const stackIndex = 0
     const stack = this.state.articleGraph[stackIndex]
+
+    const minToShow = 2
+    numToShow = numToShow ? numToShow : minToShow
+    numToShow = stack.length < numToShow && stack.length > minToShow ? stack.length : numToShow
+
     const zIndexStep = 10
-    var zIndex = zIndexStep + (zIndexStep * stack.length)
+    var zIndex = zIndexStep + (zIndexStep * numToShow)
     var brightness = 100
-    return stack.map( (a) => {
+
+    const lorem = new LoremIpsum({
+      sentencesPerParagraph: {
+        max: 2,
+        min: 1
+      },
+      wordsPerSentence: {
+        max: 16,
+        min: 4
+      }
+    })
+
+    const ret = []
+
+    stack.slice(0,numToShow).map( (a) => {
       zIndex = zIndex - zIndexStep
       const ref = createRef()
-      const cssAdjust = {
+      const style = {
         filter: brightness > 0 ? "brightness(" + String(brightness) + "%)" : null,
-        zIndex:zIndex
+        zIndex: zIndex
       }
-      const classNameFrame = cxs(mergeDeep(
-        {},
-        cssAdjust,
-        (theme.swiper || {}).frame || {}
-      ))
-      const classNameInner = cxs(mergeDeep(
-        {},
-        cssAdjust,
-        (theme.swiper || {}).inner || {}
-      ))
 
       brightness -= 10
 
-      return (
+      ret.push(
         <Swiper
           ref={ref}
-          className={classNameFrame}
+          style={style}
           uniaxial={true}
-          start={ () => this.swipeStart(ref) }
-          end={ () => this.swipeEnd(ref) }
-          cancel={ () => this.swipeCancel(ref) }
-          // Spot the difference in the next two:
-          move={ this.swipeMove.bind(this,ref) } 
-          shouldPreventDefault={ this.swipeShouldPreventDefault.bind(this) }
+          start={ this.swipeStart.bind(this,ref,numToShow) }
+          end={ this.swipeEnd.bind(this,ref,numToShow) }
+          cancel={ this.swipeCancel.bind(this,ref,numToShow) }
+          move={ this.swipeMove.bind(this,ref,numToShow) } 
+          shouldPreventDefault={ this.swipeShouldPreventDefault.bind(this,ref) }
           >
-          <Swiper.Inner className={classNameInner}>
-            <View>
-              <Text>Article {a}.</Text>
-            </View>
-            <View>
-              <Text>With a <TextLink>link</TextLink>.</Text>
-            </View>
-          </Swiper.Inner>
+          <View>
+            <Text style={{fontWeight:"bold"}}>{lorem.generateSentences(1)}</Text>
+          </View>
+          <hr/>
+          <View>
+            <Text elem="div">
+              <Text><TextLink>Authors Here</TextLink>&#32;&nbsp;&#32;</Text>
+              <Text><TextLink>{lorem.generateWords(2)}</TextLink>&#32;&nbsp;&#32;</Text>
+              <Text><TextLink>{lorem.generateWords(2)}</TextLink>&#32;&nbsp;&#32;</Text>
+              <Text>...</Text>
+            </Text>
+          </View>
+          <hr/>
+          <View>
+            <Text elem="div">
+              <Text><TextLink>keywords</TextLink>&#32;&nbsp;&#32;</Text>
+              <Text><TextLink>{lorem.generateWords(2)}</TextLink>&#32;&nbsp;&#32;</Text>
+              <Text><TextLink>{lorem.generateWords(2)}</TextLink>&#32;&nbsp;&#32;</Text>
+              <Text><TextLink>{lorem.generateWords(2)}</TextLink>&#32;&nbsp;&#32;</Text>
+              <Text><TextLink>{lorem.generateWords(2)}</TextLink>&#32;&nbsp;&#32;</Text>
+              <Text><TextLink>{lorem.generateWords(2)}</TextLink></Text>
+            </Text>
+          </View>
+          <hr/>
+          <View>
+            <Text>{lorem.generateParagraphs(10)}</Text>
+          </View>
         </Swiper>
       )
     })
+
+    return ret
   }
 
   render() {
@@ -161,7 +159,7 @@ class Demo extends Component {
     )
 
     return (
-      <Desk>
+      <Desk id="desk">
         {memoizedArticles}
       </Desk>
     )
