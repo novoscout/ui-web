@@ -23,10 +23,12 @@ const common = {
     },
     inner: {
       display: "block",
-      height: "90%",
+      height: "88%",
+      margin: "4% auto auto auto",
+      maxHeight: "88%",
       overflowY: "scroll",
       position: "relative",
-      width: "100%",
+      width: "90%",
       top: 0
     }
   }
