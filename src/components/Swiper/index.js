@@ -12,7 +12,7 @@ const Swiper = (props) => {
   const className =
         cxs(mergeDeep({}, (theme.swiper || {}).frame || {}, props.style || {}))
   const innerClassName =
-        cxs(mergeDeep({}, (theme.swiper || {}).inner || {}, props.style || {}))
+        cxs(mergeDeep({}, (theme.swiper || {}).inner || {}))
 
   const newProps = props
   props.style && (newProps.style = undefined)
