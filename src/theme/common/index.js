@@ -16,19 +16,20 @@ const common = {
       display: "block",
       height: "100vh",
       margin: 0,
-      padding: "1rem",
+      padding: 0,
       position: "absolute",
       touchAction: "pan-x pan-y pinch-zoom",
       width: "100vw",
     },
     inner: {
       display: "block",
-      height: "88%",
-      margin: "4% auto auto auto",
-      maxHeight: "88%",
+      height: "100%",
+      margin: "auto",
+      maxHeight: "100%",
       overflowY: "scroll",
+      padding: "1rem 1rem 4rem 1rem",
       position: "relative",
-      width: "90%",
+      width: "100%",
       top: 0
     }
   }
