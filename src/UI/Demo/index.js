@@ -32,7 +32,6 @@ class Demo extends Component {
   }
 
   articleResetStyles(ref,numToShow) {
-    console.log(ref,numToShow)
     numToShow = numToShow ? numToShow : Infinity
     ref.current.base.style.transition = "all 0.3s ease-out"
     ref.current.base.style.removeProperty("transform")
