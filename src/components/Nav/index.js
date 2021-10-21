@@ -4,6 +4,7 @@ import cxs from "cxs"
 
 import { View } from "ui-shared/components"
 
+import { Container, NavActionShare, NavActionTheme } from ".."
 import { NavTitle } from "../NavTitle"
 import { Theme } from "../../theme"
 
@@ -14,10 +15,18 @@ class Nav extends Component {
     this.state = {
       loading: true,
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleShare = this.handleShare.bind(this)
+    this.handleToggleTheme = this.handleToggleTheme.bind(this)
   }
 
-  handleClick(e) {
+  handleShare(e) {
+    alert("Share!")
+    if (this.props.share) {
+      this.props.share()
+    }
+  }
+
+  handleToggleTheme(e) {
     if (this.props.toggleTheme) {
       this.props.toggleTheme()
     }
@@ -28,13 +37,16 @@ class Nav extends Component {
   }
 
   render() {
+    if (this.state.loading) { return null }
     const theme = useContext(Theme)
     const className = theme.nav ? String(cxs({...theme.nav})) : null
     return (
-      <View
-        onClick={this.handleClick}
-        className={className} {...this.props}>
-        <NavTitle>osteoscout</NavTitle>
+      <View className={className} {...this.props}>
+        <Container>
+          <NavTitle onClick={ () => { console.log("?") } }>osteoscout</NavTitle>
+          <NavActionShare onClick={this.handleShare} />
+          <NavActionTheme onClick={this.handleToggleTheme} />
+        </Container>
       </View>
     )
   }

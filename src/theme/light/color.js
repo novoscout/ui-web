@@ -7,7 +7,7 @@ const color = {
   accent: "#060",
 
   primary: "#0f0",
-  primaryDesat: ["#0c0","#090","#060","#030"]
+  primaryDesat: ["#3f3","#6f6","#9f9","#cfc"]
 }
 
 

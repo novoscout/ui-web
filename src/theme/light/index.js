@@ -18,7 +18,7 @@ var light = {
       backgroundColor: color.background,
     },
     inner: {
-      backgroundColor: color.background
+      backgroundColor: color.background,
     }
   },
   textLink: {
@@ -28,7 +28,7 @@ var light = {
 
 light.nav[mq.md] = {
   backgroundColor: color.background + " !important",
-  borderBottom: "none !important",
+  borderBottomColor: color.primaryDesat[color.primaryDesat.length - 1] + " !important",
 }
 
 export default light

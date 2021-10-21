@@ -4,6 +4,7 @@ import cxs from "cxs"
 
 import { Swiper as _Swiper } from "ui-shared/components"
 
+import { Container } from "../../components"
 import { Theme } from "../../theme"
 
 
@@ -21,7 +22,7 @@ const Swiper = (props) => {
   return (
     <_Swiper style={props.style} className={className} {...newProps}>
       <_Swiper.Inner className={innerClassName}>
-        {props.children}
+        <Container>{props.children}</Container>
       </_Swiper.Inner>
     </_Swiper>
   )

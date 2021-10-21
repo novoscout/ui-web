@@ -4,18 +4,21 @@
 import mq from "./mq"
 
 const common = {
+  container: {
+    display: "block",
+  },
   desk: {
     display: "block",
     position: "relative",
-    // overflowY: "auto",
-    // height: "100%",
-    // maxHeight: "100vh",
-    // maxWidth: "100vw",
-    // minHeight: "100vh",
-    // minWidth: "100vw",
-    // width: "100%",
   },
   nav: {
+
+    // Nav bar components:
+    " > div": {
+      display: "flex",
+      justifyContent: "space-between",
+    },
+
     position: "absolute",
     borderRadius: "50%",
     // zIndex: 1000, // Don't use. Instead, ensure Nav is added to DOM after swipers.
@@ -40,19 +43,17 @@ const common = {
       overflow: "hidden",
     }
   },
-  navTitle: {
-    display: "none",
-  },
+  navActionShare: { display: "none", textDecoration: "none" },
+  navActionTheme: { display: "none", textDecoration: "none" },
+  navTitle: { display: "none" },
   swiper: {
     frame: {
       display: "block",
       height: "100vh",
       margin: 0,
-      // overflowY: "auto",
       padding: 0,
       position: "absolute",
       touchAction: "pan-x pan-y pinch-zoom",
-      // width: "100vw",
       width: "100%",
     },
     inner: {
@@ -63,10 +64,9 @@ const common = {
       overflowY: "scroll",
       padding: "1rem",
       position: "relative",
-      // width: "100%",
       top: 0,
       ":last-child": {
-        paddingBottom: "4rem"
+        paddingBottom: "6rem"
       }
     }
   }
@@ -74,11 +74,9 @@ const common = {
 
 // Media queries.
 
-// common.swiper.inner[mq.md] = {
-//   ":last-child": {
-//     paddingBottom: 0,
-//   }
-// }
+common.swiper.frame[mq.md] = {
+  paddingBottom: "4rem",
+}
 
 common.desk[mq.md] = {
   marginTop: "4rem !important", // Make room for nav bar FIXME
@@ -115,10 +113,27 @@ common.nav[mq.md] = {
   }
 }
 
-common.navTitle[mq.md] = {
-  display: "inline-block !important"
+common.navActionShare[mq.md] = {
+  cursor: "pointer",
+  display: "inline-block !important",
+  margin: "1rem 30px 1rem 0 !important",
 }
 
+common.navActionTheme[mq.md] = {
+  cursor: "pointer",
+  display: "inline-block !important",
+  margin: "1rem 30px 1rem 0 !important",
+}
+
+common.navTitle[mq.md] = {
+  display: "inline-block !important",
+  margin: "0 auto 0 0 !important",
+}
+
+common.container[mq.md] = {
+  maxWidth: mq.breakpoint.lg + " !important",
+  margin: "0 auto",
+}
 
 export default common
 export { common }
