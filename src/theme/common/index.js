@@ -21,7 +21,7 @@ const common = {
     // zIndex: 1000, // Don't use. Instead, ensure Nav is added to DOM after swipers.
     height: "4rem",
     width: "4rem",
-    bottom: "1.5rem",
+    bottom: "4.5rem",
     right: "1.5rem",
     margin: 0,
     padding: 0,
