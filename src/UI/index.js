@@ -50,7 +50,6 @@ class UI extends Component {
       //     await getComponent().then((m) => { whatever })
       //   }
       // })()
-      await this.setState({themeLoading: false})
       await this.setState({loading: false})
       await doSW().then(m => m.registerServiceWorker())
     })()
@@ -62,23 +61,8 @@ class UI extends Component {
 
     return (
       <Theme.Provider value={theme} >
-        <div id="navbar" style={{
-               display: "block",
-               height: "2rem",
-               position: "relative",
-               top: 0,
-               backgroundColor: "black",
-               textAlign: "right"
-             }}>
-          <input style={{marginRight:"1rem"}} type="checkbox" onchange={this.toggleTheme} />
-        </div>
         { /* <Router> */ }
-        <div id="desk-container" style={{
-               display: "block",
-               position: "relative"
-         }}>
-          <Demo path="/" />
-        </div>
+          <Demo toggleTheme={this.toggleTheme} path="/" />
         { /* </Router> */ }
       </Theme.Provider>
     )

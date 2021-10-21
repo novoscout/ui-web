@@ -1,8 +1,8 @@
-import { h, Component, createRef } from "preact"
+import { h, Component, createRef, Fragment } from "preact"
 import { useMemo, useContext } from "preact/compat"
-import { Text, TextLink, View } from "ui-shared/components"
+import { Text, View } from "ui-shared/components"
 import { mergeDeep } from "ui-shared/lib"
-import { Desk, Swiper } from "../../components"
+import { Desk, Nav, Swiper, TextLink } from "../../components"
 import { Theme } from "../../theme"
 
 import { LoremIpsum } from "lorem-ipsum"
@@ -158,9 +158,15 @@ class Demo extends Component {
     )
 
     return (
-      <Desk id="desk">
-        {memoizedArticles}
-      </Desk>
+      <div id="desk-container" style={{
+             display: "block",
+             position: "relative"
+           }}>
+        <Desk id="desk">
+          {memoizedArticles}
+        </Desk>
+        <Nav toggleTheme={this.props.toggleTheme} id="nav" />
+      </div>
     )
   }
 }

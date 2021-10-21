@@ -1,10 +1,14 @@
 import { Desk } from "./Desk"
+import { Nav } from "./Nav"
 import { Swiper } from "./Swiper"
+import { TextLink } from "./TextLink"
 
 const exp = {
   Desk: Desk,
-  Swiper: Swiper
+  Nav: Nav,
+  Swiper: Swiper,
+  TextLink: TextLink
 }
 
 export default exp
-export { Desk, Swiper }
+export { Desk, Nav, Swiper, TextLink }
