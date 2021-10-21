@@ -1,16 +1,27 @@
-import colour from "./colour"
+import color from "./color"
 
 const dark = {
   desk: {
-    backgroundColor: "silver"
+    backgroundColor: color.background
+  },
+  nav: {
+    backgroundColor: color.accent,
+    border: "2px solid " + color.background,
+    boxShadow: null,
+    ":after": {
+      color: color.background,
+    }
   },
   swiper: {
     frame: {
-      backgroundColor: "#cdcccc"
+      backgroundColor: color.background // "#cdcccc"
     },
     inner: {
-      backgroundColor: "#decccc"
+      backgroundColor: color.background // "#decccc"
     }
+  },
+  textLink: {
+    color: color.accent
   }
 }
 

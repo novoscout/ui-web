@@ -1,16 +1,27 @@
-import colour from "./colour"
+import color from "./color"
 
 const light = {
   desk: {
-    backgroundColor: "#fff"
+    backgroundColor: color.background,
+  },
+  nav: {
+    backgroundColor: color.accent,
+    border: "2px solid " + color.background,
+    boxShadow: "2px 2px 8px 4px " + color.backgroundShadow,
+    ":after": {
+      color: color.background,
+    }
   },
   swiper: {
     frame: {
-      backgroundColor: "#fff"
+      backgroundColor: color.background,
     },
     inner: {
-      backgroundColor: "#fff"
+      backgroundColor: color.background
     }
+  },
+  textLink: {
+    color: color.accent
   }
 }
 
