@@ -11,7 +11,10 @@ const NavActionShare = (props) => {
   const theme = useContext(Theme)
   const className = theme.navActionShare ? String(cxs({...theme.navActionShare})) : null
   return (
-    <NavAction className={className} {...props}><span>Share</span></NavAction>
+    <NavAction className={className} {...props}>
+      <span role="img" aria-label="Share">🔗</span>
+      <span>&nbsp;Share</span>
+    </NavAction>
   )
 }
 

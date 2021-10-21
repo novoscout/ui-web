@@ -20,7 +20,6 @@ const common = {
     },
 
     position: "absolute",
-    borderRadius: "50%",
     // zIndex: 1000, // Don't use. Instead, ensure Nav is added to DOM after swipers.
     height: "4rem",
     width: "4rem",
@@ -29,6 +28,7 @@ const common = {
     margin: 0,
     padding: 0,
     border: 0,
+    borderRadius: "50%",
     ":after": {
       boxSizing: "content-box", // this is important!
       content: '"+"',
@@ -43,8 +43,36 @@ const common = {
       overflow: "hidden",
     }
   },
-  navActionShare: { display: "none", textDecoration: "none" },
-  navActionTheme: { display: "none", textDecoration: "none" },
+  navActionShare: {
+    cursor: "pointer",
+    position: "absolute",
+    height: "4rem",
+    width: "12rem",
+    bottom: "5rem",
+    right: 0,
+    margin: 0,
+    padding: 0,
+    border: 0,
+    borderRadius: "1rem",
+    textAlign: "center",
+    lineHeight: "4rem",
+    textDecoration: "none",
+  },
+  navActionTheme: {
+    cursor: "pointer",
+    position: "absolute",
+    height: "4rem",
+    width: "12rem",
+    bottom: "10rem",
+    right: 0,
+    margin: 0,
+    padding: 0,
+    border: 0,
+    borderRadius: "1rem",
+    textAlign: "center",
+    lineHeight: "4rem",
+    textDecoration: "none",
+  },
   navTitle: { display: "none" },
   swiper: {
     frame: {
@@ -113,16 +141,30 @@ common.nav[mq.md] = {
   }
 }
 
+// FIXME !Important! :(
 common.navActionShare[mq.md] = {
-  cursor: "pointer",
   display: "inline-block !important",
   margin: "1rem 30px 1rem 0 !important",
+  position: "relative !important",
+  height: "initial !important",
+  width: "initial !important",
+  bottom: "initial !important",
+  right: "initial !important",
+  lineHeight: "2rem !important",
 }
 
 common.navActionTheme[mq.md] = {
-  cursor: "pointer",
   display: "inline-block !important",
   margin: "1rem 30px 1rem 0 !important",
+  position: "relative !important",
+  height: "initial !important",
+  width: "initial !important",
+  bottom: "initial !important",
+  right: "initial !important",
+  lineHeight: "2rem !important",
+  " > span ~ span": {
+    display: "none !important"
+  },
 }
 
 common.navTitle[mq.md] = {

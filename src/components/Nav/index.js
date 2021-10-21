@@ -15,8 +15,12 @@ class Nav extends Component {
     this.state = {
       loading: true,
     }
+    this.handleHideShow = this.handleHideShow(this)
     this.handleShare = this.handleShare.bind(this)
     this.handleToggleTheme = this.handleToggleTheme.bind(this)
+  }
+
+  handleHideShow(e) {
   }
 
   handleShare(e) {
@@ -43,7 +47,7 @@ class Nav extends Component {
     return (
       <View className={className} {...this.props}>
         <Container>
-          <NavTitle onClick={ () => { console.log("?") } }>osteoscout</NavTitle>
+          <NavTitle onClick={this.handleHideShow}>osteoscout</NavTitle>
           <NavActionShare onClick={this.handleShare} />
           <NavActionTheme onClick={this.handleToggleTheme} />
         </Container>

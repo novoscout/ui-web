@@ -12,7 +12,7 @@ const NavAction = (props) => {
   const className = theme.navAction ? String(cxs({...theme.navAction})) : null
   return (
     <TextLink
-      className={className} {...props}>
+      className={(className || "") + " navAction"} {...props}>
       {props.children}
     </TextLink>
   )
