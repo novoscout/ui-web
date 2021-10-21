@@ -7,12 +7,13 @@ const common = {
   desk: {
     display: "block",
     position: "relative",
-    height: "100%",
-    maxHeight: "100vh",
-    maxWidth: "100vw",
-    minHeight: "100vh",
-    minWidth: "100vw",
-    width: "100%",
+    // overflowY: "auto",
+    // height: "100%",
+    // maxHeight: "100vh",
+    // maxWidth: "100vw",
+    // minHeight: "100vh",
+    // minWidth: "100vw",
+    // width: "100%",
   },
   nav: {
     position: "absolute",
@@ -39,15 +40,20 @@ const common = {
       overflow: "hidden",
     }
   },
+  navTitle: {
+    display: "none",
+  },
   swiper: {
     frame: {
       display: "block",
       height: "100vh",
       margin: 0,
+      // overflowY: "auto",
       padding: 0,
       position: "absolute",
       touchAction: "pan-x pan-y pinch-zoom",
-      width: "100vw",
+      // width: "100vw",
+      width: "100%",
     },
     inner: {
       display: "block",
@@ -55,18 +61,27 @@ const common = {
       margin: "auto",
       maxHeight: "100%",
       overflowY: "scroll",
-      padding: "1rem 1rem 6rem 1rem",
+      padding: "1rem",
       position: "relative",
-      width: "100%",
-      top: 0
+      // width: "100%",
+      top: 0,
+      ":last-child": {
+        paddingBottom: "4rem"
+      }
     }
   }
 }
 
 // Media queries.
 
+// common.swiper.inner[mq.md] = {
+//   ":last-child": {
+//     paddingBottom: 0,
+//   }
+// }
+
 common.desk[mq.md] = {
-  marginTop: "4rem" // Make room for nav bar FIXME
+  marginTop: "4rem !important", // Make room for nav bar FIXME
 }
 
 common.nav[mq.md] = {
@@ -99,6 +114,11 @@ common.nav[mq.md] = {
     overflow: "hidden",
   }
 }
+
+common.navTitle[mq.md] = {
+  display: "inline-block !important"
+}
+
 
 export default common
 export { common }
