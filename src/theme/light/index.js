@@ -1,6 +1,7 @@
 import color from "./color"
+import mq from "../common/mq"
 
-const light = {
+var light = {
   desk: {
     backgroundColor: color.background,
   },
@@ -10,7 +11,7 @@ const light = {
     boxShadow: "2px 2px 8px 4px " + color.backgroundShadow,
     ":after": {
       color: color.background,
-    }
+    },
   },
   swiper: {
     frame: {
@@ -23,6 +24,11 @@ const light = {
   textLink: {
     color: color.accent
   }
+}
+
+light.nav[mq.md] = {
+  backgroundColor: color.background + " !important",
+  borderBottom: "none !important",
 }
 
 export default light

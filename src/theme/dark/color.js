@@ -4,6 +4,7 @@ const color = {
 
   accent: "#900",
   primary: "#c00",
+  primaryDesat: [,"#900","#600","#300"]
 }
 
 

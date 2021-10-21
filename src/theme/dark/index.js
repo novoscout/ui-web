@@ -1,4 +1,5 @@
 import color from "./color"
+import mq from "../common/mq"
 
 const dark = {
   desk: {
@@ -23,6 +24,11 @@ const dark = {
   textLink: {
     color: color.accent
   }
+}
+
+dark.nav[mq.md] = {
+  backgroundColor: color.background + " !important",
+  borderBottomColor: color.primaryDesat[color.primaryDesat.length - 1] + " !important",
 }
 
 export default dark
