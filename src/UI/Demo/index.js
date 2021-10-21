@@ -136,7 +136,7 @@ class Demo extends Component {
           </View>
           <hr/>
           <View>
-            <Text>{lorem.generateParagraphs(10)}</Text>
+            <Text>{lorem.generateParagraphs(30)}</Text>
           </View>
         </Swiper>
       )
@@ -158,15 +158,12 @@ class Demo extends Component {
     )
 
     return (
-      <div id="desk-container" style={{
-             display: "block",
-             position: "relative"
-           }}>
+      <Fragment>
         <Desk id="desk">
           {memoizedArticles}
         </Desk>
-        <Nav toggleTheme={this.props.toggleTheme} id="nav" />
-      </div>
+        <Nav id="nav" toggleTheme={this.props.toggleTheme} />
+      </Fragment>
     )
   }
 }

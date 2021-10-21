@@ -4,6 +4,7 @@ import cxs from "cxs"
 
 import { View } from "ui-shared/components"
 
+import { NavTitle } from "../NavTitle"
 import { Theme } from "../../theme"
 
 
@@ -33,7 +34,7 @@ class Nav extends Component {
       <View
         onClick={this.handleClick}
         className={className} {...this.props}>
-        {this.props.children}
+        <NavTitle>osteoscout</NavTitle>
       </View>
     )
   }
