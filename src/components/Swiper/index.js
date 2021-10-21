@@ -17,7 +17,7 @@ const Swiper = (props) => {
         (theme.swiper || {}).inner ? String(cxs(theme.swiper.inner)) : null
 
   const newProps = {...props}
-  props.style && (newProps.style = null)
+  delete(newProps.style)
 
   return (
     <_Swiper style={props.style} className={className} {...newProps}>
