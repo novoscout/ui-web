@@ -73,10 +73,6 @@ class Demo extends Component {
     numToShow = numToShow ? numToShow : minToShow
     numToShow = stack.length < numToShow && stack.length > minToShow ? stack.length : numToShow
 
-    const zIndexStep = 10
-    var zIndex = zIndexStep + (zIndexStep * numToShow)
-    var brightness = 100
-
     const lorem = new LoremIpsum({
       sentencesPerParagraph: {
         max: 2,
@@ -88,14 +84,13 @@ class Demo extends Component {
       }
     })
 
+    var brightness = 100
     const ret = []
 
     stack.slice(0,numToShow).map( (a) => {
-      zIndex = zIndex - zIndexStep
       const ref = createRef()
       const style = {
         filter: brightness > 0 ? "brightness(" + String(brightness) + "%)" : null,
-        zIndex: zIndex
       }
 
       brightness -= 10
@@ -142,7 +137,7 @@ class Demo extends Component {
       )
     })
 
-    return ret
+    return ret.reverse()
   }
 
   render() {
