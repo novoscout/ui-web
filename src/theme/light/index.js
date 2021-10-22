@@ -15,9 +15,11 @@ var light = {
   },
   navActionShare: {
     background: color.accent,
+    color: color.background,
   },
   navActionTheme: {
     background: color.accent,
+    color: color.background,
   },
   swiper: {
     frame: {
@@ -39,10 +41,12 @@ light.nav[mq.md] = {
 
 light.navActionShare[mq.md] = {
   backgroundColor: color.background + " !important",
+  color: color.accent + " !important",
 }
 
 light.navActionTheme[mq.md] = {
   backgroundColor: color.background + " !important",
+  color: color.accent + " !important",
 }
 
 export default light

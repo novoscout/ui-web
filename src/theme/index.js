@@ -19,8 +19,7 @@ import dark from "./dark"
 const lightTheme = mergeDeep({}, common, light)
 const darkTheme = mergeDeep({}, common, dark)
 
-// Default to light theme.
-const Theme = createContext(lightTheme)
+const Theme = createContext("theme")
 
 const exp = {
   Theme: Theme,

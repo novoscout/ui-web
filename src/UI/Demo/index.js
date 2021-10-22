@@ -7,19 +7,69 @@ import { Theme } from "../../theme"
 
 import { LoremIpsum } from "lorem-ipsum"
 
+import { actual } from "actual"
+import mq from "../../theme/common/mq"
+
 
 class Demo extends Component {
   constructor(props) {
     super(props)
+    this.share = this.share.bind(this)
+    this.toggleNav = this.toggleNav.bind(this)
     this.renderArticles = this.renderArticles.bind(this)
     this.articleSiblings = this.articleSiblings.bind(this)
     // this.articleResetStyles = this.articleResetStyles.bind(this)
     this.state = {
       loading: true,
+      navIsOpen: actual.is("(min-width:" + mq.breakpoint.md + ")"),
       articleGraph: [
         [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
-        [4,5,6]
+        []
       ]
+    }
+  }
+
+  share() {
+    navigator.share({
+      title: "OsteoScout",
+      text: "Interesting article",
+      url: window.location.href
+    },{
+      copy: true,
+      email: true,
+      print: true,
+      sms: true,
+      messenger: true,
+      facebook: true,
+      whatsapp: true,
+      twitter: true,
+      linkedin: true,
+      telegram: true,
+      skype: true,
+      language: 'en'
+    })
+    // .then( _ => console.log('Yay, you shared it :)'))
+    // .catch( error => console.log('Oh noh! You couldn\'t share it! :\'(\n', error));
+  }
+
+  toggleNav(e) {
+    console.log(e)
+    if (actual.is("(min-width:" + mq.breakpoint.md + ")")) {
+      this.setState({navIsOpen:true})
+    } else {
+      this.setState({navIsOpen:!this.state.navIsOpen})
+    }
+    if (
+      (e.target || {}).nodeName == "SPAN" && (
+        (e.target.textContent || "").includes("Share")
+        // (e.target.children && ((e.target.children[0] || {}).textContent || "").includes("Share"))
+      ) ) {
+      this.share()
+    }
+    if (((e.target || {}).children || []).length > 0) {
+      if ((e.target.children[1].textContent || "").includes("Share")) {
+        this.share()
+      }
     }
   }
 
@@ -156,7 +206,14 @@ class Demo extends Component {
         <Desk id="desk">
           {memoizedArticles}
         </Desk>
-        <Nav id="nav" toggleTheme={this.props.toggleTheme} />
+        <Nav
+          id="nav"
+          onClick={this.toggleNav}
+          isOpen={
+            actual.is("(min-width:" + mq.breakpoint.md + ")") ||
+              this.state.navIsOpen
+          }
+          toggleTheme={this.props.toggleTheme} />
       </Fragment>
     )
   }

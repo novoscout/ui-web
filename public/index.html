@@ -38,19 +38,23 @@
       border-radius: 4px;
     }</style>
 
+    <!-- Scripts policy: defer instead of async where feasible. Kudos https://stackoverflow.com/a/39711009 -->
+
     <!-- Polyfill.io: automatic polyfills for many features/browsers -->
     <script>
       if (navigator) {
         if (navigator.onLine) {
           var p = document.createElement('script');
           p.src = "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default";
-          p.async = true;
           p.defer = true;
           p.setAttribute('crossorigin','anonymous')
           document.head.appendChild(p);
         }
       }
     </script>
+
+    <!-- Fallback for Navigator.share() which is not widely supported. -->
+    <script defer src="https://unpkg.com/share-api-polyfill/dist/share-min.js"></script>
 
     <!-- HTML5shiv: HTML5 elements for older versions of IE -->
     <!-- respond.js: media-queries for older versions of IE -->

@@ -7,15 +7,27 @@ import { NavAction } from "../NavAction"
 import { Theme } from "../../theme"
 
 
-const NavActionShare = (props) => {
-  const theme = useContext(Theme)
-  const className = theme.navActionShare ? String(cxs({...theme.navActionShare})) : null
-  return (
-    <NavAction className={className} {...props}>
-      <span role="img" aria-label="Share">🔗</span>
-      <span>&nbsp;Share</span>
-    </NavAction>
-  )
+class NavActionShare extends Component {
+  constructor(props) {
+    super(props)
+    this.handleShare = this.handleShare.bind(this)
+  }
+
+  handleShare(e) {
+    console.log(e)
+  }
+
+  render() {
+    const theme = useContext(Theme)
+    const className = theme.navActionShare ? String(cxs({...theme.navActionShare})) : null
+
+    return (
+      <NavAction onClick={this.handleShare} className={className} {...this.props}>
+        <span role="img" aria-label="Share">🔗</span>
+        <span>&nbsp;Share</span>
+      </NavAction>
+    )
+  }
 }
 
 export default NavActionShare

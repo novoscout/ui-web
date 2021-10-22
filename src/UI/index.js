@@ -21,7 +21,7 @@ class UI extends Component {
     super(props)
     this.state = {
       loading: true,
-      darkTheme: false
+      darkTheme: ((new Date()).getHours()+1) > 7 && ((new Date()).getHours()+1) < 18 ? false : true
     }
     this.toggleTheme = this.toggleTheme.bind(this)
   }

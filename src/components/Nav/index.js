@@ -1,12 +1,14 @@
 import { h, Component } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
+// import { actual } from "actual"
 
 import { View } from "ui-shared/components"
 
 import { Container, NavActionShare, NavActionTheme } from ".."
 import { NavTitle } from "../NavTitle"
 import { Theme } from "../../theme"
+// import mq from "../../theme/common/mq"
 
 
 class Nav extends Component {
@@ -15,16 +17,11 @@ class Nav extends Component {
     this.state = {
       loading: true,
     }
-    this.handleHideShow = this.handleHideShow(this)
     this.handleShare = this.handleShare.bind(this)
     this.handleToggleTheme = this.handleToggleTheme.bind(this)
   }
 
-  handleHideShow(e) {
-  }
-
   handleShare(e) {
-    alert("Share!")
     if (this.props.share) {
       this.props.share()
     }
@@ -42,14 +39,27 @@ class Nav extends Component {
 
   render() {
     if (this.state.loading) { return null }
+    // console.log(actual)
+    // console.log("(min-width:" + mq.breakpoint.md + ")")
+    // console.log(actual.is("(min-width:" + mq.breakpoint.md + ")"))
     const theme = useContext(Theme)
     const className = theme.nav ? String(cxs({...theme.nav})) : null
+    if (this.props.isOpen) {
+      // || actual.is("(min-width:" + mq.breakpoint.md + ")")) {
+      return (
+        <View className={className} {...this.props}>
+          <Container>
+            <NavTitle>osteoscout</NavTitle>
+            <NavActionShare onClick={this.handleShare} />
+            <NavActionTheme onClick={this.handleToggleTheme} />
+          </Container>
+        </View>
+      )
+    }
     return (
       <View className={className} {...this.props}>
         <Container>
-          <NavTitle onClick={this.handleHideShow}>osteoscout</NavTitle>
-          <NavActionShare onClick={this.handleShare} />
-          <NavActionTheme onClick={this.handleToggleTheme} />
+          <NavTitle>osteoscout</NavTitle>
         </Container>
       </View>
     )

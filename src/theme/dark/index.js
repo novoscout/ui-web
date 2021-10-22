@@ -15,9 +15,11 @@ const dark = {
   },
   navActionShare: {
     background: color.accent,
+    color: color.background,
   },
   navActionTheme: {
     background: color.accent,
+    color: color.background,
   },
   swiper: {
     frame: {
@@ -39,10 +41,12 @@ dark.nav[mq.md] = {
 
 dark.navActionShare[mq.md] = {
   backgroundColor: color.background + " !important",
+  color: color.accent + " !important",
 }
 
 dark.navActionTheme[mq.md] = {
   backgroundColor: color.background + " !important",
+  color: color.accent + " !important",
 }
 
 export default dark
