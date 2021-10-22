@@ -145,11 +145,10 @@ class Demo extends Component {
 
     const theme = useContext(Theme)
 
-    // Ensure articles are only generated when the
-    // articleGraph changes or when the theme changes.
+    // Ensure articles are only generated when the articleGraph changes.
     const memoizedArticles = useMemo(
       () => this.renderArticles(theme),
-      [ this.state.articleGraph, theme ]
+      [ this.state.articleGraph ]
     )
 
     return (
