@@ -9,12 +9,12 @@ const distPath = path.resolve(__dirname, distDir);
 
 module.exports = merge(common, {
   mode: 'development',
+  // devtool: 'eval-cheap-source-map',
   devtool: false,
   devServer: {
     clientLogLevel: 'info',
     contentBase: distPath,
     disableHostCheck: true,
-    host: "localhost",
     hot: false,
     https: false,
     inline: true,
@@ -22,8 +22,7 @@ module.exports = merge(common, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
     },
-    historyApiFallback: true,
-    port: 3000,
+    port: 8080,
     publicPath: "/" + distDir + "/",
   },
   optimization: {

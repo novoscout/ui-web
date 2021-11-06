@@ -14,8 +14,12 @@ const distDir = "dist";
 const distPath = path.resolve(__dirname, distDir);
 
 module.exports = merge(common, {
+  devServer: {
+    https: true,
+    port: 3000,
+  },
+  // devtool: 'source-map',
   mode: 'production',
-  devtool: 'source-map',
   optimization: {
     splitChunks: {
       minSize: 1,
