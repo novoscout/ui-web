@@ -1,7 +1,6 @@
 import { h, Component } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
-// import { actual } from "actual"
 
 import { View } from "ui-shared/components"
 
@@ -39,28 +38,20 @@ class Nav extends Component {
 
   render() {
     if (this.state.loading) { return null }
-    // console.log(actual)
-    // console.log("(min-width:" + mq.breakpoint.md + ")")
-    // console.log(actual.is("(min-width:" + mq.breakpoint.md + ")"))
     const theme = useContext(Theme)
     const className = theme.nav ? String(cxs({...theme.nav})) : null
     if (this.props.isOpen) {
-      // || actual.is("(min-width:" + mq.breakpoint.md + ")")) {
       return (
         <View className={className} {...this.props}>
-          <Container>
-            <NavTitle>osteoscout</NavTitle>
-            <NavActionShare onClick={this.handleShare} />
-            <NavActionTheme onClick={this.handleToggleTheme} />
-          </Container>
+          <NavTitle>osteoscout</NavTitle>
+          { /* <NavActionShare onClick={this.handleShare} /> */ }
+          { /* <NavActionTheme onClick={this.handleToggleTheme} /> */ }
         </View>
       )
     }
     return (
       <View className={className} {...this.props}>
-        <Container>
-          <NavTitle>osteoscout</NavTitle>
-        </Container>
+        <NavTitle>osteoscout</NavTitle>
       </View>
     )
   }

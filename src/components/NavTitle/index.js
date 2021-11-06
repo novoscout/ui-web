@@ -11,11 +11,9 @@ const NavTitle = (props) => {
   const theme = useContext(Theme)
   const className = theme.navTitle ? String(cxs({...theme.navTitle})) : null
   return (
-    <Text
-      elem="h1"
-      className={className} {...props}>
-      {props.children}
-    </Text>
+    <div className={className} {...props}>
+      <Text elem="h1">{props.children}</Text>
+    </div>
   )
 }
 

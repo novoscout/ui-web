@@ -6,21 +6,22 @@ const dark = {
     backgroundColor: color.background
   },
   nav: {
-    backgroundColor: color.accent,
+    backgroundColor: color.background,
     border: "2px solid " + color.background,
     boxShadow: null,
-    ":after": {
-      color: color.background,
-    }
+    color: color.accent,
+//     ":after": {
+//       color: color.background,
+//     }
   },
-  navActionShare: {
-    background: color.accent,
-    color: color.background,
-  },
-  navActionTheme: {
-    background: color.accent,
-    color: color.background,
-  },
+//   navActionShare: {
+//     background: color.accent,
+//     color: color.background,
+//   },
+//   navActionTheme: {
+//     background: color.accent,
+//     color: color.background,
+//   },
   swiper: {
     frame: {
       backgroundColor: color.background,
@@ -34,20 +35,20 @@ const dark = {
   }
 }
 
-dark.nav[mq.md] = {
-  backgroundColor: color.background + " !important",
-  borderBottomColor: color.primaryDesat[color.primaryDesat.length - 1] + " !important",
-}
-
-dark.navActionShare[mq.md] = {
-  backgroundColor: color.background + " !important",
-  color: color.accent + " !important",
-}
-
-dark.navActionTheme[mq.md] = {
-  backgroundColor: color.background + " !important",
-  color: color.accent + " !important",
-}
+// dark.nav[mq.md] = {
+//   backgroundColor: color.background + " !important",
+//   borderBottomColor: color.primaryDesat[color.primaryDesat.length - 1] + " !important",
+// }
+// 
+// dark.navActionShare[mq.md] = {
+//   backgroundColor: color.background + " !important",
+//   color: color.accent + " !important",
+// }
+// 
+// dark.navActionTheme[mq.md] = {
+//   backgroundColor: color.background + " !important",
+//   color: color.accent + " !important",
+// }
 
 export default dark
 export { dark }

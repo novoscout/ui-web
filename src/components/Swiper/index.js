@@ -21,9 +21,7 @@ const Swiper = (props) => {
 
   return (
     <_Swiper style={props.style} className={className} {...newProps}>
-      <_Swiper.Inner className={innerClassName}>
-        <Container>{props.children}</Container>
-      </_Swiper.Inner>
+      {props.children}
     </_Swiper>
   )
 }

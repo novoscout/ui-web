@@ -5,9 +5,9 @@ if (process.env.novoscout.development) {
 }
 
 import { h, render } from "preact"
-import Whatever from './Whatever'
+// import Whatever from './Whatever'
 
 render(
-  <Whatever />,
+  <div />,
   document.getElementById("root")
 )
