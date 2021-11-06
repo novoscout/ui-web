@@ -68,6 +68,10 @@ const babelPlugins = [
 ];
 
 module.exports = {
+  devServer: {
+    host: "localhost",
+    historyApiFallback: true,
+  },
   externals: externals,
   entry: path.resolve(__dirname, "src/index.js"),
   module: {
