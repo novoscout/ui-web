@@ -7,8 +7,6 @@ const dark = {
   },
   nav: {
     backgroundColor: color.background,
-    border: "2px solid " + color.background,
-    boxShadow: null,
     color: color.accent,
 //     ":after": {
 //       color: color.background,

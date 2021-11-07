@@ -7,8 +7,6 @@ var light = {
   },
   nav: {
     backgroundColor: color.background,
-    border: "2px solid " + color.background,
-    boxShadow: "2px 2px 8px 4px " + color.backgroundShadow,
     color: color.accent,
 //     ":after": {
 //       color: color.background,
