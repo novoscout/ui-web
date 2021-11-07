@@ -12,8 +12,8 @@ const NavActionTheme = (props) => {
   const className = theme.navActionTheme ? String(cxs({...theme.navActionTheme})) : null
   return (
     <NavAction className={className} {...props}>
-      <span role="img" aria-label="Toggle day/night theme">🌗</span>
-      <span>&nbsp;Day/night</span>
+      <NavAction.Icon ariaLabel="Toggle day/night theme">🌗</NavAction.Icon>
+      <NavAction.Text>&nbsp;Day/night</NavAction.Text>
     </NavAction>
   )
 }

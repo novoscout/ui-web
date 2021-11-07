@@ -23,8 +23,8 @@ class NavActionShare extends Component {
 
     return (
       <NavAction onClick={this.handleShare} className={className} {...this.props}>
-        <span role="img" aria-label="Share">🔗</span>
-        <span>&nbsp;Share</span>
+        <NavAction.Icon ariaLabel="Share">🔗</NavAction.Icon>
+        <NavAction.Text>&nbsp;Share</NavAction.Text>
       </NavAction>
     )
   }

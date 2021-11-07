@@ -16,97 +16,79 @@ const common = {
     flex: "100%",
   },
   nav: {
-    " h1": {
-      lineHeight: "1.5em",
-      fontSize: "1.5em",
-    },
+    // ems not rems in nav.
+    boxSizing: "content-box",
     display: "block",
     margin: "0 auto",
-    // height: "4rem",
-    // minHeight: "4rem",
-    // maxHeight: "4rem",
-    boxSizing: "content-box",
+    padding: 0,
+    border: 0,
+    height: "2em",
+    minHeight: "2em",
+    maxHeight: "2em",
     width: "100%",
     textAlign: "center",
     display: "flex",
     justifyContent: "space-between",
-    
-    // // Nav bar components:
-    // " > div": {
-    //   display: "flex",
-    //   justifyContent: "space-between",
-    // },
-
-    // position: "absolute",
-    // // zIndex: 1000, // Don't use. Instead, ensure Nav is added to DOM after swipers.
-    // height: "4rem",
-    // width: "4rem",
-    // bottom: "4.5rem",
-    // right: "1.5rem",
-    // margin: 0,
-    // padding: 0,
-    // border: 0,
-    // borderRadius: "50%",
-    // ":after": {
-    //   boxSizing: "content-box", // this is important!
-    //   content: '"+"',
-    //   display: "table",
-    //   textAlign: "center",
-    //   width: "100%",
-    //   maxWidth: "100%",
-    //   margin: "-1.1rem auto auto auto",
-    //   fontSize: "3rem",
-    //   height: "100%",
-    //   maxHeight: "100%",
-    //   overflow: "hidden",
-    // }
-    " .nav-menu": {
-      display: "inline-block",
-      position: "relative",
-      margin: "1.5rem 0 0 0",
-      padding: 0,
-      height: "1rem",
-      lineHeight: "1rem",
-    },
-    " ul.nav-menu": {
-      display: "inline-block",
-      position: "relative",
-      margin: "1.5rem 0 0 0",
-      padding: "0 1.5rem 0 0",
-      height: "1rem",
-      lineHeight: "1rem",
-    },
-    " ul.nav-menu .menu-item": {
-      display: "inline-block",
-      margin: "auto",
-      position: "relative"
-    },
   },
   navTitle: {
     display: "inline-block",
+    margin: 0,
+    position: "relative",
+    padding: "0 auto",
+    lineHeight: "1.5em",
+    fontSize: "1.5em",
+    width: "100%",
+  },
+  navMenu: {
+    // display: "inline-block",
+    display: "none",
+    visibility: "hidden",
     position: "relative",
     margin: 0,
-    padding: "0 auto",
-    " h1": {
+    padding: 0,
+    height: "100%",
+    // width: "60%",
+    // lineHeight: "1em",
+    listStyle: "none",
+    " ul": {
+      display: "flex",
+      flexDirection: "row",
+      position: "relative",
       margin: 0,
-      padding: "0 1rem"
+      padding: "0 1em 0 0",
+      height: "100%",
+      justifyContent: "space-evenly",
+      // lineHeight: "1em",
+      listStyle: "none",
+    },
+    " ul > li": {
+      display: "inline-block",
+      height: "100%",
+      margin: "auto 0 auto 1rem",
+      // position: "relative"
+      listStyle: "none",
     },
   },
-  // navActionShare: {
-  //   cursor: "pointer",
-  //   position: "absolute",
-  //   height: "4rem",
-  //   width: "12rem",
-  //   bottom: "5rem",
-  //   right: 0,
-  //   margin: 0,
-  //   padding: 0,
-  //   border: 0,
-  //   borderRadius: "1rem",
-  //   textAlign: "center",
-  //   lineHeight: "4rem",
-  //   textDecoration: "none",
-  // },
+  navAction: {
+    display: "",
+    cursor: "pointer",
+    height: "100%",
+    margin: "0 auto",
+    padding: 0,
+    border: 0,
+    textAlign: "center",
+    textDecoration: "none",
+    " span": {
+      textDecoration: "none",
+    }
+  },
+  navActionIcon: {
+    margin: "auto 0 auto 2rem !important"
+  },
+  navActionText: {
+    display: "none",
+    visibility: "hidden",
+  },
   // navActionTheme: {
   //   cursor: "pointer",
   //   position: "absolute",
@@ -155,87 +137,47 @@ const common = {
       width: "100%",
       position: "absolute",
       height: "100%",
-      paddingBottom: "4rem",
     }
   }
 }
 
+common.navActionIdent = common.navAction;
+common.navActionShare = common.navAction;
+common.navActionTheme = common.navAction;
+
 // Media queries.
 
-// common.swiper.frame[mq.md] = {
-//   paddingBottom: "4rem",
-// }
-// 
-// common.desk[mq.md] = {
-//   marginTop: "4rem !important", // Make room for nav bar FIXME
-// }
-// 
-// common.nav[mq.md] = {
-//   position: "fixed",
-//   display: "block",
-//   borderRadius: 0,
-//   border: 0,
-//   borderBottomStyle: "solid",
-//   borderBottomWidth: "1px",
-//   left: 0,
-//   bottom: 0,
-//   margin: 0,
-//   right: 0,
-//   top: 0,
-//   width: "100%",
-//   minWidth: "100%",
-//   height: "4rem",
-//   maxHeight: "4rem",
-//   ":after": {
-//     boxSizing: "border-box", // this is important!
-//     content: '""',
-//     display: "none",
-//     textAlign: "inherit",
-//     margin: 0,
-//     fontSize: "inherit",
-//     height: 0,
-//     maxHeight: "100%",
-//     width: 0,
-//     maxWidth: 0,
-//     overflow: "hidden",
-//   }
-// }
-// 
-// // FIXME !Important! :(
-// common.navActionShare[mq.md] = {
-//   display: "inline-block !important",
-//   margin: "1rem 30px 1rem 0 !important",
-//   position: "relative !important",
-//   height: "initial !important",
-//   width: "initial !important",
-//   bottom: "initial !important",
-//   right: "initial !important",
-//   lineHeight: "2rem !important",
-// }
-// 
-// common.navActionTheme[mq.md] = {
-//   display: "inline-block !important",
-//   margin: "1rem 30px 1rem 0 !important",
-//   position: "relative !important",
-//   height: "initial !important",
-//   width: "initial !important",
-//   bottom: "initial !important",
-//   right: "initial !important",
-//   lineHeight: "2rem !important",
-//   " > span ~ span": {
-//     display: "none !important"
-//   },
-// }
-// 
-// common.navTitle[mq.md] = {
-//   display: "inline-block !important",
-//   margin: "0 auto 0 0 !important",
-// }
-// 
-// common.container[mq.md] = {
-//   maxWidth: mq.breakpoint.lg + " !important",
-//   margin: "0 auto",
-// }
+common.swiper.frame[mq.sm] = {
+  // This allows content to scroll onto the bottom of
+  // the screen in Safari on iOS. FIXME!
+  paddingBottom: "4rem",
+}
+
+common.container[mq.md] = {
+  maxWidth: mq.breakpoint.lg + " !important",
+  margin: "0 auto",
+}
+
+common.navTitle[mq.sm] = {
+  textAlign: "left",
+  margin: "auto auto auto 1rem"
+}
+
+common.navMenu[mq.sm] = {
+  display: "inline-block",
+  visibility: "visible"
+}
+
+common.navActionText[mq.md] = {
+  display: "inline",
+  visibility: "visible",
+}
+
+common.navActionIcon[mq.md] = {
+  navActionIcon: {
+    margin: 0
+  }
+}
 
 export default common
 export { common }

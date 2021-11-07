@@ -6,6 +6,7 @@ import { View } from "ui-shared/components"
 
 import { Container, NavActionShare, NavActionTheme } from ".."
 import { NavTitle } from "../NavTitle"
+import { NavMenu } from "../NavMenu"
 import { Theme } from "../../theme"
 // import mq from "../../theme/common/mq"
 
@@ -46,12 +47,14 @@ class Nav extends Component {
           <NavTitle>osteoscout</NavTitle>
           { /* <NavActionShare onClick={this.handleShare} /> */ }
           { /* <NavActionTheme onClick={this.handleToggleTheme} /> */ }
+          <NavMenu/>
         </View>
       )
     }
     return (
       <View className={className} {...this.props}>
         <NavTitle>osteoscout</NavTitle>
+        <NavMenu/>
       </View>
     )
   }
