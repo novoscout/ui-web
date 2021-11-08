@@ -6,7 +6,7 @@ import { Modal as _Modal } from "ui-shared/components"
 
 import mergeDeep from "../../helpers/mergeDeep"
 import { Theme } from "../../theme"
-import { NavMenuModal } from ".."
+import { NavMenu } from ".."
 
 
 const _ModalContext = createContext("modal")
@@ -25,7 +25,15 @@ class Modal extends Component {
 
   showComponents(modalContext) {
     if (modalContext.visible) {
-      return ( <NavMenuModal /> )
+      return (
+        <NavMenu
+          isInModal={true}
+          share={this.props.share}
+          handleIdent={this.props.handleIdent}
+          toggleModal={this.props.toggleModal}
+          toggleTheme={this.props.toggleTheme}
+          />
+      )
     }
   }
 

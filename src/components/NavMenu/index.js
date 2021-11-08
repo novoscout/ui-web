@@ -20,7 +20,9 @@ const _Inner = (props) => {
 
 const NavMenu = (props) => {
   const theme = useContext(Theme)
-  const className = theme.navMenu ? String(cxs({...theme.navMenu})) : null
+  const className = props.isInModal
+        ? String(cxs(theme.navMenuModal))
+        : String(cxs(theme.navMenu))
   return (
     <div className={className} {...props}>
       <_Inner />
