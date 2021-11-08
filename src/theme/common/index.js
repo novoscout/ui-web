@@ -5,15 +5,15 @@ import mq from "./mq"
 
 const invisible = {
   display: "none",
-  height: 0,
-  minHeight: 0,
-  maxHeight: 0,
-  width: 0,
-  minWidth: 0,
-  maxWidth: 0,
-  color: "transparent",
-  backgroundColor: "transparent",
-  listStyle: "none",
+  // height: 0,
+  // minHeight: 0,
+  // maxHeight: 0,
+  // width: 0,
+  // minWidth: 0,
+  // maxWidth: 0,
+  // color: "transparent",
+  // backgroundColor: "transparent",
+  // listStyle: "none",
   visibility: "hidden"
 }
 
@@ -60,33 +60,15 @@ const common = {
   },
   navTitle: {
     display: "inline-block",
-    margin: 0,
+    margin: "auto auto auto 1rem",
     position: "relative",
     padding: "0 auto",
     lineHeight: "1.5em",
     fontSize: "1.5em",
-    width: "100%",
+    // width: "100%",
   },
   navMenu: {
-    ...invisible,
-    " ul": {
-      display: "flex",
-      flexDirection: "row",
-      position: "relative",
-      margin: 0,
-      padding: "0 1em 0 0",
-      height: "100%",
-      justifyContent: "space-evenly",
-      // lineHeight: "1em",
-      listStyle: "none",
-    },
-    " ul > li": {
-      display: "inline-block",
-      height: "100%",
-      margin: "auto 0 auto 1rem",
-      // position: "relative"
-      listStyle: "none",
-    },
+    ...invisible
   },
   navAction: {
     display: "",
@@ -104,9 +86,14 @@ const common = {
   navActionIcon: {
     margin: "auto 0 auto 2rem !important"
   },
+
+  // These are visible on smallest screens (in modal) and on
+  // larger screens, but hidden on medium, leaving only icons.
   navActionText: {
-    display: "inline"
+    display: "inline",
+    visibility: "visible",
   },
+
   // navActionTheme: {
   //   cursor: "pointer",
   //   position: "absolute",
@@ -212,16 +199,38 @@ common.toolbar[mq.sm] = { ...invisible }
 common.fabCollapsed[mq.sm] = { ...invisible }
 common.fabExpanded[mq.sm] = { ...invisible }
 
-// Realign title in nav.
-common.navTitle[mq.sm] = {
-  textAlign: "left",
-  margin: "auto auto auto 1rem"
-}
+// // Realign title in nav.
+// common.navTitle[mq.sm] = {
+//   textAlign: "left",
+//   margin: "auto auto auto 1rem"
+// }
 
 // Show the menu in the nav.
 common.navMenu[mq.sm] = {
   display: "inline-block",
-  visibility: "visible"
+  visibility: "visible",
+  " ul": {
+    display: "flex",
+    flexDirection: "row",
+    position: "relative",
+    margin: 0,
+    padding: "0 1em 0 0",
+    height: "100%",
+    justifyContent: "space-evenly",
+    // lineHeight: "1em",
+    listStyle: "none",
+  },
+  " ul > li": {
+    display: "inline-block",
+    height: "100%",
+    margin: "auto 0 auto 1rem",
+    // position: "relative"
+    listStyle: "none",
+  }
+}
+
+common.navAction[mq.sm] = {
+  margin: "auto"
 }
 
 // This allows content to scroll up into the bottom of
@@ -249,10 +258,13 @@ common.navActionIdent = common.navAction;
 common.navActionShare = common.navAction;
 common.navActionTheme = common.navAction;
 
-// common.navActionText[mq.md] = {
-//   display: "inline",
-//   visibility: "visible",
-// }
+common.navActionText[mq.sm] = {
+  ...invisible
+}
+common.navActionText[mq.md] = {
+  display: "inline",
+  visibility: "visible",
+}
 
 common.navActionIcon[mq.md] = {
   navActionIcon: {
