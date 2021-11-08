@@ -13,8 +13,8 @@ const Swiper = (props) => {
 
   const className =
         (theme.swiper || {}).frame ? String(cxs(theme.swiper.frame)) : null
-  const innerClassName =
-        (theme.swiper || {}).inner ? String(cxs(theme.swiper.inner)) : null
+  // const innerClassName =
+  //       (theme.swiper || {}).inner ? String(cxs(theme.swiper.inner)) : null
 
   const newProps = {...props}
   delete(newProps.style)

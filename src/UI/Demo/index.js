@@ -1,14 +1,13 @@
-import { h, Component, createRef, Fragment } from "preact"
+import { h, Component, createContext, createRef, Fragment } from "preact"
 import { useMemo, useContext } from "preact/compat"
 
 import { Text, View } from "ui-shared/components"
 import { mergeDeep } from "ui-shared/lib"
-import { Desk, Nav, Swiper, TextLink } from "../../components"
+import { Desk, Modal, Nav, Swiper, TextLink, Toolbar } from "../../components"
 import { Theme } from "../../theme"
 
-import { LoremIpsum } from "lorem-ipsum"
+// import { LoremIpsum } from "lorem-ipsum"
 
-import { actual } from "actual"
 import mq from "../../theme/common/mq"
 
 
@@ -16,13 +15,13 @@ class Demo extends Component {
   constructor(props) {
     super(props)
     this.share = this.share.bind(this)
-    this.toggleNav = this.toggleNav.bind(this)
     this.renderArticles = this.renderArticles.bind(this)
     this.articleSiblings = this.articleSiblings.bind(this)
-    // this.articleResetStyles = this.articleResetStyles.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
+    this.articleResetStyles = this.articleResetStyles.bind(this)
     this.state = {
       loading: true,
-      navIsOpen: actual.is("(min-width:" + mq.breakpoint.md + ")"),
+      modal: { visible: false },
       articleGraph: [
         [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
         []
@@ -51,27 +50,6 @@ class Demo extends Component {
     })
     // .then( _ => console.log('Yay, you shared it :)'))
     // .catch( error => console.log('Oh noh! You couldn\'t share it! :\'(\n', error));
-  }
-
-  toggleNav(e) {
-    console.log(e)
-    if (actual.is("(min-width:" + mq.breakpoint.md + ")")) {
-      this.setState({navIsOpen:true})
-    } else {
-      this.setState({navIsOpen:!this.state.navIsOpen})
-    }
-    if (
-      (e.target || {}).nodeName == "SPAN" && (
-        (e.target.textContent || "").includes("Share")
-        // (e.target.children && ((e.target.children[0] || {}).textContent || "").includes("Share"))
-      ) ) {
-      this.share()
-    }
-    if (((e.target || {}).children || []).length > 0) {
-      if ((e.target.children[1].textContent || "").includes("Share")) {
-        this.share()
-      }
-    }
   }
 
   articleSiblings(ref,numToShow) {
@@ -108,13 +86,8 @@ class Demo extends Component {
   }
 
   swipeMove(ref,numToShow,pointerCoords) {
-    // console.log(pointerCoords)
     const delta = (pointerCoords.start.x - pointerCoords.x)*-1
-    var transform = "translateX(" + String(delta) + "px)"
-    // var scale = Math.min(100,Math.max(80, 100-(delta/6))) // 100 - delta < 80 ? 80 : 100 - delta)
-    // scale = 100 - delta
-    // transform += " scale(" + scale + "%)"
-    ref.current.base.style.transform = transform
+    ref.current.base.style.transform = "translateX(" + String(delta) + "px)"
   }
 
   componentDidMount() {
@@ -245,6 +218,12 @@ class Demo extends Component {
 //    return ret.reverse()
 //  }
 
+  toggleModal(e) {
+    this.setState(function(state,props) {
+      return { modal: { visible: ! state.modal.visible } }
+    })
+  }
+
   render() {
     if (this.state.loading) { return null }
 
@@ -256,20 +235,17 @@ class Demo extends Component {
       [ this.state.articleGraph ]
     )
 
-    /* onClick={this.toggleNav} */
     return (
-      <Fragment>
-        <Nav
-          id="nav"
-          isOpen={
-            actual.is("(min-width:" + mq.breakpoint.md + ")") ||
-              this.state.navIsOpen
-          }
-          toggleTheme={this.props.toggleTheme} />
+      <Modal.Context.Provider value={this.state.modal}>
+        <Nav id="nav" />
         <Desk id="desk">
           {memoizedArticles}
         </Desk>
-      </Fragment>
+        <Toolbar id="toolbar"
+          toggleModal={this.toggleModal}
+          toggleTheme={this.props.toggleTheme} />
+        <Modal />
+      </Modal.Context.Provider>
     )
   }
 }

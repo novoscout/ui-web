@@ -3,7 +3,35 @@
 
 import mq from "./mq"
 
+const invisible = {
+  display: "none",
+  height: 0,
+  minHeight: 0,
+  maxHeight: 0,
+  width: 0,
+  minWidth: 0,
+  maxWidth: 0,
+  color: "transparent",
+  backgroundColor: "transparent",
+  listStyle: "none",
+  visibility: "hidden"
+}
+
 const common = {
+  modal: {
+    display: "block",
+    position: "absolute",
+    width: "100%",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    display: "flex",
+    justifyItems: "stretch",
+    flexDirection: "column",
+    alignContent: "space-evenly",
+    padding: "50% 0"
+  },
   container: {
     display: "block",
   },
@@ -40,16 +68,7 @@ const common = {
     width: "100%",
   },
   navMenu: {
-    // display: "inline-block",
-    display: "none",
-    visibility: "hidden",
-    position: "relative",
-    margin: 0,
-    padding: 0,
-    height: "100%",
-    // width: "60%",
-    // lineHeight: "1em",
-    listStyle: "none",
+    ...invisible,
     " ul": {
       display: "flex",
       flexDirection: "row",
@@ -72,8 +91,8 @@ const common = {
   navAction: {
     display: "",
     cursor: "pointer",
-    height: "100%",
-    margin: "0 auto",
+    height: "2rem",
+    margin: "2rem auto",
     padding: 0,
     border: 0,
     textAlign: "center",
@@ -86,8 +105,7 @@ const common = {
     margin: "auto 0 auto 2rem !important"
   },
   navActionText: {
-    display: "none",
-    visibility: "hidden",
+    display: "inline"
   },
   // navActionTheme: {
   //   cursor: "pointer",
@@ -138,40 +156,103 @@ const common = {
       position: "absolute",
       height: "100%",
     }
+  },
+  toolbar: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    textAlign: "center",
+    flex: "unset",
+    display: "block",
+    height: "4rem",
+  },
+  fabCollapsed: {
+    borderRadius: "50%",
+    height: "2rem",
+    width: "2rem",
+    margin: "0 auto auto auto",
+    position: "relative", // So z-index works, see expanded state.
+    ":after": {
+      display: "block",
+      position: "absolute",
+      width: "100%",
+      textAlign: "center",
+      margin: 0,
+      top: "-3px",
+      content: '"+"'
+    }
+  },
+  fabExpanded: {
+    borderRadius: "50%",
+    height: "2rem",
+    width: "2rem",
+    margin: "0 auto auto auto",
+    position: "relative", // So z-index works.
+    zIndex: 10,
+    ":after": {
+      display: "block",
+      position: "absolute",
+      width: "100%",
+      textAlign: "center",
+      margin: 0,
+      top: "-2px",
+      content: '"-"'
+    }
   }
 }
 
-common.navActionIdent = common.navAction;
-common.navActionShare = common.navAction;
-common.navActionTheme = common.navAction;
+// ===================================================================
+// Media queries:
 
-// Media queries.
+// -------------------------------------------------------------------
+// Small screens.
 
+// Toolbar and FAB (its only content) disappear.
+common.toolbar[mq.sm] = { ...invisible }
+common.fabCollapsed[mq.sm] = { ...invisible }
+common.fabExpanded[mq.sm] = { ...invisible }
+
+// Realign title in nav.
+common.navTitle[mq.sm] = {
+  textAlign: "left",
+  margin: "auto auto auto 1rem"
+}
+
+// Show the menu in the nav.
+common.navMenu[mq.sm] = {
+  display: "inline-block",
+  visibility: "visible"
+}
+
+// This allows content to scroll up into the bottom of
+// the screen in Safari and Firefox on iOS. FIXME!
 common.swiper.frame[mq.sm] = {
-  // This allows content to scroll onto the bottom of
-  // the screen in Safari on iOS. FIXME!
   paddingBottom: "4rem",
 }
+
+
+// -------------------------------------------------------------------
+// Medium screens.
 
 common.container[mq.md] = {
   maxWidth: mq.breakpoint.lg + " !important",
   margin: "0 auto",
 }
 
-common.navTitle[mq.sm] = {
-  textAlign: "left",
-  margin: "auto auto auto 1rem"
+common.navAction[mq.md] = {
+  height: "100%",
+  padding: 0
 }
 
-common.navMenu[mq.sm] = {
-  display: "inline-block",
-  visibility: "visible"
-}
+// All nav action buttons share the same CSS.
+common.navActionIdent = common.navAction;
+common.navActionShare = common.navAction;
+common.navActionTheme = common.navAction;
 
-common.navActionText[mq.md] = {
-  display: "inline",
-  visibility: "visible",
-}
+// common.navActionText[mq.md] = {
+//   display: "inline",
+//   visibility: "visible",
+// }
 
 common.navActionIcon[mq.md] = {
   navActionIcon: {

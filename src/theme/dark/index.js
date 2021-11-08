@@ -5,12 +5,14 @@ const dark = {
   desk: {
     backgroundColor: color.background
   },
+  modal: {
+    backgroundColor: color.background
+  },
   nav: {
     backgroundColor: color.background,
+    marginBottom: "8px",
+    boxShadow: "none",
     color: color.accent,
-//     ":after": {
-//       color: color.background,
-//     }
   },
 //   navActionShare: {
 //     background: color.accent,
@@ -30,6 +32,18 @@ const dark = {
   },
   textLink: {
     color: color.accent
+  },
+  fabCollapsed: {
+    backgroundColor: color.accent,
+    ":after": {
+      color: color.background
+    }
+  },
+  fabExpanded: {
+    backgroundColor: color.accent,
+    ":after": {
+      color: color.background
+    }
   }
 }
 

@@ -3,14 +3,16 @@ import mq from "../common/mq"
 
 var light = {
   desk: {
-    backgroundColor: color.background,
+    backgroundColor: color.background
+  },
+  modal: {
+    backgroundColor: color.background
   },
   nav: {
     backgroundColor: color.background,
+    marginBottom: "8px",
+    boxShadow: color.backgroundShadow + " 0px 0px 3px 3px",
     color: color.accent,
-//     ":after": {
-//       color: color.background,
-//     },
   },
 //   navActionShare: {
 //     background: color.accent,
@@ -30,6 +32,18 @@ var light = {
   },
   textLink: {
     color: color.accent
+  },
+  fabCollapsed: {
+    backgroundColor: color.accent,
+    ":after": {
+      color: color.background
+    }
+  },
+  fabExpanded: {
+    backgroundColor: color.accent,
+    ":after": {
+      color: color.background
+    }
   }
 }
 
