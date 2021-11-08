@@ -10,7 +10,10 @@ var light = {
   },
   nav: {
     backgroundColor: color.background,
-    color: color.accent,
+    color: color.accent
+  },
+  navAction: {
+    color: color.accent
   },
   swiper: {
     frame: {
