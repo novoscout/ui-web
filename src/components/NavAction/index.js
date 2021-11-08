@@ -10,25 +10,31 @@ import { Theme } from "../../theme"
 
 const NavAction = (props) => {
   const theme = useContext(Theme)
-  const className = theme.navAction ? String(cxs({...theme.navAction})) : null
+  const className = String(cxs(theme.navAction || {}))
   return (
-    <TextLink onclick={props.onclick} className={className}>{props.children}</TextLink>
+    <TextLink className={className} onclick={props.onclick}>
+      {props.children}
+    </TextLink>
   )
 }
 
 const _NavActionIcon = (props) => {
   const theme = useContext(Theme)
-  const className = theme.navActionIcon ? String(cxs({...theme.navActionIcon})) : null
+  const className = String(cxs(theme.navActionIcon || {}))
   return (
-    <span role="img" aria-label={props.ariaLabel}>{props.children}</span>
+    <span className={className} aria-label={props.ariaLabel} role="img">
+      {props.children}
+    </span>
   )
 }
 
 const _NavActionText = (props) => {
   const theme = useContext(Theme)
-  const className = theme.navActionText ? String(cxs({...theme.navActionText})) : null
+  const className = String(cxs(theme.navActionText || {}))
   return (
-    <span className={className} aria-label={props.ariaLabel}>{props.children}</span>
+    <span className={className} aria-label={props.ariaLabel}>
+      {props.children}
+    </span>
   )
 }
 

@@ -273,9 +273,7 @@ common.navActionIdent = common.navAction;
 common.navActionShare = common.navAction;
 common.navActionTheme = common.navAction;
 
-common.navActionText[mq.sm] = {
-  ...invisible
-}
+common.navActionText[mq.sm] = { ...invisible }
 common.navActionText[mq.md] = {
   display: "inline",
   visibility: "visible",

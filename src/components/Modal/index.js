@@ -1,4 +1,4 @@
-import { h, Component, createContext, Fragment } from "preact"
+import { h, Component, createContext } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
 

@@ -14,10 +14,10 @@ const dark = {
   },
   swiper: {
     frame: {
-      backgroundColor: color.background,
+      backgroundColor: color.background
     },
     inner: {
-      backgroundColor: color.background,
+      backgroundColor: color.background
     }
   },
   textLink: {
