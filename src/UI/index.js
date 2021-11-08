@@ -24,6 +24,11 @@ class UI extends Component {
       darkTheme: false
     }
     this.toggleTheme = this.toggleTheme.bind(this)
+    this.handleIdent = this.handleIdent.bind(this)
+  }
+
+  handleIdent() {
+    console.log("Handle ident!")
   }
 
   toggleTheme() {
@@ -63,6 +68,7 @@ class UI extends Component {
       <Theme.Provider value={theme} >
         { /* <Router> */ }
           <Demo
+            handleIdent={this.handleIdent}
             toggleTheme={this.toggleTheme}
             path="/"
             />
