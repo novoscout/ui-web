@@ -14,7 +14,26 @@ class NavActionShare extends Component {
   }
 
   handleShare(e) {
-    console.log(e)
+    navigator.share({
+      title: "OsteoScout",
+      text: "Interesting article",
+      url: window.location.href
+    },{
+      copy: true,
+      email: true,
+      print: true,
+      sms: true,
+      messenger: true,
+      facebook: true,
+      whatsapp: true,
+      twitter: true,
+      linkedin: true,
+      telegram: true,
+      skype: true,
+      language: 'en'
+    })
+    // .then( _ => console.log('Yay, you shared it :)'))
+    // .catch( error => console.log('Oh noh! You couldn\'t share it! :\'(\n', error));
   }
 
   render() {
