@@ -62,7 +62,10 @@ class UI extends Component {
     return (
       <Theme.Provider value={theme} >
         { /* <Router> */ }
-          <Demo toggleTheme={this.toggleTheme} path="/" />
+          <Demo
+            toggleTheme={this.toggleTheme}
+            path="/"
+            />
         { /* </Router> */ }
       </Theme.Provider>
     )

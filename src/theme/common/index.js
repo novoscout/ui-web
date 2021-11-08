@@ -19,7 +19,6 @@ const invisible = {
 
 const common = {
   modal: {
-    display: "block",
     position: "absolute",
     width: "100%",
     top: 0,
@@ -71,6 +70,29 @@ const common = {
   },
   navMenu: {
     ...invisible
+  },
+  navMenuModal: {
+    display: "inline-block",
+    visibility: "visible",
+    " ul": {
+      display: "flex",
+      flexDirection: "column-reverse",
+      position: "relative",
+      margin: 0,
+      padding: 0,
+      height: "100%",
+      justifyContent: "space-evenly",
+      listStyle: "none",
+    },
+    " ul > li": {
+      display: "inline-block",
+      lineHeight: "2rem",
+      height: "2rem",
+      margin: "2rem auto",
+      padding: "0 1em 0 0",
+      listStyle: "none",
+    }
+    // ...invisible
   },
   navAction: {
     display: "",

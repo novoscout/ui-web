@@ -6,11 +6,7 @@ import { Modal as _Modal } from "ui-shared/components"
 
 import mergeDeep from "../../helpers/mergeDeep"
 import { Theme } from "../../theme"
-import {
-  NavActionIdent,
-  NavActionShare,
-  NavActionTheme
-} from ".."
+import { NavMenuModal } from ".."
 
 
 const _ModalContext = createContext("modal")
@@ -29,13 +25,7 @@ class Modal extends Component {
 
   showComponents(modalContext) {
     if (modalContext.visible) {
-      return (
-        <Fragment>
-          <NavActionIdent />
-          <NavActionShare />
-          <NavActionTheme />
-        </Fragment>
-      )
+      return ( <NavMenuModal /> )
     }
   }
 
