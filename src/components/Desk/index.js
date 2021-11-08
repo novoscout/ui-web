@@ -14,7 +14,7 @@ const Desk = (props) => {
   const theme = useContext(Theme)
   const className = theme.desk ? String(cxs({...theme.desk})) : null
   return (
-    <View className={className} {...props}>{props.children}</View>
+    <View id="desk" className={className} {...props}>{props.children}</View>
   )
 }
 

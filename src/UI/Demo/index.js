@@ -237,13 +237,13 @@ class Demo extends Component {
 
     return (
       <Modal.Context.Provider value={this.state.modal}>
-        <Nav id="nav" />
-        <Desk id="desk">
-          {memoizedArticles}
-        </Desk>
-        <Toolbar id="toolbar"
+        <Nav />
+        <Desk>{memoizedArticles}</Desk>
+        <Toolbar
+          share={this.share}
           toggleModal={this.toggleModal}
-          toggleTheme={this.props.toggleTheme} />
+          toggleTheme={this.props.toggleTheme}
+          />
         <Modal />
       </Modal.Context.Provider>
     )

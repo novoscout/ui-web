@@ -12,8 +12,12 @@ const Toolbar = (props) => {
   const theme = useContext(Theme)
   const className = theme.toolbar ? String(cxs(theme.toolbar)) : null
   return (
-    <_Toolbar className={className} {...props}>
-      <FAB toggleModal={props.toggleModal} />
+    <_Toolbar id="toolbar" className={className} {...props}>
+      <FAB
+        share={props.share}
+        toggleModal={props.toggleModal}
+        toggleTheme={props.toggleTheme}
+        />
     </_Toolbar>
   )
 }
