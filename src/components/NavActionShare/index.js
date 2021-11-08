@@ -22,7 +22,7 @@ class NavActionShare extends Component {
     const className = theme.navActionShare ? String(cxs({...theme.navActionShare})) : null
 
     return (
-      <NavAction onClick={this.handleShare} className={className} {...this.props}>
+      <NavAction onclick={this.handleShare} className={className} {...this.props}>
         <NavAction.Icon ariaLabel="Share">🔗</NavAction.Icon>
         <NavAction.Text>&nbsp;Share</NavAction.Text>
       </NavAction>

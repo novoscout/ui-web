@@ -14,7 +14,6 @@ import mq from "../../theme/common/mq"
 class Demo extends Component {
   constructor(props) {
     super(props)
-    this.share = this.share.bind(this)
     this.renderArticles = this.renderArticles.bind(this)
     this.articleSiblings = this.articleSiblings.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
@@ -235,16 +234,18 @@ class Demo extends Component {
       [ this.state.articleGraph ]
     )
 
+    const commonActions = {
+      toggleModal: this.toggleModal,
+      toggleTheme: this.props.toggleTheme,
+      handleIdent: this.props.handleIdent
+    }
+
     return (
       <Modal.Context.Provider value={this.state.modal}>
-        <Nav />
+        <Nav {...commonActions} />
         <Desk>{memoizedArticles}</Desk>
-        <Toolbar
-          share={this.share}
-          toggleModal={this.toggleModal}
-          toggleTheme={this.props.toggleTheme}
-          />
-        <Modal />
+        <Toolbar toggleModal={this.toggleModal} />
+        <Modal {...commonActions} />
       </Modal.Context.Provider>
     )
   }

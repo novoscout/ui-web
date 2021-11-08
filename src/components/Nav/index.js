@@ -12,9 +12,9 @@ const Nav = (props) => {
   const theme = useContext(Theme)
   const className = theme.nav ? String(cxs({...theme.nav})) : null
   return (
-    <View id="nav" className={className} {...props}>
+    <View id="nav" className={className}>
       <NavTitle>osteoscout</NavTitle>
-      <NavMenu/>
+      <NavMenu {...props} />
     </View>
   )
 }

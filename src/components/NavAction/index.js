@@ -6,12 +6,13 @@ import { TextLink } from "../TextLink"
 
 import { Theme } from "../../theme"
 
+// FIXME Better handling of onclick!!
 
 const NavAction = (props) => {
   const theme = useContext(Theme)
   const className = theme.navAction ? String(cxs({...theme.navAction})) : null
   return (
-    <TextLink className={className}>{props.children}</TextLink>
+    <TextLink onclick={props.onclick} className={className}>{props.children}</TextLink>
   )
 }
 

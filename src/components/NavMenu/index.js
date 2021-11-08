@@ -24,8 +24,8 @@ const NavMenu = (props) => {
         ? String(cxs(theme.navMenuModal))
         : String(cxs(theme.navMenu))
   return (
-    <div className={className} {...props}>
-      <_Inner />
+    <div className={className}>
+      <_Inner {...props} />
     </div>
   )
 }
