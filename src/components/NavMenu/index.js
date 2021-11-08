@@ -14,9 +14,9 @@ const NavMenu = (props) => {
   return (
     <div className={className} {...props}>
       <ul>
-        <li><NavActionIdent /></li>
-        <li><NavActionShare /></li>
-        <li><NavActionTheme /></li>
+        <li><NavActionShare order={1} /></li>
+        <li><NavActionIdent order={2} /></li>
+        <li><NavActionTheme order={3} /></li>
       </ul>
     </div>
   )

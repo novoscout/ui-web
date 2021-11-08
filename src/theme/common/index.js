@@ -28,9 +28,9 @@ const common = {
     left: 0,
     display: "flex",
     justifyItems: "stretch",
-    flexDirection: "column",
+    flexDirection: "column-reverse",
     alignContent: "space-evenly",
-    padding: "50% 0"
+    paddingBottom: "6rem",
   },
   container: {
     display: "block",
@@ -59,10 +59,12 @@ const common = {
     justifyContent: "space-between",
   },
   navTitle: {
+    textAlign: "center",
+    margin: "auto 0",
+    width: "100%",
+    padding: 0,
     display: "inline-block",
-    margin: "auto auto auto 1rem",
     position: "relative",
-    padding: "0 auto",
     lineHeight: "1.5em",
     fontSize: "1.5em",
     // width: "100%",
@@ -142,6 +144,11 @@ const common = {
       width: "100%",
       position: "absolute",
       height: "100%",
+
+      // This allows content to scroll up into the bottom of
+      // the screen in Safari and Firefox on iOS. FIXME!
+      paddingBottom: "4rem",
+
     }
   },
   toolbar: {
@@ -200,10 +207,10 @@ common.fabCollapsed[mq.sm] = { ...invisible }
 common.fabExpanded[mq.sm] = { ...invisible }
 
 // // Realign title in nav.
-// common.navTitle[mq.sm] = {
-//   textAlign: "left",
-//   margin: "auto auto auto 1rem"
-// }
+common.navTitle[mq.sm] = {
+  margin: "auto auto auto 1rem",
+  textAlign: "left"
+}
 
 // Show the menu in the nav.
 common.navMenu[mq.sm] = {
@@ -231,12 +238,6 @@ common.navMenu[mq.sm] = {
 
 common.navAction[mq.sm] = {
   margin: "auto"
-}
-
-// This allows content to scroll up into the bottom of
-// the screen in Safari and Firefox on iOS. FIXME!
-common.swiper.frame[mq.sm] = {
-  paddingBottom: "4rem",
 }
 
 

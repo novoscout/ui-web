@@ -10,8 +10,6 @@ var light = {
   },
   nav: {
     backgroundColor: color.background,
-    marginBottom: "8px",
-    boxShadow: color.backgroundShadow + " 0px 0px 3px 3px",
     color: color.accent,
   },
 //   navActionShare: {

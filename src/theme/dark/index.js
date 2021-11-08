@@ -10,8 +10,6 @@ const dark = {
   },
   nav: {
     backgroundColor: color.background,
-    marginBottom: "8px",
-    boxShadow: "none",
     color: color.accent,
   },
 //   navActionShare: {
