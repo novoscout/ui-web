@@ -23,7 +23,7 @@ class FAB extends Component {
 
   handleToggle(o) {
     this.setState(function(state,props) {
-      props.toggleModal && props.toggleModal()
+      props.toggle && props.toggle()
       const ret = {expanded:( o || {}).expanded}
       return ret
     })

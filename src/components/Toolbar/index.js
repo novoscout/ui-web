@@ -13,11 +13,7 @@ const Toolbar = (props) => {
   const className = theme.toolbar ? String(cxs(theme.toolbar)) : null
   return (
     <_Toolbar id="toolbar" className={className} {...props}>
-      <FAB
-        share={props.share}
-        toggleModal={props.toggleModal}
-        toggleTheme={props.toggleTheme}
-        />
+      <FAB toggle={props.toggleModal} />
     </_Toolbar>
   )
 }
