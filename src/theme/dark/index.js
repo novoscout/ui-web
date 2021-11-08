@@ -12,14 +12,6 @@ const dark = {
     backgroundColor: color.background,
     color: color.accent,
   },
-//   navActionShare: {
-//     background: color.accent,
-//     color: color.background,
-//   },
-//   navActionTheme: {
-//     background: color.accent,
-//     color: color.background,
-//   },
   swiper: {
     frame: {
       backgroundColor: color.background,

@@ -5,15 +5,6 @@ import mq from "./mq"
 
 const invisible = {
   display: "none",
-  // height: 0,
-  // minHeight: 0,
-  // maxHeight: 0,
-  // width: 0,
-  // minWidth: 0,
-  // maxWidth: 0,
-  // color: "transparent",
-  // backgroundColor: "transparent",
-  // listStyle: "none",
   visibility: "hidden"
 }
 
