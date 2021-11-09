@@ -23,6 +23,9 @@ var light = {
       backgroundColor: color.background
     }
   },
+  text: {
+    color: color.text
+  },
   textLink: {
     color: color.accent
   },

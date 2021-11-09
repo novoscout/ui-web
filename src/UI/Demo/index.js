@@ -10,6 +10,7 @@ import { Theme } from "../../theme"
 
 import mq from "../../theme/common/mq"
 
+import articles from "./data.jsx"
 
 class Demo extends Component {
   constructor(props) {
@@ -21,10 +22,7 @@ class Demo extends Component {
     this.state = {
       loading: true,
       modal: { visible: false },
-      articleGraph: [
-        [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
-        []
-      ]
+      articleGraph: [ articles ]
     }
   }
 
@@ -38,8 +36,10 @@ class Demo extends Component {
 
   articleResetStyles(ref,numToShow) {
     numToShow = numToShow ? numToShow : 3
-    ref.current.base.style.transition = "all 0.2s ease-out"
+    // ref.current.base.style.transition = "all 0.2s ease-out"
     ref.current.base.style.removeProperty("transform")
+    ref.current.base.style.removeProperty("border-left")
+    ref.current.base.style.removeProperty("border-right")
     // this.articleSiblings(ref,numToShow).map( (s) => {
     //   s.style.removeProperty("transform")
     // })
@@ -51,9 +51,25 @@ class Demo extends Component {
 
   swipeStart(ref,numToShow) {
     ref.current.base.style.removeProperty("transition")
+    ref.current.base.style.borderLeft = "1px solid #888"
+    ref.current.base.style.borderRight = "1px solid #888"
   }
 
   swipeEnd(ref,numToShow) {
+    const delta = ((ref.current.base.style || {}).transform || "0").match(/(\-?)\d+/)[0]
+    if (delta < 0) {
+      this.setState(function(state,props) {
+        var ret = state.articleGraph[0]
+        ret.unshift(ret.pop())
+        return { articleGraph: [ ret ] }
+      })
+    } else if (delta > 0) {
+      this.setState(function(state,props) {
+        var ret = state.articleGraph[0]
+        ret.push(ret.shift())
+        return { articleGraph: [ ret ] }
+      })
+    }
     this.articleResetStyles(ref,numToShow)
   }
 
@@ -63,7 +79,9 @@ class Demo extends Component {
 
   swipeMove(ref,numToShow,pointerCoords) {
     const delta = (pointerCoords.start.x - pointerCoords.x)*-1
-    ref.current.base.style.transform = "translateX(" + String(delta) + "px)"
+    if (delta < 1) {
+      ref.current.base.style.transform = "translateX(" + String(delta) + "px)"
+    }
   }
 
   componentDidMount() {
@@ -71,11 +89,35 @@ class Demo extends Component {
   }
 
   renderArticles(theme) {
+    const numToShow = 3
+    const ret = []
+    for (let i=0; i<articles.length; i++) {
+      const ref = createRef()
+      ret.push(
+        <Swiper
+          ref={ref}
+          uniaxial={true}
+          start={ this.swipeStart.bind(this,ref,numToShow) }
+          end={ this.swipeEnd.bind(this,ref,numToShow) }
+          cancel={ this.swipeCancel.bind(this,ref,numToShow) }
+          move={ this.swipeMove.bind(this,ref,numToShow) } 
+          shouldPreventDefault={ this.swipeShouldPreventDefault.bind(this,ref) }
+          startThreshold={10}
+          >{articles[i]}</Swiper>
+      )
+    }
+    return (
+      <div id="articles-frame-outer" style="height:100%">
+        {ret}
+      </div>
+    )
+  }
+  whatever(theme) {
     const paras = (<Fragment><p>Hi first</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi</p><p>Hi last</p></Fragment>)
     const ref1 = createRef()
     const ref2 = createRef()
     const ref3 = createRef()
-    const numToShow = 3
+    // const numToShow = 3
     return (
       <div id="articles-frame-outer" style="height:100%">
         <Swiper

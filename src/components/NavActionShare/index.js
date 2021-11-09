@@ -14,6 +14,7 @@ class NavActionShare extends Component {
   }
 
   handleShare(e) {
+    alert("Prompt: how is this relevant to clinical practise?")
     navigator.share({
       title: "OsteoScout",
       text: "Interesting article",
