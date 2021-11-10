@@ -7,6 +7,9 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+
+
 // FIXME Determine best (smallest, most widely compatible) choice:
 // const alts = ["commonjs","commonjs2","commonjs-module","amd","umd","umd2","var","window"];
 
@@ -28,12 +31,16 @@ module.exports = merge(common, {
       {
         exclude: /node_modules/,
         include: /static\/assets\/css/,
-        test: /.s?css$/,
+        test: /.s?css$/i,
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader"
         ]
+      },{
+        exclude: /node_modules/,
+        include: /public/,
+        test: /.html$/i,
       }
     ]
   },
@@ -82,7 +89,8 @@ module.exports = merge(common, {
           safari10: true,
         }
       }),
-      new CssMinimizerPlugin()
+      new CssMinimizerPlugin(),
+      new HtmlMinimizerPlugin()
     ],
   },
   output: {

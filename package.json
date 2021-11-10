@@ -57,6 +57,7 @@
     "@babel/runtime": "^7.15.4",
     "core-js": "^3.18.2",
     "cxs": "^6.2.0",
+    "html-minimizer-webpack-plugin": "^3.3.1",
     "preact": "^10.5.14",
     "preact-async-route": "^2.2.1",
     "preact-responder-event-plugin": "^1.0.16",
