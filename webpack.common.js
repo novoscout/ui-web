@@ -75,24 +75,26 @@ module.exports = {
   externals: externals,
   entry: path.resolve(__dirname, "src/index.js"),
   module: {
-    rules: [{
-      exclude: /node_modules/,
-      test: /\.(js|jsx)$/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-
-          // These should not be transpiled by Webpack:
-          exclude: [
-            /node_modules[\\\/]core-js/,
-            /node_modules[\\\/]webpack[\\\/]buildin/,
-          ],
-
-          presets: babelPresets,
-          plugins: babelPlugins
+    rules: [
+      {
+        exclude: /node_modules/,
+        test: /\.(js|jsx)$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            
+            // These should not be transpiled by Webpack:
+            exclude: [
+              /node_modules[\\\/]core-js/,
+              /node_modules[\\\/]webpack[\\\/]buildin/,
+            ],
+            
+            presets: babelPresets,
+            plugins: babelPlugins
+          },
         },
-      },
-    }],
+      }
+    ],
   },
   output: {
     clean: true,

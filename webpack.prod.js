@@ -4,6 +4,9 @@ const path = require('path');
 const terser = require("terser-webpack-plugin");
 const webpack = require('webpack');
 
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
 // FIXME Determine best (smallest, most widely compatible) choice:
 // const alts = ["commonjs","commonjs2","commonjs-module","amd","umd","umd2","var","window"];
 
@@ -20,6 +23,20 @@ module.exports = merge(common, {
   },
   // devtool: 'source-map',
   mode: 'production',
+  module: {
+    rules: [
+      {
+        exclude: /node_modules/,
+        include: /static\/assets\/css/,
+        test: /.s?css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader"
+        ]
+      }
+    ]
+  },
   optimization: {
     splitChunks: {
       minSize: 1,
@@ -65,6 +82,7 @@ module.exports = merge(common, {
           safari10: true,
         }
       }),
+      new CssMinimizerPlugin()
     ],
   },
   output: {
@@ -89,5 +107,6 @@ module.exports = merge(common, {
         }
       }
     }),
+    new MiniCssExtractPlugin()
   ]
 });
