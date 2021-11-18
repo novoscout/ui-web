@@ -2,7 +2,7 @@ import { h, Component } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
 
-import { TextLink } from "../TextLink"
+import { TextLink } from ".."
 
 import { Theme } from "../../theme"
 
@@ -10,17 +10,21 @@ import { Theme } from "../../theme"
 
 const NavAction = (props) => {
   const theme = useContext(Theme)
-  const className = String(cxs(theme.navAction || {}))
+  const className = theme.navAction
+                  ? cxs(theme.navAction)
+                  : null
   return (
-    <TextLink className={className} onclick={props.onclick}>
+    <span className={className}>
       {props.children}
-    </TextLink>
+    </span>
   )
 }
 
 const _NavActionIcon = (props) => {
   const theme = useContext(Theme)
-  const className = String(cxs(theme.navActionIcon || {}))
+  const className = theme.navActionIcon
+                  ? cxs(theme.navActionIcon)
+                  : null
   return (
     <span className={className} aria-label={props.ariaLabel} role="img">
       {props.children}
@@ -30,11 +34,13 @@ const _NavActionIcon = (props) => {
 
 const _NavActionText = (props) => {
   const theme = useContext(Theme)
-  const className = String(cxs(theme.navActionText || {}))
+  const className = theme.navActionText
+                  ? cxs(theme.navActionText)
+                  : null
   return (
-    <span className={className} aria-label={props.ariaLabel}>
+    <TextLink className={className} aria-label={props.ariaLabel} {...props}>
       {props.children}
-    </span>
+    </TextLink>
   )
 }
 
