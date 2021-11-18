@@ -27,14 +27,14 @@ class Outer extends Component {
     }
   }
 
-  addListeners(e) {
+  addListeners(_e) {
     this.base.addEventListener("mouseup", this.handleSwipeEnd, false)
     this.base.addEventListener("touchcancel", this.handleSwipeCancel, false)
     this.base.addEventListener("mousemove", this.handleSwipeMove, false)
     this.base.addEventListener("touchmove", this.handleSwipeMove, false)
   }
 
-  removeListeners(e) {
+  removeListeners(_e) {
     this.base.removeEventListener("mouseup", this.handleSwipeEnd)
     this.base.removeEventListener("touchcancel", this.handleSwipeCancel)
     this.base.removeEventListener("mousemove", this.handleSwipeMove)
@@ -45,6 +45,7 @@ class Outer extends Component {
     // e.preventDefault()
     this.addListeners(e)
     this.base.style.transition = null
+    /* eslint-disable prefer-arrow-callback, unused-imports/no-unused-vars */
     this.setState(function(state,props) {
       return {
         isDragging:true,
@@ -54,6 +55,7 @@ class Outer extends Component {
         }
       }
     })
+    /* eslint-enable prefer-arrow-callback, unused-imports/no-unused-vars */
   }
 
   handleSwipeEnd(e) {
@@ -88,22 +90,24 @@ class Outer extends Component {
       }
     }
 
+    /* eslint-disable prefer-arrow-callback, unused-imports/no-unused-vars */
     this.setState(function(state,props) {
       return {
-        coords: { x: x, y: y }
+        coords: { x, y } // short-hand
       }
     })
+    /* eslint-enable prefer-arrow-callback, unused-imports/no-unused-vars */
   }
 
   render() {
     const className = cxs({
-      "backgroundColor": "red",
-      "display": "block",
-      "height": "100vh",
-      "margin": 0,
-      "padding": "1rem",
-      "position": "absolute",
-      "width": "100vw",
+      backgroundColor: "red",
+      display: "block",
+      height: "100vh",
+      margin: 0,
+      padding: "1rem",
+      position: "absolute",
+      width: "100vw",
     })
     return (
       <div
@@ -116,60 +120,50 @@ class Outer extends Component {
   }
 }
 
-class Inner extends Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
-    const className = cxs({
-      "backgroundColor": "yellow",
-      "display": "block",
-      "height": "90%",
-      "overflowY": "scroll",
-      "position": "relative",
-      "width": "100%",
-      "top": 0
-    })
-    return (
-      <div className={className}>
-        <ol style={{"margin":0}}>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-          <li>Hi!</li>
-        </ol>
-      </div>
-    )
-  }
+const Inner = () => {
+  const className = cxs({
+    backgroundColor: "yellow",
+    display: "block",
+    height: "90%",
+    overflowY: "scroll",
+    position: "relative",
+    width: "100%",
+    top: 0
+  })
+  return (
+    <div className={className}>
+      <ol style={{margin:0}}>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+        <li>Hi!</li>
+      </ol>
+    </div>
+  )
 }
 
-class Whatever extends Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
-    return (
-      <Outer left={true}>
-        <Inner />
-      </Outer>
-    )
-  }
+const Whatever = () => {
+  return (
+    <Outer left={true}>
+      <Inner />
+    </Outer>
+  )
 }
 
 export { Whatever }
