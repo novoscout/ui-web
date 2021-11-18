@@ -1,7 +1,6 @@
 import { h, Component } from "preact"
 import { useContext } from "preact/compat"
 import { Theme, lightTheme, darkTheme } from "../theme"
-import { Router } from "preact-router"
 
 import { Demo } from "./Demo"
 
@@ -24,11 +23,6 @@ class UI extends Component {
       darkTheme: false
     }
     this.toggleTheme = this.toggleTheme.bind(this)
-    this.handleIdent = this.handleIdent.bind(this)
-  }
-
-  handleIdent() {
-    console.log("Handle ident!")
   }
 
   toggleTheme() {
@@ -66,13 +60,9 @@ class UI extends Component {
 
     return (
       <Theme.Provider value={theme} >
-        { /* <Router> */ }
-          <Demo
-            handleIdent={this.handleIdent}
-            toggleTheme={this.toggleTheme}
-            path="/"
-            />
-        { /* </Router> */ }
+        <Demo
+          toggleTheme={this.toggleTheme}
+        />
       </Theme.Provider>
     )
   }

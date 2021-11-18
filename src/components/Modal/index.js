@@ -4,7 +4,6 @@ import cxs from "cxs"
 
 import { Modal as _Modal } from "ui-shared/components"
 
-import mergeDeep from "../../helpers/mergeDeep"
 import { Theme } from "../../theme"
 import { NavMenu } from ".."
 
@@ -29,7 +28,6 @@ class Modal extends Component {
         <NavMenu
           isInModal={true}
           share={this.props.share}
-          handleIdent={this.props.handleIdent}
           toggleModal={this.props.toggleModal}
           toggleTheme={this.props.toggleTheme}
           />
@@ -50,7 +48,7 @@ class Modal extends Component {
           : String(cxs(theme.invisible || {}))
 
     return (
-      <_Modal style={this.props.style} className={className} {...newProps}>
+      <_Modal id="modal" style={this.props.style} className={className} {...newProps}>
         { this.showComponents(modalContext) }
       </_Modal>
     )

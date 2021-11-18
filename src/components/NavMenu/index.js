@@ -4,25 +4,31 @@ import cxs from "cxs"
 
 import { TextLink } from "ui-shared/components"
 
-import { NavActionIdent, NavActionShare, NavActionTheme } from ".."
+import { NavActionCancel, NavActionIdent, NavActionShare, NavActionTheme } from ".."
 import { Theme } from "../../theme"
 
 
 const _Inner = (props) => {
+  const commonActions = {
+    toggleModal: props.toggleModal,
+    toggleTheme: props.toggleTheme
+  }
   return (
     <ul>
-      <li><NavActionShare order={1} /></li>
-      <li><NavActionIdent order={2} handleIdent={props.handleIdent} /></li>
-      <li><NavActionTheme order={3} toggleTheme={props.toggleTheme} /></li>
+      <li><NavActionShare order={1} {...commonActions} /></li>
+      <li><NavActionIdent order={2} {...commonActions} /></li>
+      <li><NavActionTheme order={3} {...commonActions} /></li>
+      <li><NavActionCancel order={4} {...commonActions} /></li>
     </ul>
   )
 }
 
 const NavMenu = (props) => {
+  // FIXME Try useContext(Modal.Context) to determine whether modal active?
   const theme = useContext(Theme)
   const className = props.isInModal
-        ? String(cxs(theme.navMenuModal))
-        : String(cxs(theme.navMenu))
+                  ? cxs(theme.navMenuModal || {}) || null
+                  : cxs(theme.navMenu || {}) || null
   return (
     <div className={className}>
       <_Inner {...props} />

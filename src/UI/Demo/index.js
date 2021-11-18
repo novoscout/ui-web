@@ -1,4 +1,4 @@
-import { h, Component, createContext, createRef, Fragment } from "preact"
+import { h, Component, createRef, Fragment } from "preact"
 import { useMemo, useContext } from "preact/compat"
 
 import { Text, View } from "ui-shared/components"
@@ -8,7 +8,6 @@ import { Theme } from "../../theme"
 
 // import { LoremIpsum } from "lorem-ipsum"
 
-import mq from "../../theme/common/mq"
 
 import articles from "./data.jsx"
 
@@ -237,9 +236,13 @@ class Demo extends Component {
 //  }
 
   toggleModal(e) {
-    this.setState(function(state,props) {
-      return { modal: { visible: ! state.modal.visible } }
-    })
+    if (e && e.hasOwnProperty("visible")) {
+      this.setState({ modal: { visible: e.visible }})
+    } else {
+      this.setState(function(state,props) {
+        return { modal: { visible: ! state.modal.visible } }
+      })
+    }
   }
 
   render() {
@@ -255,8 +258,7 @@ class Demo extends Component {
 
     const commonActions = {
       toggleModal: this.toggleModal,
-      toggleTheme: this.props.toggleTheme,
-      handleIdent: this.props.handleIdent
+      toggleTheme: this.props.toggleTheme
     }
 
     return (

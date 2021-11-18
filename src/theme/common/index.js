@@ -90,7 +90,7 @@ const common = {
     display: "",
     cursor: "pointer",
     height: "2rem",
-    margin: "2rem auto",
+    margin: "2rem auto 0 auto",
     padding: 0,
     border: 0,
     textAlign: "center",
@@ -100,7 +100,7 @@ const common = {
     }
   },
   navActionIcon: {
-    margin: "auto 0 auto 2rem !important"
+    margin: 0, // "auto 0 auto 2rem !important"
   },
 
   // These are visible on smallest screens (in modal) and on
@@ -172,7 +172,7 @@ const common = {
     textAlign: "center",
     flex: "unset",
     display: "block",
-    height: "4rem",
+    height: "3rem",
   },
   fabCollapsed: {
     borderRadius: "50%",
@@ -269,6 +269,7 @@ common.navAction[mq.md] = {
 }
 
 // All nav action buttons share the same CSS.
+common.navActionCancel = common.navAction;
 common.navActionIdent = common.navAction;
 common.navActionShare = common.navAction;
 common.navActionTheme = common.navAction;

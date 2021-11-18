@@ -2,7 +2,7 @@ import { h, Component } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
 
-import { NavAction } from "../NavAction"
+import { Ident, NavAction } from ".."
 
 import { Theme } from "../../theme"
 
@@ -14,7 +14,11 @@ class NavActionShare extends Component {
   }
 
   handleShare(e) {
-    alert("Prompt: how is this relevant to clinical practise?")
+    if (window.location.pathname.toLowerCase().startsWith(Ident.href)) { return }
+    if (this.props.toggleModal) {
+      this.props.toggleModal({visible:false})
+    }
+    // alert("Prompt: how is this relevant to clinical practise?")
     navigator.share({
       title: "OsteoScout",
       text: "Interesting article",
@@ -39,12 +43,16 @@ class NavActionShare extends Component {
 
   render() {
     const theme = useContext(Theme)
-    const className = theme.navActionShare ? String(cxs({...theme.navActionShare})) : null
+    const className = theme.navActionShare
+                    ? cxs(theme.navActionShare)
+                    : null
 
     return (
-      <NavAction onclick={this.handleShare} className={className} {...this.props}>
+      <NavAction  className={className}>
         <NavAction.Icon ariaLabel="Share">🔗</NavAction.Icon>
-        <NavAction.Text>&nbsp;Share</NavAction.Text>
+        <NavAction.Text
+          href={null}
+          onclick={this.handleShare}>&nbsp;Share</NavAction.Text>
       </NavAction>
     )
   }
