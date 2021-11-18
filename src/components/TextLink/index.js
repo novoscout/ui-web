@@ -2,7 +2,7 @@ import { h, Component } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
 
-import { TextLink as _TextLink } from "ui-shared/components"
+import { Link } from "preact-router/match"
 
 import { Theme } from "../../theme"
 
@@ -12,9 +12,9 @@ import { Theme } from "../../theme"
 
 const TextLink = (props) => {
   const theme = useContext(Theme)
-  const className = theme.textLink ? String(cxs(theme.textLink)) : null
+  const className = theme.textLink ? cxs(theme.textLink) : null
   return (
-    <_TextLink className={className} {...props}>{props.children}</_TextLink>
+    <Link className={className} {...props}>{props.children}</Link>
   )
 }
 
