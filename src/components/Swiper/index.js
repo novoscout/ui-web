@@ -1,26 +1,24 @@
-import { h, Component } from "preact"
+import { h } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
 
 import { Swiper as _Swiper } from "ui-shared/components"
 
-import { Container } from "../../components"
 import { Theme } from "../../theme"
 
 
 const Swiper = (props) => {
   const theme = useContext(Theme)
 
-  const className =
-        (theme.swiper || {}).frame ? String(cxs(theme.swiper.frame)) : null
-  // const innerClassName =
-  //       (theme.swiper || {}).inner ? String(cxs(theme.swiper.inner)) : null
-
-  const newProps = {...props}
-  delete(newProps.style)
+  const className = (theme.swiper || {}).frame
+                  ? cxs(theme.swiper.frame)
+                  : null
+  // const innerClassName = (theme.swiper || {}).inner
+  //                      ? cxs(theme.swiper.inner)
+  //                      : null
 
   return (
-    <_Swiper style={props.style} className={className} {...newProps}>
+    <_Swiper className={className} {...props}>
       {props.children}
     </_Swiper>
   )
