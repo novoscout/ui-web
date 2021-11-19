@@ -14,7 +14,9 @@ import { Theme } from "../../theme"
 
 const Desk = (props) => {
   const theme = useContext(Theme)
-  const className = theme.desk ? String(cxs({...theme.desk})) : null
+  const className = theme.desk
+                  ? cxs(theme.desk)
+                  : null
   return (
     <Router>
       <View
@@ -24,7 +26,7 @@ const Desk = (props) => {
         {...props}>
         {props.children}
       </View>
-      <Ident path="/id" />
+      <Ident path={Ident.href} />
     </Router>
   )
 }
