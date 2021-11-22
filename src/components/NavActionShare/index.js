@@ -35,6 +35,7 @@ class NavActionShare extends Component {
       linkedin: true,
       telegram: true,
       skype: true,
+      pinterest: false,
       language: 'en'
     })
     // .then( _ => console.log('Yay, you shared it :)'))
