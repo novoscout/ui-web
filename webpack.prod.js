@@ -23,6 +23,9 @@ module.exports = merge(common, {
   devServer: {
     https: true,
     port: 3000,
+    static: {
+      directory: distDir
+    }
   },
   // devtool: 'source-map',
   mode: 'production',

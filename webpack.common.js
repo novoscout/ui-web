@@ -71,6 +71,15 @@ module.exports = {
   devServer: {
     host: "localhost",
     historyApiFallback: true,
+    hot: false,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+    },
+    static: {
+      /* See output.publicPath below. */
+      publicPath: "/"
+    }
   },
   externals: externals,
   entry: path.resolve(__dirname, "src/index.js"),
@@ -100,6 +109,12 @@ module.exports = {
     clean: true,
     libraryExport: 'default',
     globalObject: 'this',
+
+    /**
+     * Ensure compiled scripts are served from root. This is vital when visiting
+     * routes that are not real files, but are resolved by (P)React router.
+     */
+    publicPath: '/'
   },
   plugins: [
     new htmlWebpackPlugin({

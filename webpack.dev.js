@@ -12,18 +12,11 @@ module.exports = merge(common, {
   // devtool: 'eval-cheap-source-map',
   devtool: false,
   devServer: {
-    clientLogLevel: 'info',
-    contentBase: distPath,
-    disableHostCheck: true,
-    hot: false,
     https: false,
-    inline: true,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-    },
     port: 8080,
-    publicPath: "/" + distDir + "/",
+    static: {
+      directory: distDir
+    }
   },
   optimization: {
     minimize: false,
