@@ -69,7 +69,8 @@ const babelPlugins = [
 
 module.exports = {
   devServer: {
-    host: "localhost",
+    host: "192.168.0.101",
+    allowedHosts: [ ".nip.io" ],
     historyApiFallback: true,
     hot: false,
     headers: {
