@@ -39,47 +39,47 @@ class Desk extends Component {
     this.state = {
       loading: true,
       activeDOI: undefined,
-      articleGraph: api.getGraph(0)
+      articleGraph: []
     }
   }
 
   componentDidMount() {
-    this.setState({loading:false})
-  }
-
-  swipeEnd(ref,delta) {
-    // Rotate the state's article graph.
-    const g = [ ...this.state.articleGraph ]
-    if (delta < 0) {
-      g.unshift(g.pop())
-    } else if (delta > 0) {
-      g.push(g.shift())
-    }
-    this.setState({
-      activeDOI: g[g.length-1].article.doi,
-      articleGraph: g
+    const g = api.getGraph(0)
+    this.setState(function(state) {
+      return {
+        articleGraph: g,
+        loading: false
+      }
     })
   }
 
+  swipeEnd(dois,ref,delta) {
+    const { previousDOI, nextDOI } = dois
+    if (delta < 0 && previousDOI != undefined) {
+      route("/doi/" + previousDOI)
+      this.setState({activeDOI:previousDOI})
+    } else if (delta > 0 && nextDOI != undefined) {
+      route("/doi/" + nextDOI)
+      this.setState({activeDOI:nextDOI})
+    }
+  }
+
   renderArticles(DOIFromURL) {
-    var g = [ ...this.state.articleGraph ]
+    const g = this.state.articleGraph
     const gLen = g.length
 
     const activeDOI = this.state.activeDOI || DOIFromURL || g[g.length-1].article.doi
 
-    var offset = g.findIndex( o => String(o.article.doi) == String(activeDOI))
+    var offset = g.findIndex( o => String(o.article.doi) == String(activeDOI)) + 1
     offset = offset < 0 ? 0 : offset
-
-    // If the user has not swiped or set an active DOI, the state's
-    // article graph will be ints default position, so re-order it.
-    if (this.state.activeDOI == undefined) {
-      g = g.splice(offset+1).concat(g)
-    }
+    offset = offset % gLen
 
     var ret = []
-    for (let i = 0; i < gLen; i++) {
+    for (let i = 0 + offset; i < (gLen + offset); i++) {
       const pointer = i % gLen
       const article = g[pointer].article
+      const previousDOI = g[pointer - 1 < 0 ? gLen - 1 : pointer - 1].article.doi
+      const nextDOI = g[(pointer + 1) % gLen].article.doi
       const doi = String(article.doi)
       const title = (
         <h2>
@@ -92,20 +92,13 @@ class Desk extends Component {
       ret.push(
         <Swiper
           uniaxial={true}
-          end={ this.swipeEnd.bind(this) }
+          end={this.swipeEnd.bind(this,{previousDOI,nextDOI}) }
           startThreshold={10}
           path={"/doi/" + doi}
           doi={doi}
           >{title}<hr />{para}</Swiper>
       )
     }
-
-    // Update the URL.
-    route("/doi/" + ret[ret.length-1].props.doi)
-
-    // Update the state to ensure it is in the correct order.
-    this.setState({articleGraph: [ ...g ] })
-
     return (<Fragment>{ret}</Fragment>)
   }
 
