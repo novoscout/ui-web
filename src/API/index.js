@@ -1,6 +1,6 @@
 // FIXME Implement local cache, and force over-ride of cache.
 
-const data = require("../components/Desk/data.json")
+const data = require("./data.json")
 
 const api = {}
 
