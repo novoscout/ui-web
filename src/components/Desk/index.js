@@ -38,7 +38,6 @@ class Desk extends Component {
     this.renderArticles = this.renderArticles.bind(this)
     this.state = {
       loading: true,
-      // didSwipe: false,
       activeDOI: undefined,
       articleGraph: api.getGraph(0)
     }
@@ -57,7 +56,6 @@ class Desk extends Component {
       g.push(g.shift())
     }
     this.setState({
-      // didSwipe: true,
       activeDOI: g[g.length-1].article.doi,
       articleGraph: g
     })
@@ -74,7 +72,6 @@ class Desk extends Component {
 
     // If the user has not swiped or set an active DOI, the state's
     // article graph will be ints default position, so re-order it.
-    // if ((! this.state.didSwipe) || (this.state.activeDOI == undefined)) {
     if (this.state.activeDOI == undefined) {
       g = g.splice(offset+1).concat(g)
     }
