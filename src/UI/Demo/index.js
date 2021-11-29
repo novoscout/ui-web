@@ -1,65 +1,24 @@
 import { h, Component } from "preact"
-import { useMemo, useContext } from "preact/compat"
+import { useContext } from "preact/compat"
 
 import { Text, View } from "ui-shared/components"
-import { mergeDeep } from "ui-shared/lib"
-import { Desk, Modal, Nav, Swiper, TextLink, Toolbar } from "../../components"
-import { Theme } from "../../theme"
+import { Desk, Modal, Nav, Toolbar } from "../../components"
 
 // import { LoremIpsum } from "lorem-ipsum"
 
 
-import articles from "./data.jsx"
-
 class Demo extends Component {
   constructor(props) {
     super(props)
-    this.renderArticles = this.renderArticles.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
     this.state = {
       loading: true,
-      modal: { visible: false },
-      articleGraph: [ articles ],
-      numArticlesToShow: 3
-    }
-  }
-
-  swipeEnd(ref,delta) {
-    if (delta < 0) {
-      this.setState(function(state,props) {
-        var ret = state.articleGraph[0]
-        ret.unshift(ret.pop())
-        return { articleGraph: [ ret ] }
-      })
-    } else if (delta > 0) {
-      this.setState(function(state,props) {
-        var ret = state.articleGraph[0]
-        ret.push(ret.shift())
-        return { articleGraph: [ ret ] }
-      })
+      modal: { visible: false }
     }
   }
 
   componentDidMount() {
     this.setState({loading:false})
-  }
-
-  renderArticles(theme) {
-    const ret = []
-    for (let i=0; i<articles.length; i++) {
-      ret.push(
-        <Swiper
-          uniaxial={true}
-          end={ this.swipeEnd.bind(this) }
-          startThreshold={10}
-          >{articles[i]}</Swiper>
-      )
-    }
-    return (
-      <div id="articles" style="height:100%">
-        {ret}
-      </div>
-    )
   }
 
   toggleModal(e) {
@@ -75,14 +34,6 @@ class Demo extends Component {
   render() {
     if (this.state.loading) { return null }
 
-    const theme = useContext(Theme)
-
-    // Ensure articles are only generated when the articleGraph changes.
-    const memoizedArticles = useMemo(
-      () => this.renderArticles(theme),
-      [ this.state.articleGraph ]
-    )
-
     const commonActions = {
       toggleModal: this.toggleModal,
       toggleTheme: this.props.toggleTheme
@@ -91,7 +42,7 @@ class Demo extends Component {
     return (
       <Modal.Context.Provider value={this.state.modal}>
         <Nav {...commonActions} />
-        <Desk>{memoizedArticles}</Desk>
+        <Desk />
         <Toolbar toggleModal={this.toggleModal} />
         <Modal {...commonActions} />
       </Modal.Context.Provider>

@@ -1,6 +1,7 @@
 [
   {
     "article": {
+      "doi": "a",
       "front": {
         "article-meta": {
           "article-id": null,
@@ -31,6 +32,7 @@
   },
   {
     "article": {
+      "doi": "b",
       "front": {
         "article-meta": {
           "article-id": null,
@@ -57,6 +59,57 @@
             "p": "The electronic databases searched included PubMed, PsycINFO, CINAHL, and EMBASE. PubMed was chosen over Web of Science as it has been shown to be an optimal biomedical database. Databases were searched from inception to August 2014. The search strategy included combinations of terms for parent (e.g., parent, mother, father, caregiver, family), pain (e.g., pain, arthritis, fibromyalgia, headache, neuropathy), child (e.g., infant, child, adolescent, young adult), and association (e.g., risk, influence, predictor, association), and was developed in consultation with a librarian specializing in systematic searches. The particular pain conditions included in the search strategy were decided upon through consensus with expert adult and pediatric pain researchers and clinicians. Medical Subject Headings (MeSH) terms and other key terms were included where possible; text terms were searched in all databases for entries including these terms in the title or abstract. See Appendix A for the complete search strategy for each database. Additional hand searching of previous relevant research was also conducted."
           }
         ]
+      }
+    }
+  },
+  {
+    "article": {
+      "doi": "c",
+      "front": {
+        "article-meta": {
+          "article-id": null,
+          "title-group": {
+            "article-title": "Title C",
+            "subtitle": null
+          }
+        }
+      },
+      "body": {
+        "sec": [ {"p":"Blah"} ]
+      }
+    }
+  },
+  {
+    "article": {
+      "doi": "d",
+      "front": {
+        "article-meta": {
+          "article-id": null,
+          "title-group": {
+            "article-title": "Title D",
+            "subtitle": null
+          }
+        }
+      },
+      "body": {
+        "sec": [ {"p":"Blah"} ]
+      }
+    }
+  },
+  {
+    "article": {
+      "doi": "e",
+      "front": {
+        "article-meta": {
+          "article-id": null,
+          "title-group": {
+            "article-title": "Title E",
+            "subtitle": null
+          }
+        }
+      },
+      "body": {
+        "sec": [ {"p":"Blah"} ]
       }
     }
   }
