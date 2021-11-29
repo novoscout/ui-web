@@ -21,7 +21,7 @@ class Swiper extends Component {
   }
 
   componentDidMount() {
-    this.setState(function(props,state) {
+    this.setState(function(state) {
       return { loading: false }
     })
   }
@@ -74,7 +74,6 @@ class Swiper extends Component {
   }
 
   cancel() {
-    this.resetStyles()
     if (this.props && this.props.cancel) {
       this.props.cancel(this)
     }
@@ -98,24 +97,17 @@ class Swiper extends Component {
     //                      ? cxs(theme.swiper.inner)
     //                      : null
 
-    const newProps = {...this.props}
-    delete(newProps.ref)
-    delete(newProps.start)
-    delete(newProps.end)
-    delete(newProps.move)
-    delete(newProps.cancel)
-    delete(newProps.shouldPreventDefault)
-
     return (
       <_Swiper
         className={className}
+        uniaxial={this.props && this.props.uniaxial}
         start={this.start}
         end={this.end}
         move={this.move}
         cancel={this.cancel}
         shouldPreventDefault={this.shouldPreventDefault}
-        {...newProps}>
-        {newProps.children}
+        >
+        {this.props.children}
       </_Swiper>
     )
   }
