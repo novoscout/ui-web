@@ -1,5 +1,5 @@
 // These should be before importing (P)React, preferably the *first* imports.
-if (process.env.novoscout.development) {
+if (process.env.development) {
   const devtools = require("preact/devtools")
   const debug = require("preact/debug")
 }

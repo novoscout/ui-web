@@ -3,7 +3,6 @@ const webpack = require("webpack");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const copyPlugin = require("copy-webpack-plugin");
 
-
 // Fake file-system for web browsers. Need to do this so
 // trivial-api works. FIXME Move to trivial-api..?
 // Note: see externals below.

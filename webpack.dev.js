@@ -7,6 +7,9 @@ const common = require('./webpack.common.js');
 const distDir = "dev";
 const distPath = path.resolve(__dirname, distDir);
 
+const apiScheme = "http";
+const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'localhost';
+
 module.exports = merge(common, {
   mode: 'development',
   // devtool: 'eval-cheap-source-map',
@@ -37,10 +40,10 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       process: {
         env: {
-          novoscout: {
-            development: true,
-            production: false
-          }
+          apiScheme: JSON.stringify(apiScheme),
+          apiHostname: JSON.stringify(apiHostname),
+          development: true,
+          production: false
         }
       }
     })

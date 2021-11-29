@@ -19,6 +19,9 @@ const hashFunction = 'sha512';
 const distDir = "dist";
 const distPath = path.resolve(__dirname, distDir);
 
+const apiScheme = "https";
+const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'localhost';
+
 module.exports = merge(common, {
   devServer: {
     https: true,
@@ -111,10 +114,10 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       process: {
         env: {
-          novoscout: {
-            development: false,
-            production: true
-          }
+          apiScheme: JSON.stringify(apiScheme),
+          apiHostname: JSON.stringify(apiHostname),
+          development: false,
+          production: true
         }
       }
     }),
