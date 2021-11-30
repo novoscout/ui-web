@@ -12,6 +12,8 @@ import { api } from "../../API"
 import { load as graphFromJson } from "ngraph.fromjson"
 import { save as graphToJson } from "ngraph.tojson"
 
+const storage = require("../../helpers/storage")
+
 
 const Articles = (props) => {
   // This component is separate from the Desk component so it can access
@@ -37,20 +39,53 @@ class Desk extends Component {
     super(props)
     this.renderArticles = this.renderArticles.bind(this)
     this.state = {
+      apikey: undefined,
+      passphrase: undefined,
       loading: true,
       activeDOI: undefined,
       articleGraph: []
     }
   }
 
-  componentDidMount() {
-    const g = api.getGraph(0)
-    this.setState(function(state) {
-      return {
-        articleGraph: g,
-        loading: false
+  async componentDidMount() {
+    var apikey = storage.getItem("apikey")
+    if (! apikey) {
+      try {
+        const getReg = await api.register()
+        const passphrase = getReg.passphrase
+        const getAPIKey = await api.getAPIKey(passphrase)
+        apikey = getAPIKey.apikey
+        storage.setItem("apikey",apikey)
+      } catch(err) {
+        if (window.location.pathname != "/") {
+          window.location.replace("/")
+        }
+        this.setState(function(state) {
+          return { loading: false }
+        })
+
+        return // Quit!
       }
-    })
+    }
+
+    try {
+      const getGraph = await api.getGraph({apikey})
+      const g = getGraph
+      this.setState(function(state) {
+        return {
+          apikey: apikey,
+          articleGraph: g,
+          loading: false
+        }
+      })
+    } catch(err) {
+      if (window.location.pathname != "/") {
+        window.location.replace("/")
+      }
+      this.setState(function(state) {
+        return { loading: false }
+      })
+    }
   }
 
   swipeEnd(dois,ref,delta) {
