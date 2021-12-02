@@ -68,13 +68,13 @@ const babelPlugins = [
 
 module.exports = {
   devServer: {
-    host: "192.168.0.101",
-    allowedHosts: [ ".nip.io" ],
+    host: "app.osteoscout.local",
+    allowedHosts: [ ".nip.io", ".osteoscout.local" ],
     historyApiFallback: true,
-    hot: false,
+    hot: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+      'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH'
     },
     static: {
       /* See output.publicPath below. */

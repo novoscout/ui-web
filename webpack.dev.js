@@ -7,8 +7,9 @@ const common = require('./webpack.common.js');
 const distDir = "dev";
 const distPath = path.resolve(__dirname, distDir);
 
-const apiScheme = "http";
-const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'localhost';
+const apiScheme = (( process || {}).env || {}).API_SCHEME || 'http';
+const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout.local';
+const apiPort = (( process || {}).env || {}).API_PORT || '5730';
 
 module.exports = merge(common, {
   mode: 'development',
@@ -42,6 +43,7 @@ module.exports = merge(common, {
         env: {
           apiScheme: JSON.stringify(apiScheme),
           apiHostname: JSON.stringify(apiHostname),
+          apiPort: JSON.stringify(apiPort),
           development: true,
           production: false
         }
