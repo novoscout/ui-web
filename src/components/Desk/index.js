@@ -48,6 +48,15 @@ class Desk extends Component {
   }
 
   async componentDidMount() {
+    const forceLogout = () => {
+      storage.removeItem("apikey",apikey)
+      if (window.location.pathname != Ident.href) {
+        window.location.replace(Ident.href)
+      }
+      this.setState(function(state) {
+        return { loading: false }
+      })
+    }
     var apikey = storage.getItem("apikey")
     if (! apikey) {
       try {
@@ -57,39 +66,34 @@ class Desk extends Component {
         apikey = getAPIKey.apikey
         storage.setItem("apikey",apikey)
       } catch(err) {
-        if (window.location.pathname != "/") {
-          window.location.replace("/")
-        }
-        this.setState(function(state) {
-          return { loading: false }
-        })
-
+        forceLogout()
         return // Quit!
       }
     }
+
+    this.setState(function(state) {
+      return {
+        apikey: apikey
+      }
+    })
 
     try {
       const getGraph = await api.getGraph({apikey})
       const g = getGraph
       this.setState(function(state) {
         return {
-          apikey: apikey,
-          articleGraph: g,
-          loading: false
+          articleGraph: g
         }
       })
     } catch(err) {
-      if (window.location.pathname != "/") {
-        window.location.replace("/")
-      }
-      this.setState(function(state) {
-        return { loading: false }
-      })
+      // FIXME
     }
+
+    this.setState({loading:false})
   }
 
   swipeEnd(dois,ref,delta) {
-    const { previousDOI, nextDOI } = dois
+    const { doi, previousDOI, nextDOI } = dois
     if (delta < 0 && previousDOI != undefined) {
       route("/doi/" + previousDOI)
       this.setState({activeDOI:previousDOI})
@@ -97,6 +101,14 @@ class Desk extends Component {
       route("/doi/" + nextDOI)
       this.setState({activeDOI:nextDOI})
     }
+
+    api.recordUserNavigateFromDOIToDOI({
+      apikey: this.state.apikey,
+      doiA: doi,
+      doiB: nextDOI
+    }).catch((err) => {
+      // FIXME
+    })
   }
 
   renderArticles(DOIFromURL) {
@@ -127,7 +139,7 @@ class Desk extends Component {
       ret.push(
         <Swiper
           uniaxial={true}
-          end={this.swipeEnd.bind(this,{previousDOI,nextDOI}) }
+          end={this.swipeEnd.bind(this,{doi,previousDOI,nextDOI}) }
           startThreshold={10}
           path={"/doi/" + doi}
           doi={doi}
@@ -149,12 +161,9 @@ class Desk extends Component {
       <Router>
         <View default id="desk" className={className}>
           <Router>
-            <View default id="not-article">
+            <View default>
               <p>
-                <TextLink href="/doi/a">Article A</TextLink>
-              </p>
-              <p>
-                <TextLink href="/doi/b">Article B</TextLink>
+                <TextLink href={Ident.href}>Login</TextLink>
               </p>
             </View>
             <Articles
