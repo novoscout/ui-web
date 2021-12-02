@@ -3,12 +3,12 @@ const express = require("express");
 const webpack = require("webpack");
 const middleware = require("webpack-dev-middleware"); //webpack hot reloading middleware
 
-const devConfig = require(path.resolve(__dirname,"../webpack.dev.js"));
+const devConfig = require(path.resolve(__dirname,"webpack.dev.js"));
 const compiler = webpack(devConfig);
 
 const app = express();
 
-const indexFile = "../dev/index.html";
+const indexFile = "dev/index.html";
 
 app.use(middleware(compiler, {
   index: indexFile,
@@ -19,8 +19,8 @@ app.use(middleware(compiler, {
 }));
 
 app.get('*', function(req, res){
-  res.status(200).sendFile(path.resolve(__dirname, '../dev/index.html'));
+  res.status(200).sendFile(path.resolve(__dirname, indexFile));
 });
 
 
-app.listen(3000);
+app.listen(8080);

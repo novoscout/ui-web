@@ -20,8 +20,9 @@
     "compress": "   yarn gzip",
     "gzip": "       utils/compress-gzip",
     "brotli": "     utils/compress-brotli",
-    "serve": "      webpack-dev-server --config ./webpack.prod.js --node-env production",
-    "serve-dev": "  webpack-dev-server --config ./webpack.dev.js  --node-env development"
+    "serve": "      yarn serve-prod",
+    "serve-prod": " node serve-prod.js",
+    "serve-dev": "  node serve-dev.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
