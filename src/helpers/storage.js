@@ -3,7 +3,7 @@ if (typeof localStorage !== "undefined") {
   storage = localStorage
 } else if (typeof window !== "undefined" && typeof window.localStorage !== "undefined") {
   storage = window.localStorage
-} else {
+} else if (typeof document !== "undefined") {
   /*
    * https://developer.mozilla.org/en-US/docs/Web/API/document.cookie
    * https://developer.mozilla.org/User:fusionchess
@@ -65,7 +65,9 @@ if (typeof localStorage !== "undefined") {
       }
     }
   };
+} else {
+  const LS = require('node-localstorage').LocalStorage
+  storage = new LS('/tmp/node-localstorage/', Number.MAX_VALUE)
 }
 
-export default storage
-export { storage }
+module.exports = storage
