@@ -39,22 +39,43 @@ const recordUserNavigateFromDOIToDOI = (o) => {
     })
   }
 
-  return new Promise((resolve,reject) => {
+  return Promise.all([
     fetch(
-      apiHost + "/v1/graph/doi/" + String(doi || ""), {
+      apiHost +
+      "/v1/graph/user/action/user_navigated_from/doi/" +
+      String(doiA), {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": String(apikey || "")
+          "Authorization": String(apikey)
         },
-        method: "GET",
+        method: "POST",
         mode: "cors"
     }).then( r => {
-      if (r.ok) { return r.json() } else { reject(r) }
-    }).then( j => {
-      // resolve(j)
-      resolve(data)
+      if (! r.ok) { reject(r) }
+    }),
+    fetch(
+      apiHost +
+      "/v1/graph/user/action/user_navigated_to/doi/" +
+      String(doiB), {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": String(apikey)
+        },
+        method: "POST",
+        mode: "cors"
+    }).then( r => {
+      if (! r.ok) { reject(r) }
     })
-  })
+  ])
+}
+
+const recordUserShareDOI = (o) => {
+  const { doi, apikey } = o;
+  if (! apikey || ! doi) {
+    return new Promise((resolve,reject) => {
+      reject("Need all of: apikey, doi.")
+    })
+  }
 }
 
 const register = () => {
@@ -94,7 +115,13 @@ const getAPIKey = (passphrase) => {
   })
 }
 
-const api = { getGraph, getAPIKey, register };
+const api = {
+  getGraph,
+  recordUserNavigateFromDOIToDOI,
+  recordUserShareDOI,
+  getAPIKey,
+  register
+};
 
 export default api
 export { api }
