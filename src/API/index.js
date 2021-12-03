@@ -10,8 +10,32 @@ const apiHost = process.env.apiScheme + "://" + process.env.apiHostname + ":" + 
 const getGraph = (o) => {
   const { doi, apikey } = o;
   if (! apikey) {
+    return new Promise((resolve,reject) => { reject("No API key provided.") })
+  }
+
+  return new Promise((resolve,reject) => {
+    resolve(data)
+    // fetch(
+    //   apiHost + "/v1/graph/doi/" + String(doi || ""), {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Authorization": String(apikey)
+    //     },
+    //     method: "GET",
+    //     mode: "cors"
+    // }).then( r => {
+    //   if (r.ok) { return r.json() } else { reject(r) }
+    // }).then( j => {
+    //   resolve(j)
+    // })
+  })
+}
+
+const recordUserNavigateFromDOIToDOI = (o) => {
+  const { doiA, doiB, apikey } = o;
+  if (! apikey || ! doiA || ! doiB) {
     return new Promise((resolve,reject) => {
-      reject()
+      reject("Need all of: apikey, doiA, doiB.")
     })
   }
 
