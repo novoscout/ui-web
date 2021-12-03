@@ -9,8 +9,8 @@ import { Ident, Swiper, TextLink } from ".."
 import { Theme } from "../../theme"
 import { api } from "../../API"
 
-import { load as graphFromJson } from "ngraph.fromjson"
-import { save as graphToJson } from "ngraph.tojson"
+// import { load as graphFromJson } from "ngraph.fromjson"
+// import { save as graphToJson } from "ngraph.tojson"
 
 const storage = require("../../helpers/storage")
 
@@ -49,7 +49,7 @@ class Desk extends Component {
 
   async componentDidMount() {
     const forceLogout = () => {
-      storage.removeItem("apikey",apikey)
+      storage.removeItem("apikey")
       if (window.location.pathname != Ident.href) {
         window.location.replace(Ident.href)
       }
@@ -59,16 +59,8 @@ class Desk extends Component {
     }
     var apikey = storage.getItem("apikey")
     if (! apikey) {
-      try {
-        const getReg = await api.register()
-        const passphrase = getReg.passphrase
-        const getAPIKey = await api.getAPIKey(passphrase)
-        apikey = getAPIKey.apikey
-        storage.setItem("apikey",apikey)
-      } catch(err) {
-        forceLogout()
-        return // Quit!
-      }
+      forceLogout()
+      return // Quit!
     }
 
     this.setState(function(state) {
@@ -93,7 +85,7 @@ class Desk extends Component {
   }
 
   swipeEnd(dois,ref,delta) {
-    const { doi, previousDOI, nextDOI } = dois
+    const { previousDOI, nextDOI } = dois
     if (delta < 0 && previousDOI != undefined) {
       route("/doi/" + previousDOI)
       this.setState({activeDOI:previousDOI})
@@ -104,7 +96,7 @@ class Desk extends Component {
 
     api.recordUserNavigateFromDOIToDOI({
       apikey: this.state.apikey,
-      doiA: doi,
+      doiA: ref.props.doi,
       doiB: nextDOI
     }).catch((err) => {
       // FIXME
@@ -115,7 +107,10 @@ class Desk extends Component {
     const g = this.state.articleGraph
     const gLen = g.length
 
-    const activeDOI = this.state.activeDOI || DOIFromURL || g[g.length-1].article.doi
+    const activeDOI = this.state.activeDOI
+          || DOIFromURL
+          || g[Math.floor(Math.random() * g.length)].article.doi
+          // || g[g.length-1].article.doi
 
     var offset = g.findIndex( o => String(o.article.doi) == String(activeDOI)) + 1
     offset = offset < 0 ? 0 : offset
@@ -139,12 +134,15 @@ class Desk extends Component {
       ret.push(
         <Swiper
           uniaxial={true}
-          end={this.swipeEnd.bind(this,{doi,previousDOI,nextDOI}) }
+          end={this.swipeEnd.bind(this,{previousDOI,nextDOI}) }
           startThreshold={10}
           path={"/doi/" + doi}
           doi={doi}
           >{title}<hr />{para}</Swiper>
       )
+    }
+    if (activeDOI) {
+      route("/doi/" + activeDOI)
     }
     return (<Fragment>{ret}</Fragment>)
   }
@@ -161,11 +159,13 @@ class Desk extends Component {
       <Router>
         <View default id="desk" className={className}>
           <Router>
+            { /**
             <View default>
               <p>
                 <TextLink href={Ident.href}>Login</TextLink>
               </p>
             </View>
+            */ }
             <Articles
               id="articles"
               path="/doi/:doi*"
