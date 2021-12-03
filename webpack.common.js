@@ -128,6 +128,11 @@ module.exports = {
   ],
 
   resolve: {
+    fallback: {
+      "assert": false,
+      "constants": false,
+      "stream": false
+    },
     alias: {
 
       // All aliases here need full paths so ui-shared can find them during build.
