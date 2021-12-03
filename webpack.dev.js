@@ -17,7 +17,6 @@ module.exports = merge(common, {
   devtool: false,
   devServer: {
     https: false,
-    port: 8080,
     static: {
       directory: distDir
     }

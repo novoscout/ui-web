@@ -19,13 +19,13 @@ const hashFunction = 'sha512';
 const distDir = "dist";
 const distPath = path.resolve(__dirname, distDir);
 
-const apiScheme = "https";
-const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'localhost';
+const apiScheme = (( process || {}).env || {}).API_SCHEME || 'http';
+const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout.local';
+const apiPort = (( process || {}).env || {}).API_PORT || '5730';
 
 module.exports = merge(common, {
   devServer: {
-    https: true,
-    port: 3000,
+    https: false,
     static: {
       directory: distDir
     }
@@ -116,6 +116,7 @@ module.exports = merge(common, {
         env: {
           apiScheme: JSON.stringify(apiScheme),
           apiHostname: JSON.stringify(apiHostname),
+          apiPort: JSON.stringify(apiPort),
           development: false,
           production: true
         }
