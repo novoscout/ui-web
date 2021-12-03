@@ -1,7 +1,7 @@
 [
   {
     "article": {
-      "doi": "a",
+      "doi": "10.1136/BMJOPEN-2017-019040",
       "front": {
         "article-meta": {
           "article-id": null,
@@ -32,7 +32,7 @@
   },
   {
     "article": {
-      "doi": "b",
+      "doi": "10.1136/BMJOPEN-2015-007642",
       "front": {
         "article-meta": {
           "article-id": null,
@@ -64,7 +64,7 @@
   },
   {
     "article": {
-      "doi": "c",
+      "doi": "10.1136/BMJ.H444",
       "front": {
         "article-meta": {
           "article-id": null,
@@ -81,29 +81,12 @@
   },
   {
     "article": {
-      "doi": "d",
+      "doi": "10.5665/SLEEP.5158",
       "front": {
         "article-meta": {
           "article-id": null,
           "title-group": {
             "article-title": "Title D",
-            "subtitle": null
-          }
-        }
-      },
-      "body": {
-        "sec": [ {"p":"Blah"} ]
-      }
-    }
-  },
-  {
-    "article": {
-      "doi": "e",
-      "front": {
-        "article-meta": {
-          "article-id": null,
-          "title-group": {
-            "article-title": "Title E",
             "subtitle": null
           }
         }
