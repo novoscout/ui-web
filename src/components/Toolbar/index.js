@@ -1,4 +1,4 @@
-import { h, Component } from "preact"
+import { h } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
 
@@ -13,7 +13,7 @@ const Toolbar = (props) => {
   const className = theme.toolbar ? String(cxs(theme.toolbar)) : null
   return (
     <_Toolbar id="toolbar" className={className} {...props}>
-      <FAB toggle={props.toggleModal} />
+      <FAB onclick={props.toggleModal} expanded={! true} />
     </_Toolbar>
   )
 }
