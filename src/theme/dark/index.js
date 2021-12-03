@@ -40,6 +40,12 @@ const dark = {
     ":after": {
       color: color.background
     }
+  },
+  ident: {
+    backgroundColor: color.background
+  },
+  passphrase: {
+    borderColor: "silver"
   }
 }
 

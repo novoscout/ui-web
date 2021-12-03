@@ -206,6 +206,18 @@ const common = {
       top: "-2px",
       content: '"-"'
     }
+  },
+  ident: {
+    width: "100%",
+    height: "100%",
+    padding: "0 1rem 0 1rem",
+    textAlign: "center"
+  },
+  passphrase: {
+    lineHeight: "1.3",
+    borderRadius: "4px",
+    borderStyle: "solid",
+    borderWidth: "1px"
   }
 }
 
