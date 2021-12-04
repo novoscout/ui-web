@@ -3,9 +3,25 @@
 try { Promise = Promise } catch(err) { Promise = require("promise-polyfill") }
 try { fetch = fetch } catch(err) { fetch = require("whatwg-fetch").fetch }
 
-const data = require("./data.json");
+const fakeData = require("./data.json");
 
-const apiHost = process.env.apiScheme + "://" + process.env.apiHostname + ":" + process.env.apiPort;
+import storage from "../helpers/storage";
+import merge from "merge";
+
+var apiHost = process.env.apiScheme + "://" + process.env.apiHostname;
+if (process.env.apiPort) {
+  apiHost = apiHost + ":" + process.env.apiPort;
+}
+
+const crummyCache = {
+  update: function(k,v) {
+    // Do a dance to prevent the k becoming a literal key "k" :-/
+    const c = JSON.parse(storage.getItem("cache") || '{}');
+    const tmp = {}; tmp[k] = v;
+    const o = merge.recursive(true, c, tmp);
+    storage.setItem("cache",JSON.stringify(o));
+  }
+}
 
 const getGraph = (o) => {
   const { doi, apikey } = o;
@@ -13,8 +29,10 @@ const getGraph = (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
+  crummyCache.update("data",fakeData);
+
   return new Promise((resolve,reject) => {
-    resolve(data)
+    resolve(fakeData)
     // fetch(
     //   apiHost + "/v1/graph/doi/" + String(doi || ""), {
     //     headers: {
@@ -66,7 +84,9 @@ const recordUserNavigateFromDOIToDOI = (o) => {
     }).then( r => {
       if (! r.ok) { reject(r) }
     })
-  ])
+  ]).catch( (err) => {
+    // FIXME
+  })
 }
 
 const recordUserShareDOI = (o) => {
@@ -88,6 +108,8 @@ const register = () => {
       } catch(err) {
         reject(j)
       }
+    }).catch( e => {
+      reject(e)
     })
   })
 }
