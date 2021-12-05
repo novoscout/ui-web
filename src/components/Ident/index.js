@@ -65,24 +65,22 @@ class Ident extends Component {
     })
   }
 
-  choosePassphrase(theme) {
-    const pairwise = (arr) => {
-      return arr.reduce((result, value, index, sourceArray) => index % 2 === 0 ? [...result, sourceArray.slice(index, index + 2)] : result, [])
+  showNewPassphrase(theme) {
+    // const pairwise = (arr) => {
+    //   return arr.reduce((result, value, index, sourceArray) => index % 2 === 0 ? [...result, sourceArray.slice(index, index + 2)] : result, [])
+    // }
+    const SNP = (props) => {
+      return <p className={theme.passphrase ? cxs(theme.passphrase) : null}>{props.children}</p>
     }
+    if (! this.state.passphrase) { return <SNP/> }
     return (
-      <p className={theme.passphrase ? cxs(theme.passphrase) : null}>
+      <SNP>
         {
-          pairwise(
-            this.state.passphrase.
-                 split(" ").
-                 filter( word => {
-                   if (word) { return word }
-                 })
-          ).map((i) => {
-            return <Fragment><span>{i.join(" ")}</span><br /></Fragment>
-          })
+          this.state.passphrase.split(" ").filter( word => {
+            if (word) { return word }
+          }).join(" ")
         }
-      </p>
+      </SNP>
     )
   }
 
@@ -124,20 +122,20 @@ class Ident extends Component {
             You can <a onclick={this.forceRedirectToDOIs}>browse articles</a> on OsteoScout and easily share them with your colleagues to discuss as part of your CPD.
           </p>
           <p>
-            You can <TextLink>logout</TextLink> if you want, but if you do that, OsteoScout will no longer be able to recommend articles that relate to your interests, and will not be able to keep a record of articles you are reading for your CPD.
+            If you <TextLink>logout</TextLink> OsteoScout will no longer be able to recommend articles that relate to your interests, and will not be able to keep a record of articles you are reading for your CPD. But you can always <TextLink>login</TextLink> again with your passphrase.
           </p>
         </ID>
       )
     } else {
       return (
         <ID>
-          <p style={{paddingTop:"2rem",lineHeight:"1.3",textAlign:"left! important"}}>
+          <p style={{paddingTop:"2rem",lineHeight:"1.3",textAlign:"left"}}>
             OsteoScout does not record any personal information about you. Instead, a unique, random phrase is assigned to each user. Your phrase lets you access your OsteoScout account from any device.
           </p>
           <p>
             Here is a brand-new phrase just for you:
           </p>
-          { this.choosePassphrase(theme) }
+          { this.showNewPassphrase(theme) }
           <p>
             Do you want to keep it?
           </p>
