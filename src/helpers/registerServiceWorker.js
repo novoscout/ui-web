@@ -1,3 +1,7 @@
+// Remember, service workers DON'T WORK IN PRIVATE BROWSING MODE!
+
+// See https://gist.github.com/Rich-Harris/fd6c3c73e6e707e312d7c5d7d0f3b2f9
+
 // Courtesy https://github.com/mdn/sw-test/blob/gh-pages/app.js
 // See also https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/src/registerServiceWorker.js
 // and https://developers.google.com/web/fundamentals/primers/service-workers/registration
