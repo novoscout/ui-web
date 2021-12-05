@@ -9,7 +9,7 @@ const distPath = path.resolve(__dirname, distDir);
 
 const apiScheme = (( process || {}).env || {}).API_SCHEME || 'http';
 const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout.local';
-const apiPort = (( process || {}).env || {}).API_PORT || '5730';
+const apiPort = (( process || {}).env || {}).API_PORT || '';
 
 module.exports = merge(common, {
   mode: 'development',
