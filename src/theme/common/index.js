@@ -20,7 +20,7 @@ const common = {
     justifyItems: "stretch",
     flexDirection: "column-reverse",
     alignContent: "space-evenly",
-    paddingBottom: "6rem",
+    paddingBottom: "2rem",
   },
   container: {
     display: "block",
@@ -78,10 +78,9 @@ const common = {
     },
     " ul > li": {
       display: "inline-block",
-      lineHeight: "2rem",
-      height: "2rem",
-      margin: "2rem auto",
-      padding: "0 1em 0 0",
+      lineHeight: "1rem",
+      margin: "1.5rem auto",
+      padding: 0,
       listStyle: "none",
     }
     // ...invisible
@@ -89,13 +88,16 @@ const common = {
   navAction: {
     display: "",
     cursor: "pointer",
-    height: "2rem",
-    margin: "2rem auto 0 auto",
+    // height: "2rem",
+    // margin: "2rem auto 0 auto",
     padding: 0,
     border: 0,
     textAlign: "center",
     textDecoration: "none",
     " span": {
+      textDecoration: "none",
+    },
+    " a": {
       textDecoration: "none",
     }
   },
@@ -210,14 +212,23 @@ const common = {
   ident: {
     width: "100%",
     height: "100%",
+    lineHeight: "1.3",
+    overflowY: "scroll !important",
     padding: "0 1rem 0 1rem",
-    textAlign: "center"
+    textAlign: "center",
+    " button": {
+      marginBottom: "1em"
+    },
+    " + #toolbar": {
+      display: "none"
+    }
   },
   passphrase: {
     lineHeight: "1.3",
     borderRadius: "4px",
     borderStyle: "solid",
-    borderWidth: "1px"
+    borderWidth: "1px",
+    height: "3em"
   }
 }
 
@@ -277,6 +288,8 @@ common.container[mq.md] = {
 
 common.navAction[mq.md] = {
   height: "100%",
+  // height: "2rem",
+  margin: "2rem auto 0 auto",
   padding: 0
 }
 

@@ -15,6 +15,9 @@ const dark = {
   navAction: {
     color: color.accent
   },
+  navActionCancel: {
+    color: color.error,
+  },
   swiper: {
     frame: {
       backgroundColor: color.background

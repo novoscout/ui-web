@@ -1,7 +1,7 @@
 import color from "./color"
 import mq from "../common/mq"
 
-var light = {
+const light = {
   desk: {
     backgroundColor: color.background
   },
@@ -14,6 +14,9 @@ var light = {
   },
   navAction: {
     color: color.accent
+  },
+  navActionCancel: {
+    color: color.error,
   },
   swiper: {
     frame: {
