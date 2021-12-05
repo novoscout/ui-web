@@ -107,10 +107,14 @@ class Desk extends Component {
     const g = this.state.articleGraph
     const gLen = g.length
 
+    if (! g) { return null }
+
     const activeDOI = this.state.activeDOI
           || DOIFromURL
-          || g[Math.floor(Math.random() * g.length)].article.doi
+          || ((g[Math.floor(Math.random() * ((g || {}).length || 0))] || {}).article || {}).doi
           // || g[g.length-1].article.doi
+
+    if (! activeDOI) { return null }
 
     var offset = g.findIndex( o => String(o.article.doi) == String(activeDOI)) + 1
     offset = offset < 0 ? 0 : offset
