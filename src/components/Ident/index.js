@@ -1,6 +1,6 @@
 import { h, Component, Fragment } from "preact"
 import { useContext } from "preact/compat"
-// import { route } from "preact-router"
+import { route } from "preact-router"
 import cxs from "cxs"
 
 import { Ident as _Ident } from "ui-shared/components"
@@ -17,12 +17,12 @@ class Ident extends Component {
     super(props)
     this.forceLogout = this.forceLogout.bind(this)
     this.getNewPassphrase = this.getNewPassphrase.bind(this)
-    this.choosePassphrase = this.choosePassphrase.bind(this)
+    this.showNewPassphrase = this.showNewPassphrase.bind(this)
     this.fixPassphrase = this.fixPassphrase.bind(this)
     this.state = {
       loading: true,
-      passphrase: undefined,
-      apikey: undefined
+      passphrase: null,
+      apikey: null
     }
   }
 
@@ -31,8 +31,8 @@ class Ident extends Component {
     this.setState(function(state) {
       return {
         loading: true,
-        passphrase: undefined,
-        apikey: undefined
+        passphrase: null,
+        apikey: null
       }
     })
     if (window.location.pathname != "/doi/") {
@@ -42,15 +42,16 @@ class Ident extends Component {
   }
 
   async getNewPassphrase() {
-    var passphrase = undefined
+    await this.setState({ passphrase: null })
+    var passphrase = null
     try {
       const getReg = await api.register()
       passphrase = getReg.passphrase
+      await this.setState({ passphrase: passphrase })
     } catch(err) {
-      forceLogout()
+      this.forceLogout()
       return // Quit!
     }
-    this.setState({passphrase})
   }
 
   async componentDidMount() {
@@ -95,6 +96,11 @@ class Ident extends Component {
     })
   }
 
+  forceRedirectToDOIs() {
+    // FIXME Unsure why <a> and <TextLink> both fail to redirect the user??
+    window.location.replace("/doi/")
+  }
+
   render() {
     if (this.state.loading) { return null }
 
@@ -115,7 +121,7 @@ class Ident extends Component {
       return (
         <ID>
           <p style={{paddingTop:"2rem"}}>
-            You can <TextLink href="/doi/">browse articles</TextLink> on OsteoScout and easily share them with your colleagues to discuss as part of your CPD.
+            You can <a onclick={this.forceRedirectToDOIs}>browse articles</a> on OsteoScout and easily share them with your colleagues to discuss as part of your CPD.
           </p>
           <p>
             You can <TextLink>logout</TextLink> if you want, but if you do that, OsteoScout will no longer be able to recommend articles that relate to your interests, and will not be able to keep a record of articles you are reading for your CPD.
