@@ -4,12 +4,7 @@ import { Theme, lightTheme, darkTheme } from "../theme"
 
 import { Demo } from "./Demo"
 
-
-// Code-splitting and lazy-loading.
-const doSW = () => {
-  return import(
-    /* webpackMode: "lazy", webpackChunkName: "helpers/registerServiceWorker" */
-    "../helpers/registerServiceWorker")}
+const storage = require("../helpers/storage")
 
 const Loading = () => {
   return (<div className="loading" />)
@@ -20,15 +15,15 @@ class UI extends Component {
     super(props)
     this.state = {
       loading: true,
-      darkTheme: false
+      theme: undefined
     }
-    this.toggleTheme = this.toggleTheme.bind(this)
+    this.chooseTheme = this.chooseTheme.bind(this)
   }
 
-  toggleTheme() {
-    this.setState(function(state,props) {
-      return { darkTheme:!state.darkTheme }
-    })
+  async chooseTheme() {
+    const theme = this.state.theme == "light" ? "dark" : "light"
+    storage.setItem("theme",theme)
+    await this.setState({ theme })
   }
 
   componentDidMount() {
@@ -36,7 +31,7 @@ class UI extends Component {
     // awaits to ensure all are loaded before setting
     // state.loading to false.
 
-    // const doSW = () => {
+    // const registerSW = () => {
     //   return import(
     //     /* webpackMode: "lazy", webpackChunkName: "helpers/registerServiceWorker" */
     //     "../helpers/registerServiceWorker"
@@ -49,20 +44,22 @@ class UI extends Component {
       //     await getComponent().then((m) => { whatever })
       //   }
       // })()
-      await this.setState({loading: false})
-      await doSW().then(m => m.registerServiceWorker())
+
+      // await registerSW().then(m => m.registerServiceWorker())
+      await this.setState({
+        loading: false,
+        theme: storage.getItem("theme") || "light"
+      })
     })()
   }
 
   render(props,state) {
     if (this.state.loading) { return <Loading /> }
-    const theme = this.state.darkTheme ? darkTheme : lightTheme
+    const theme = this.state.theme == "light" ? lightTheme : darkTheme
 
     return (
       <Theme.Provider value={theme} >
-        <Demo
-          toggleTheme={this.toggleTheme}
-        />
+        <Demo chooseTheme={this.chooseTheme} />
       </Theme.Provider>
     )
   }

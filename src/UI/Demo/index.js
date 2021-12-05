@@ -36,14 +36,14 @@ class Demo extends Component {
 
     const commonActions = {
       toggleModal: this.toggleModal,
-      toggleTheme: this.props.toggleTheme
+      chooseTheme: this.props.chooseTheme
     }
 
     return (
       <Modal.Context.Provider value={this.state.modal}>
         <Nav {...commonActions} />
-        <Desk />
-        <Toolbar toggleModal={this.toggleModal} />
+        <Desk {...commonActions} />
+        <Toolbar {...commonActions} />
         <Modal {...commonActions} />
       </Modal.Context.Provider>
     )
