@@ -175,7 +175,8 @@ class Desk extends Component {
               path="/doi/:doi*"
               renderCallback={this.renderArticles}
               renderChecks={[
-                this.state.activeDOI
+                this.state.activeDOI,
+                theme
               ]}
               />
           </Router>
