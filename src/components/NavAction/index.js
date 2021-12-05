@@ -25,8 +25,9 @@ const _NavActionIcon = (props) => {
   const className = theme.navActionIcon
                   ? cxs(theme.navActionIcon)
                   : null
+  const role = props.role || "img"
   return (
-    <span className={className} aria-label={props.ariaLabel} role="img">
+    <span className={className} aria-label={props.ariaLabel} role={role}>
       {props.children}
     </span>
   )

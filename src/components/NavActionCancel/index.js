@@ -27,7 +27,7 @@ class NavActionCancel extends Component {
       <NavAction
         className={className}
         {...this.props}>
-        <NavAction.Icon ariaLabel="Cancel">🗙</NavAction.Icon>
+        <NavAction.Icon ariaLabel="Cancel" role="none"><b style={{color:"red",fontSize:"1.4em"}}>&times;</b></NavAction.Icon>
         <NavAction.Text
           href={null}
           onclick={this.handleCancel}
