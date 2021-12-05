@@ -48,14 +48,12 @@ class Desk extends Component {
   }
 
   async componentDidMount() {
-    const forceLogout = () => {
+    const forceLogout = async () => {
       storage.removeItem("apikey")
       if (window.location.pathname != Ident.href) {
         window.location.replace(Ident.href)
       }
-      this.setState(function(state) {
-        return { loading: false }
-      })
+      await this.setState({ loading: false })
     }
     var apikey = storage.getItem("apikey")
     if (! apikey) {
@@ -78,7 +76,7 @@ class Desk extends Component {
         }
       })
     } catch(err) {
-      // FIXME
+      console.debug(err)
     }
 
     this.setState({loading:false})
@@ -98,8 +96,6 @@ class Desk extends Component {
       apikey: this.state.apikey,
       doiA: ref.props.doi,
       doiB: nextDOI
-    }).catch((err) => {
-      // FIXME
     })
   }
 
