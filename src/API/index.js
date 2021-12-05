@@ -6,7 +6,7 @@ try { fetch = fetch } catch(err) { fetch = require("whatwg-fetch").fetch }
 const fakeData = require("./data.json");
 
 import storage from "../helpers/storage";
-import merge from "merge";
+import deepmerge from "deepmerge";
 
 var apiHost = process.env.apiScheme + "://" + process.env.apiHostname;
 if (process.env.apiPort) {
@@ -14,12 +14,10 @@ if (process.env.apiPort) {
 }
 
 const crummyCache = {
-  update: function(k,v) {
-    // Do a dance to prevent the k becoming a literal key "k" :-/
-    const c = JSON.parse(storage.getItem("cache") || '{}');
-    const tmp = {}; tmp[k] = v;
-    const o = merge.recursive(true, c, tmp);
-    storage.setItem("cache",JSON.stringify(o));
+  updateOrAdd: function(k,v) {
+    const c = JSON.parse(storage.getItem(k) || '{}');
+    const o = deepmerge.all([ c, v ]);
+    storage.setItem(k,JSON.stringify(o));
   }
 }
 
@@ -29,7 +27,11 @@ const getGraph = (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
-  crummyCache.update("data",fakeData);
+  for (const i of fakeData) {
+    if ("article" in i && "doi" in i.article) {
+      crummyCache.updateOrAdd(i.article.doi, i);
+    }
+  }
 
   return new Promise((resolve,reject) => {
     resolve(fakeData)
