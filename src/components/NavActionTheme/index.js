@@ -10,15 +10,15 @@ import { Theme } from "../../theme"
 class NavActionTheme extends Component {
   constructor(props) {
     super(props)
-    this.handleToggleTheme = this.handleToggleTheme.bind(this)
+    this.handleChooseTheme = this.handleChooseTheme.bind(this)
   }
 
-  handleToggleTheme() {
+  handleChooseTheme() {
     if (this.props.toggleModal) {
       this.props.toggleModal({visible:false})
     }
-    if (this.props.toggleTheme) {
-      this.props.toggleTheme()
+    if (this.props.chooseTheme) {
+      this.props.chooseTheme()
     }
   }
   
@@ -29,10 +29,10 @@ class NavActionTheme extends Component {
                     : null
     return (
       <NavAction className={className}>
-        <NavAction.Icon ariaLabel="Toggle day/night theme">🌗</NavAction.Icon>
+        <NavAction.Icon ariaLabel="Choose day/night theme">🌗</NavAction.Icon>
         <NavAction.Text
           href={null}
-          onclick={this.handleToggleTheme}>&nbsp;Day/night</NavAction.Text>
+          onclick={this.handleChooseTheme}>&nbsp;Day/night</NavAction.Text>
       </NavAction>
     )
   }

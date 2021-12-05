@@ -29,7 +29,7 @@ class Modal extends Component {
           isInModal={true}
           share={this.props.share}
           toggleModal={this.props.toggleModal}
-          toggleTheme={this.props.toggleTheme}
+          chooseTheme={this.props.chooseTheme}
           />
       )
     }
@@ -44,8 +44,8 @@ class Modal extends Component {
 
     const theme = useContext(Theme)
     const className = modalContext.visible
-          ? String(cxs(theme.modal || {}))
-          : String(cxs(theme.invisible || {}))
+          ? cxs(theme.modal || {})
+          : cxs(theme.invisible || {})
 
     return (
       <_Modal id="modal" style={this.props.style} className={className} {...newProps}>

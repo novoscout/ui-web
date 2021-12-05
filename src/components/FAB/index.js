@@ -10,8 +10,8 @@ import { Theme } from "../../theme"
 const FAB = (props) => {
   const theme = useContext(Theme)
   const className = props.expanded
-                  ? String(cxs(theme.fabExpanded || {}))
-                  : String(cxs(theme.fabCollapsed || {}))
+                  ? cxs(theme.fabExpanded || {})
+                  : cxs(theme.fabCollapsed || {})
   return (
     <_FAB
       className={className}

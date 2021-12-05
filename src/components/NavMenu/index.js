@@ -11,7 +11,7 @@ import { Theme } from "../../theme"
 const _Inner = (props) => {
   const commonActions = {
     toggleModal: props.toggleModal,
-    toggleTheme: props.toggleTheme
+    chooseTheme: props.chooseTheme
   }
   return (
     <ul>
