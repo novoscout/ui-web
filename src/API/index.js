@@ -14,10 +14,10 @@ if (process.env.apiPort) {
 }
 
 const crummyCache = {
-  updateOrAdd: function(k,v) {
-    const c = JSON.parse(storage.getItem(k) || '{}');
-    const o = deepmerge.all([ c, v ]);
-    storage.setItem(k,JSON.stringify(o));
+  updateOrAdd: function(key,val) {
+    const previous = JSON.parse(storage.getItem(key) || '{}');
+    const updated = deepmerge.all([ previous, val ]);
+    storage.setItem(key, JSON.stringify(updated));
   }
 }
 
