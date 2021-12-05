@@ -10,14 +10,14 @@
 //     color.green
 
 import { createContext } from "preact"
-import merge from "merge"
+import deepmerge from "deepmerge"
 
 import common from "./common"
 import light from "./light"
 import dark from "./dark"
 
-const lightTheme = merge.recursive(true, common, light)
-const darkTheme = merge.recursive(true, common, dark)
+const lightTheme = deepmerge.all([ common, light ])
+const darkTheme = deepmerge.all([ common, dark ])
 
 const Theme = createContext("theme")
 
