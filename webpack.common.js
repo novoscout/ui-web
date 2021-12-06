@@ -3,6 +3,17 @@ const webpack = require("webpack");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const copyPlugin = require("copy-webpack-plugin");
 
+// Webpack 5 no longer automatically bundles certain polyfills.
+const bundleFallbacks = {
+  "assert": false,
+  "buffer": require.resolve("buffer/"),
+  "child_process": false,
+  "constants": false,
+  "http": require.resolve("stream-http"),
+  "https": require.resolve("https-browserify"),
+  "stream": false,
+}
+
 // Fake file-system for web browsers. Need to do this so
 // trivial-api works. FIXME Move to trivial-api..?
 // Note: see externals below.
@@ -128,11 +139,7 @@ module.exports = {
   ],
 
   resolve: {
-    fallback: {
-      "assert": false,
-      "constants": false,
-      "stream": false
-    },
+    fallback: { ...bundleFallbacks },
     alias: {
 
       // All aliases here need full paths so ui-shared can find them during build.
