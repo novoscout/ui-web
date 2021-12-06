@@ -54,30 +54,22 @@ class Desk extends Component {
       if (window.location.pathname != Ident.href) {
         window.location.replace(Ident.href)
       }
-      await this.setState({ loading: false })
+      await this.setState({loading:false})
     }
 
     var apikey = storage.getItem("apikey");
 
     if (! apikey) {
-      forceLogout()
+      forceLogout();
       return // Quit!
     }
 
-    this.setState(function(state) {
-      return {
-        apikey: apikey
-      }
-    })
+    await this.setState({apikey})
 
     try {
       const getGraph = await api.getGraph({apikey})
       const g = getGraph
-      this.setState(function(state) {
-        return {
-          articleGraph: g
-        }
-      })
+      await this.setState({ articleGraph: g })
     } catch(err) {
       console.debug(err)
     }
