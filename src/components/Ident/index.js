@@ -5,9 +5,9 @@ import cxs from "cxs"
 
 import { Ident as _Ident } from "ui-shared/components"
 
-import { api } from "../../API"
 import { TextLink } from ".."
 import { Theme } from "../../theme"
+import api from "../../API"
 
 const storage = require("../../helpers/storage")
 
@@ -42,7 +42,9 @@ class Ident extends Component {
   }
 
   async getNewPassphrase() {
-    await this.setState({ passphrase: null })
+    if (this.state.passphrase) {
+      await this.setState({ passphrase: null })
+    }
     var passphrase = null
     try {
       const getReg = await api.register()
@@ -54,15 +56,21 @@ class Ident extends Component {
     }
   }
 
-  async componentDidMount() {
-    var apikey = storage.getItem("apikey")
-    if (! apikey) {
-      await this.getNewPassphrase()
+  shouldComponentUpdate(nextProps,nextState) {
+    // Prevent glitchy re-rendering cause by calling getNewPassphrase in render(). Oops.
+    if (nextState.loading) {
+      return true
     }
-    this.setState({
-        apikey: apikey,
-        loading: false
-    })
+    if (this.state.passphrase && ! nextState.passphrase) {
+      return false
+    }
+    if (this.state.passphrase && nextState.passphrase) {
+      return true
+    }
+  }
+
+  componentDidMount() {
+    this.setState({loading:false})
   }
 
   showNewPassphrase(theme) {
@@ -84,23 +92,28 @@ class Ident extends Component {
     )
   }
 
-  async fixPassphrase() {
-    const getAPIKey = await api.getAPIKey(this.state.passphrase)
-    const apikey = getAPIKey.apikey
-    storage.setItem("apikey",apikey)
-    this.setState({
-      apikey: apikey,
-      passphrase: null
-    })
-  }
-
   forceRedirectToDOIs() {
     // FIXME Unsure why <a> and <TextLink> both fail to redirect the user??
     window.location.replace("/doi/")
   }
 
+  async fixPassphrase() {
+    const getAPIKey = await api.getAPIKey(this.state.passphrase)
+    const apikey = getAPIKey.apikey
+    if (apikey) {
+      await storage.setItem("apikey",apikey)
+      await this.setState({
+        apikey: apikey,
+        passphrase: null,
+        loading: true
+      })
+      this.forceRedirectToDOIs()
+    }
+  }
+
   render() {
     if (this.state.loading) { return null }
+    if ( ! this.state.passphrase) { this.getNewPassphrase() ; return null }
 
     const newProps = {...this.props}
     delete(newProps.path)
