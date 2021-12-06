@@ -7,7 +7,7 @@ import { View } from "ui-shared/components"
 
 import { Ident, Swiper, TextLink } from ".."
 import { Theme } from "../../theme"
-import { api } from "../../API"
+import api from "../../API"
 
 // import { load as graphFromJson } from "ngraph.fromjson"
 // import { save as graphToJson } from "ngraph.tojson"
@@ -47,6 +47,7 @@ class Desk extends Component {
     }
   }
 
+
   async componentDidMount() {
     const forceLogout = async () => {
       storage.removeItem("apikey")
@@ -55,7 +56,9 @@ class Desk extends Component {
       }
       await this.setState({ loading: false })
     }
-    var apikey = storage.getItem("apikey")
+
+    var apikey = storage.getItem("apikey");
+
     if (! apikey) {
       forceLogout()
       return // Quit!
@@ -81,6 +84,7 @@ class Desk extends Component {
 
     this.setState({loading:false})
   }
+
 
   swipeEnd(dois,ref,delta) {
     const { previousDOI, nextDOI } = dois

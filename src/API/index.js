@@ -1,12 +1,10 @@
-// FIXME Implement local cache, and force over-ride of cache.
-
 try { Promise = Promise } catch(err) { Promise = require("promise-polyfill") }
+try { XMLHttpRequest } catch(err) { XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest }
 try { fetch = fetch } catch(err) { fetch = require("whatwg-fetch").fetch }
+const deepmerge = require("deepmerge");
 
 const fakeData = require("./data.json");
-
-import storage from "../helpers/storage";
-import deepmerge from "deepmerge";
+const storage = require("../helpers/storage");
 
 var apiHost = process.env.apiScheme + "://" + process.env.apiHostname;
 if (process.env.apiPort) {
@@ -14,10 +12,52 @@ if (process.env.apiPort) {
 }
 
 const crummyCache = {
-  updateOrAdd: function(key,val) {
+  "setOrAdd": function(key,val) {
     const previous = JSON.parse(storage.getItem(key) || '{}');
     const updated = deepmerge.all([ previous, val ]);
     storage.setItem(key, JSON.stringify(updated));
+  },
+  "get": function(key) {
+    return JSON.parse(storage.getItem(key))
+  }
+}
+
+const generateStorageKey = (o) => {
+  // Ensure keys are generated in a consistent manner.
+  // JSON.stringify introduces issues with quotes, so template literals are used instead.
+  const { documentType, documentIDName, documentID } = o;
+  const key = `\{"type":"${documentType}","${documentIDName}":"${documentID}"\}`;
+  return key;
+}
+
+const getArticleByDOI = (o) => {
+  const { doi, apikey, cached } = o;
+  if (! apikey) {
+    return new Promise((resolve,reject) => { reject("No API key provided.") })
+  }
+
+  var useCache = cached == undefined || cached == true ? true : false;
+
+  if (useCache) {
+    try {
+      storageKey = generateStorageKey({
+        documentType: "article",
+        documentIDName: "doi",
+        documentID: doi
+      });
+      const article = crummyCache.get(storageKey)
+      if (article) {
+        return new Promise((resolve,reject) => {
+          resolve(article)
+        })
+      } else {
+        return new Promise((resolve,reject) => {
+          reject("article",article)
+        })
+      }
+    } catch (err) {
+      console.debug(err)
+    }
   }
 }
 
@@ -27,9 +67,14 @@ const getGraph = (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
-  for (const i of fakeData) {
-    if ("article" in i && "doi" in i.article) {
-      crummyCache.updateOrAdd(i.article.doi, i);
+  for (const item of fakeData) {
+    if ("article" in item && "doi" in item.article) {
+      storageKey = generateStorageKey({
+        documentType: "article",
+        documentIDName: "doi",
+        documentID: item.article.doi
+      });
+      crummyCache.setOrAdd(storageKey, item);
     }
   }
 
@@ -140,12 +185,16 @@ const getAPIKey = (passphrase) => {
 }
 
 const api = {
+  cache: crummyCache,
+  generateStorageKey,
   getGraph,
+  getArticleByDOI,
   recordUserNavigateFromDOIToDOI,
   recordUserShareDOI,
   getAPIKey,
   register
 };
 
-export default api
-export { api }
+// export default api
+// export { api }
+module.exports = api;
