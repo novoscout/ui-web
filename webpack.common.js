@@ -79,8 +79,8 @@ const babelPlugins = [
 
 module.exports = {
   devServer: {
-    host: "app.osteoscout.local",
-    allowedHosts: [ ".nip.io", ".osteoscout.local" ],
+    host: "app.osteoscout.home",
+    allowedHosts: [ ".nip.io", ".osteoscout.home" ],
     historyApiFallback: true,
     hot: true,
     headers: {

@@ -8,7 +8,7 @@ const distDir = "dev";
 const distPath = path.resolve(__dirname, distDir);
 
 const apiScheme = (( process || {}).env || {}).API_SCHEME || 'http';
-const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout.local';
+const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout.home';
 const apiPort = (( process || {}).env || {}).API_PORT || '';
 
 module.exports = merge(common, {
