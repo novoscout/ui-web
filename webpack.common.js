@@ -5,13 +5,13 @@ const copyPlugin = require("copy-webpack-plugin");
 
 // Webpack 5 no longer automatically bundles certain polyfills.
 const bundleFallbacks = {
-  "assert": false,
-  "buffer": require.resolve("buffer/"),
-  "child_process": false,
-  "constants": false,
-  "http": require.resolve("stream-http"),
-  "https": require.resolve("https-browserify"),
-  "stream": false,
+  "assert": false, /* require.resolve("assert/"), */
+  "buffer": false, /* require.resolve("buffer/"), */
+  "child_process": false, /* require.resolve("child_process"), */
+  "constants": false, /* require.resolve("constants-browserify"), */
+  "http": false, /* require.resolve("stream-http"), */
+  "https": false, /* require.resolve("https-browserify"), */
+  "stream": false, /* require.resolve("stream-browserify"), */
 }
 
 // Fake file-system for web browsers. Need to do this so
