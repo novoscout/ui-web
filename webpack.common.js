@@ -28,6 +28,11 @@ const externals = [
     // causes it to be added to the ui-web bundle.
     "react-native": "react-native",
 
+    // Ensure this is ignored. It has fancy aliases
+    // in its deps e.g. "node:zlib" which give webpack
+    // a hernia. So ignore it when bundling for browser.
+    "node-fetch": "node-fetch",
+
     fs: fs
   }
 ];
