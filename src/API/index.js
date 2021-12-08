@@ -28,6 +28,17 @@ const crummyCache = {
   },
   "get": function(key) {
     return JSON.parse(storage.getItem(key))
+  },
+  "keys": function() {
+    try {
+      if (storage._keys) {
+        return storage._keys
+      } else {
+        return Object.keys(storage) || []
+      }
+    } catch (err) {
+      return []
+    }
   }
 }
 
