@@ -19,25 +19,20 @@ module.exports = async (opts) => {
   try {
     if (navigator && (! navigator.onLine)) {
       return await new Promise((resolve,reject) => {
-        reject(false)
+        reject()
       }).catch((e) => { return false })
     } else {
       throw new Error() // proceed to the below.
     }
   } catch (err) {
-    var { sites, timeout } = opts || {};
-    if (!timeout) {
-      timeout = 2000;
-    }
-    if ((! sites) || (! sites.map)) {
-      sites = [
-        "https://icanhazip.com",
-        "https://api.ipify.org",
-        "https://google.com/404",
-        "https://a0.awsstatic.com/404",
-        "https://cdn.jsdelivr.net/404"
-      ]
-    }
+    const defaultSites = [
+      "https://icanhazip.com",
+      "https://api.ipify.org",
+      "https://google.com/404",
+      "https://a0.awsstatic.com/404",
+      "https://cdn.jsdelivr.net/404"
+    ];
+    const { sites, timeout } = { timeout:2000, sites:defaultSites, ...opts || {} };
 
     return await Promise.any(
       sites.map((site) => {
