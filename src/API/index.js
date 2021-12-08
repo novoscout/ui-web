@@ -11,6 +11,15 @@ if (process.env.apiPort) {
   apiHost = apiHost + ":" + process.env.apiPort;
 }
 
+const shouldUseCache = async (cache) => {
+  if (! await isOnline()) {
+    return true;
+  }
+  return cache == undefined || cache == true
+       ? true
+       : false;
+}
+
 const crummyCache = {
   "setOrAdd": function(key,val) {
     const previous = JSON.parse(storage.getItem(key) || '{}');
@@ -36,7 +45,7 @@ const getArticleByDOI = (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
-  var useCache = cached == undefined || cached == true ? true : false;
+  const useCache = await shouldUseCache(cache);
 
   if (useCache) {
     try {
@@ -192,7 +201,8 @@ const api = {
   recordUserNavigateFromDOIToDOI,
   recordUserShareDOI,
   getAPIKey,
-  register
+  register,
+  shouldUseCache
 };
 
 // export default api
