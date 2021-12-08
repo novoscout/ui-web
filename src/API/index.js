@@ -45,9 +45,19 @@ const crummyCache = {
 const generateStorageKey = (o) => {
   // Ensure keys are generated in a consistent manner.
   // JSON.stringify introduces issues with quotes, so template literals are used instead.
-  const { documentType, documentIDName, documentID } = o;
-  const key = `\{"type":"${documentType}","${documentIDName}":"${documentID}"\}`;
-  return key;
+  const {
+    documentType, documentIDName, documentID,
+    delayedActionName, delayedActionData } = o || {};
+  if (documentType && documentIDName && documentID) {
+    return `\{"type":"${documentType}","${documentIDName}":"${documentID}"\}`
+  }
+  if (delayedActionName) {
+    if (delayedActionData) {
+      const d = JSON.stringify(delayedActionData)
+      return `\{"type":"delayedAction","name":"${delayedActionName}","data":"${d}"\}`
+    }
+    return `\{"type":"delayedAction","name":"${delayedActionName}"\}`
+  }
 }
 
 const getArticleByDOI = (o) => {
