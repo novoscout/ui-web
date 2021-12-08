@@ -127,14 +127,37 @@ const getGraph = async (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
-  for (const item of fakeData) {
-    if ("article" in item && "doi" in item.article) {
-      storageKey = generateStorageKey({
-        documentType: "article",
-        documentIDName: "doi",
-        documentID: item.article.doi
-      });
-      crummyCache.setOrAdd(storageKey, item);
+  const useCache = await shouldUseCache(cache);
+
+  if (useCache) {
+    const cacheKeys = doiKeysFromCache();
+    const ret = [];
+    for (const key of cacheKeys) {
+      try {
+        const j = JSON.parse(key)
+        if (typeof j === "object" && "doi" in j) {
+          ret.push(crummyCache.get(key));
+        }
+      } catch(err) {
+        // Ignore JSON.parse errors.
+        if (err.name != "SyntaxError") { throw err }
+      }
+    }
+    return new Promise((resolve,reject) => { resolve(ret) })
+  } else {
+    // Fetch graph from API.
+    // Add graph and all its items to cache.
+    for (const item of fakeData) {
+      if ("article" in item) {
+        if ("doi" in item.article) {
+          storageKey = generateStorageKey({
+            documentType: "article",
+            documentIDName: "doi",
+            documentID: item.article.doi
+          });
+          crummyCache.setOrAdd(storageKey, item);
+        }
+      }
     }
   }
 
