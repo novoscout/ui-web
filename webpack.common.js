@@ -28,7 +28,7 @@ const externals = [
     // causes it to be added to the ui-web bundle.
     "react-native": "react-native",
 
-    // Ensure this is ignored. It has fancy aliases
+    // Ensure node-fetch is ignored. It has fancy aliases
     // in its deps e.g. "node:zlib" which give webpack
     // a hernia. So ignore it when bundling for browser.
     "node-fetch": "node-fetch",
@@ -40,6 +40,8 @@ const externals = [
 // Nice: https://3perf.com/blog/polyfills/
 // Note also core-js aliases so ui-shared can use the necessaries.
 // Add this back in after figuring out whether to use this or polyfill.io!
+// Further note. See babel.config.json which is currently necessary
+// to prevent Babel changing require() to import().
 const babelPresets = [
   [ '@babel/preset-env',
     {
