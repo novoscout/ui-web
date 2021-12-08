@@ -140,7 +140,7 @@ module.exports = {
 
     new copyPlugin({
       patterns: [{from:"static/"}]
-    })
+    }),
   ],
 
   resolve: {

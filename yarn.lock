@@ -1591,6 +1591,11 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+appcache-webpack-plugin@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/appcache-webpack-plugin/-/appcache-webpack-plugin-1.4.0.tgz#0c3ce98e6f5755c0852dd45c625e8f0e7f9885fe"
+  integrity sha512-QA0D+3yJmpPk0CyfxYMOzhzV941rkTSjCnUEy2vS05GeqK+mMnBScQSB23lstvzYaFpkeWeLMO9RamtafhliYw==
+
 argparse@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"

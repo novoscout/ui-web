@@ -3,6 +3,7 @@ const common = require('./webpack.common.js');
 const path = require('path');
 const terser = require("terser-webpack-plugin");
 const webpack = require('webpack');
+var appCachePlugin = require("appcache-webpack-plugin");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
@@ -107,10 +108,12 @@ module.exports = merge(common, {
     hashDigestLength: hashDigestLength
   },
   plugins: [
+
     // Ensure file hashes don't change unexpectedly
     new webpack.ids.HashedModuleIdsPlugin({
       hashFunction: hashFunction
     }),
+
     new webpack.DefinePlugin({
       process: {
         env: {
@@ -122,6 +125,25 @@ module.exports = merge(common, {
         }
       }
     }),
-    new MiniCssExtractPlugin()
+
+    new MiniCssExtractPlugin(),
+
+    new appCachePlugin({
+      cache: [
+        "index.html",
+        "assets/css/base.css",
+        "assets/img/offline.png",
+        "assets/img/spinner.gif",
+        "assets/img/share.svg",
+        "assets/js/share-min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js",
+        "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default",
+      ],
+      // network: null, // No network!
+      settings: ['prefer-online'],
+      // exclude: [/.*\.js$/],
+      output: 'manifest.appcache'
+    })
   ]
 });
