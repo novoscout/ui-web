@@ -159,28 +159,28 @@ const getGraph = async (o) => {
         }
       }
     }
-  }
 
-  return new Promise((resolve,reject) => {
-    resolve(fakeData)
-    // fetch(
-    //   apiHost + "/v1/graph/doi/" + String(doi || ""), {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "Authorization": String(apikey)
-    //     },
-    //     method: "GET",
-    //     mode: "cors"
-    // }).then( r => {
-    //   if (r.ok) { return r.json() } else { reject(r) }
-    // }).then( j => {
-    //   resolve(j)
-    // })
-  })
+    return new Promise((resolve,reject) => {
+      resolve(fakeData)
+      // fetch(
+      //   apiHost + "/v1/graph/doi/" + String(doi || ""), {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "Authorization": String(apikey)
+      //     },
+      //     method: "GET",
+      //     mode: "cors"
+      // }).then( r => {
+      //   if (r.ok) { return r.json() } else { reject(r) }
+      // }).then( j => {
+      //   resolve(j)
+      // })
+    })
+  }
 }
 
 const recordUserNavigateFromDOIToDOI = (o) => {
-  const { doiA, doiB, apikey } = o;
+  const { doiA, doiB, apikey } = o || {};
   if (! apikey || ! doiA || ! doiB) {
     return new Promise((resolve,reject) => {
       reject("Need all of: apikey, doiA, doiB.")
@@ -199,7 +199,7 @@ const recordUserNavigateFromDOIToDOI = (o) => {
         method: "POST",
         mode: "cors"
     }).then( r => {
-      if (! r.ok) { reject(r) }
+      if (! r.ok) { reject("API problem: " + String(r)) }
     }),
     fetch(
       apiHost +
@@ -212,7 +212,7 @@ const recordUserNavigateFromDOIToDOI = (o) => {
         method: "POST",
         mode: "cors"
     }).then( r => {
-      if (! r.ok) { reject(r) }
+      if (! r.ok) { reject("API problem: " + String(r)) }
     })
   ]).catch( (err) => {
     // FIXME
@@ -220,7 +220,7 @@ const recordUserNavigateFromDOIToDOI = (o) => {
 }
 
 const recordUserShareDOI = (o) => {
-  const { doi, apikey } = o;
+  const { doi, apikey } = o || {};
   if (! apikey || ! doi) {
     return new Promise((resolve,reject) => {
       reject("Need all of: apikey, doi.")
@@ -236,10 +236,10 @@ const register = () => {
       try {
         resolve(j.data[0].attributes)
       } catch(err) {
-        reject(j)
+        reject("Data structure problem: " + String(j))
       }
     }).catch( e => {
-      reject(e)
+      reject("API problem: " + String(e))
     })
   })
 }
@@ -256,12 +256,12 @@ const getAPIKey = (passphrase) => {
         mode: "cors",
         body: payload
     }).then( r => {
-      if (r.ok) { return r.json() } else { reject(r) }
+      if (r.ok) { return r.json() } else { reject("API problem: " + String(r)) }
     }).then( j => {
       try {
         resolve(j.data[0].attributes)
       } catch(err) {
-        reject(j)
+        reject("Data structure problem: " + String(j))
       }
     })
   })
@@ -269,6 +269,7 @@ const getAPIKey = (passphrase) => {
 
 const api = {
   cache: crummyCache,
+  doiKeysFromCache,
   generateStorageKey,
   getGraph,
   getArticleByDOI,
@@ -279,6 +280,4 @@ const api = {
   shouldUseCache
 };
 
-// export default api
-// export { api }
 module.exports = api;
