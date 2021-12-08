@@ -1,10 +1,10 @@
-try { Promise = Promise } catch(err) { Promise = require("promise-polyfill") }
-try { XMLHttpRequest } catch(err) { XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest }
-try { fetch = fetch } catch(err) { fetch = require("whatwg-fetch").fetch }
 const deepmerge = require("deepmerge");
 
-const fakeData = require("./data.json");
+const fetch = require("../helpers/fetch");
+const isOnline = require("../helpers/isOnline")
 const storage = require("../helpers/storage");
+
+const fakeData = require("./data.json");
 
 var apiHost = process.env.apiScheme + "://" + process.env.apiHostname;
 if (process.env.apiPort) {
