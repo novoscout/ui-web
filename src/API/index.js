@@ -12,12 +12,8 @@ if (process.env.apiPort) {
 }
 
 const shouldUseCache = async (cache) => {
-  if (! await isOnline()) {
-    return true;
-  }
-  return cache == undefined || cache == true
-       ? true
-       : false;
+  if (! await isOnline()) { return true; }
+  return cache == undefined || cache == true ? true : false;
 }
 
 const crummyCache = {
@@ -59,7 +55,6 @@ const generateStorageKey = (o) => {
     return `\{"type":"delayedAction","name":"${delayedActionName}"\}`
   }
 }
-
 const getArticleByDOI = async (o) => {
   const { doi, apikey, cache } = o || {};
   if (! apikey) {
@@ -267,17 +262,57 @@ const getAPIKey = (passphrase) => {
   })
 }
 
+const validAPIKey = async (o) => {
+  const { apikey } = o || {};
+  const { key } = { key: apikey, ...o }
+  if ((!apikey) || (!key)) {
+    return new Promise((resolve,reject) => {
+      reject("Both apiKey and key are required.")
+    })
+  } else {
+    // Can only be done when online.
+    const payload = JSON.stringify({key})
+    return new Promise((resolve,reject) => {
+      fetch(
+        apiHost + "/v1/valid/apikey", {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": String(apikey)
+          },
+          method: "POST",
+          mode: "cors",
+          body: payload
+      }).then( r => {
+        console.log(r);
+        return r.json()
+      }).then( j => {
+        try {
+          console.log(j);
+          if (j.data[0].attributes.apikey) {
+            resolve(true)
+          }
+        } catch(err) {
+          reject()
+        }
+      })
+    }).catch((err) => {
+      return false
+    })
+  }
+}
+
 const api = {
   cache: crummyCache,
   doiKeysFromCache,
   generateStorageKey,
-  getGraph,
+  getAPIKey,
   getArticleByDOI,
+  getGraph,
   recordUserNavigateFromDOIToDOI,
   recordUserShareDOI,
-  getAPIKey,
   register,
-  shouldUseCache
+  shouldUseCache,
+  validAPIKey,
 };
 
 module.exports = api;
