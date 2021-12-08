@@ -107,8 +107,22 @@ const getArticleByDOI = async (o) => {
   }
 }
 
-const getGraph = (o) => {
-  const { doi, apikey } = o;
+const doiKeysFromCache = () => {
+  return crummyCache.keys().filter((i) => {
+    try {
+      let tmp = JSON.parse(i);
+      if ("type" in tmp && tmp.type == "article" && "doi" in tmp) {
+        return true
+      }
+    } catch (err) {
+      // Ignore JSON.parse errors.
+      if (err.name != "SyntaxError") { throw err }
+    }
+  })
+}
+
+const getGraph = async (o) => {
+  const { doi, apikey, cache } = o || {};
   if (! apikey) {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
