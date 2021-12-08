@@ -60,8 +60,8 @@ const generateStorageKey = (o) => {
   }
 }
 
-const getArticleByDOI = (o) => {
-  const { doi, apikey, cached } = o;
+const getArticleByDOI = async (o) => {
+  const { doi, apikey, cache } = o || {};
   if (! apikey) {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
@@ -82,12 +82,28 @@ const getArticleByDOI = (o) => {
         })
       } else {
         return new Promise((resolve,reject) => {
-          reject("article",article)
+          reject("No article found with DOI " + String(doi))
         })
       }
     } catch (err) {
-      console.debug(err)
+      console.debug(err) // FIXME
     }
+  } else {
+    return new Promise((resolve,reject) => {
+      fetch(
+        apiHost + "/v1/graph/doi/" + String(doi || ""), {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": String(apikey)
+          },
+          method: "GET",
+          mode: "cors"
+      }).then( r => {
+        if (r.ok) { return r.json() } else { reject("API problem: " + String(r)) }
+      }).then( j => {
+        resolve(j)
+      })
+    })
   }
 }
 
