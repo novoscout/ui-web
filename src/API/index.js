@@ -1,6 +1,6 @@
 const deepmerge = require("deepmerge");
+require("isomorphic-fetch");
 
-const fetch = require("../helpers/fetch");
 const isOnline = require("../helpers/isOnline")
 const storage = require("../helpers/storage");
 
