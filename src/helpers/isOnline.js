@@ -1,7 +1,7 @@
 // Inspired by https://github.com/sindresorhus/is-online
 // and https://italonascimento.github.io/applying-a-timeout-to-your-promises/
 
-const fetch = require("./fetch.js");
+require("isomorphic-fetch");
 
 const promiseTimeout = function(ms, p){
   // Create a promise that rejects in <ms> milliseconds
@@ -30,7 +30,9 @@ module.exports = async (opts) => {
       "https://api.ipify.org",
       "https://google.com/404",
       "https://a0.awsstatic.com/404",
-      "https://cdn.jsdelivr.net/404"
+      "https://a1.awsstatic.com/404",
+      "https://cdn.jsdelivr.net/404",
+      "https://www.fastly.io/404"
     ];
     const { sites, timeout } = { timeout:2000, sites:defaultSites, ...opts || {} };
 
