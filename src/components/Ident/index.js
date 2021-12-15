@@ -3,13 +3,67 @@ import { useContext } from "preact/compat"
 import { route } from "preact-router"
 import cxs from "cxs"
 
-import { Ident as _Ident } from "ui-shared/components"
+import { Ident as _Ident, TextInput } from "ui-shared/components"
 
 import { TextLink } from ".."
 import { Theme } from "../../theme"
 const api = require("../../API")
 
 const storage = require("../../helpers/storage")
+
+
+class Pass extends Component {
+  constructor(props) {
+    super(props)
+    this.authenticate = this.authenticate.bind(this)
+    this.updatePassphrase = this.updatePassphrase.bind(this)
+    this.state = {
+      passphrase: undefined,
+      apikey: undefined
+    }
+  }
+
+  updatePassphrase(e) {
+    this.setState({passphrase:e.target.value})
+  }
+
+  async authenticate() {
+    try {
+      const resp = await api.getAPIKey(this.state.passphrase)
+      if (typeof(resp) == "object" && "apikey" in resp) {
+        await storage.setItem("apikey",resp["apikey"])
+        await this.setState({
+          apikey: resp["apikey"]
+        })
+        route("/doi",true)
+      } else {
+        alert("That didn't work, try again?")
+      }
+    } catch(err) {
+      alert("That didn't work, try again?")
+    }
+  }
+
+  render() {
+    return (
+      <div style={{textAlign:"center", padding:"1rem 1rem 0 1rem"}}>
+        <p>Enter your 6 word passphrase:</p>
+        <p>
+          <TextInput onChange={this.updatePassphrase} style={{textAlign:"initial"}} /><br/>
+        </p>
+        <p>
+          <button onclick={this.authenticate}>Ok</button>
+        </p>
+        <span><hr/></span>
+        <p>
+          <button onclick={ () => { route(this.props.routeOnCancel,true) } }>Cancel</button>
+        </p>
+      </div>
+    )
+  }
+}
+
+Pass.href = "/id/pass"
 
 
 class Ident extends Component {
@@ -19,6 +73,7 @@ class Ident extends Component {
     this.getNewPassphrase = this.getNewPassphrase.bind(this)
     this.showNewPassphrase = this.showNewPassphrase.bind(this)
     this.fixPassphrase = this.fixPassphrase.bind(this)
+    this.alreadyGotPassphrase = this.alreadyGotPassphrase.bind(this)
     this.state = {
       loading: true,
       passphrase: null,
@@ -39,6 +94,10 @@ class Ident extends Component {
       // window.location.replace("/doi/")
       route("/doi/",true)
     }
+  }
+
+  alreadyGotPassphrase() {
+    route(Pass.href,true)
   }
 
   async getNewPassphrase() {
@@ -146,14 +205,14 @@ class Ident extends Component {
             OsteoScout does not record any personal information about you. Instead, a unique, random phrase is assigned to each user. Your phrase lets you access your OsteoScout account from any device.
           </p>
           <p>
-            Here is a brand-new phrase just for you:
+            Here is a brand-new 6 word phrase just for you:
           </p>
           { this.showNewPassphrase(theme) }
           <p>
-            Do you want to keep it?
+            Do you want to keep it? You need to make a note of all 6 words.
           </p>
           <p>
-            <button>No, I've already got one</button>
+            <button onclick={ () => { route(Pass.href,true) } }>No, I've already got one</button>
             <br />
             <button onclick={this.fixPassphrase}>Yes, I've written it down</button>
             <br />
@@ -166,6 +225,7 @@ class Ident extends Component {
 }
 
 Ident.href = "/id"
+Ident.Pass = Pass
 
 export default Ident
 export { Ident }
