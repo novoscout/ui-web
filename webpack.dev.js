@@ -44,7 +44,8 @@ module.exports = merge(common, {
           apiHostname: JSON.stringify(apiHostname),
           apiPort: JSON.stringify(apiPort),
           development: true,
-          production: false
+          production: false,
+          "NODE_TLS_REJECT_UNAUTHORIZED": 0,
         }
       }
     })
