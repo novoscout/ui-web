@@ -40,6 +40,7 @@ class Desk extends Component {
     this.renderArticles = this.renderArticles.bind(this)
     this.state = {
       apikey: undefined,
+      apikeyValidated: false,
       passphrase: undefined,
       loading: true,
       activeDOI: undefined,
@@ -66,14 +67,18 @@ class Desk extends Component {
 
     await this.setState({apikey})
 
-    try {
-      const getGraph = await api.getGraph({apikey})
-      const g = getGraph
-      await this.setState({ articleGraph: g })
-    } catch(err) {
-      console.debug(err)
-    }
+    const apikeyValidated = await api.validAPIKey(apikey)
+    await this.setState({apikeyValidated})
+    storage.setItem("apikey_validated",true)
 
+    await api.getGraph({apikey}).then( async (res) => {
+      console.debug("res",res)
+      if (res) {
+        await this.setState({ articleGraph: res })
+      }
+    }).catch( (err) => {
+      console.debug("Couldn't get graph: " + String(err))
+    })
     this.setState({loading:false})
   }
 
@@ -97,18 +102,27 @@ class Desk extends Component {
 
   renderArticles(DOIFromURL) {
     const g = this.state.articleGraph
-    const gLen = g.length
+    const gLen = ( g || []).length
 
-    if (! g) { return null }
+    if ((! g) || (gLen == 0)) { return null }
 
     const activeDOI = this.state.activeDOI
           || DOIFromURL
-          || ((g[Math.floor(Math.random() * ((g || {}).length || 0))] || {}).article || {}).doi
+          || ((g[Math.floor(Math.random() * gLen)] || {}).article || {}).doi
           // || g[g.length-1].article.doi
 
     if (! activeDOI) { return null }
 
-    var offset = g.findIndex( o => String(o.article.doi) == String(activeDOI)) + 1
+    var offset = 0;
+    if (gLen > 0) {
+      offset = g.findIndex( (o) => {
+        if (o && typeof(o) === "object" && "article" in o && "doi" in o.article) {
+          return String(o.article.doi) == String(activeDOI)
+        } else {
+          return -1
+        }
+      }) + 1
+    }
     offset = offset < 0 ? 0 : offset
     offset = offset % gLen
 
@@ -116,9 +130,14 @@ class Desk extends Component {
     for (let i = 0 + offset; i < (gLen + offset); i++) {
       const pointer = i % gLen
       const article = g[pointer].article
-      const previousDOI = g[pointer - 1 < 0 ? gLen - 1 : pointer - 1].article.doi
+      const prevPointer = pointer - 1 < 0 ? gLen - 1 < 0 ? 0 : gLen - 1 : pointer - 1
+      const previous = g[prevPointer]
+      if (typeof(previous) != "object" || (! "article" in previous) || (! "doi" in previous.article)) {
+        continue
+      }
+      const previousDOI = previous.article.doi
       const nextDOI = g[(pointer + 1) % gLen].article.doi
-      const doi = String(article.doi)
+      const doi = article.doi
       const title = (
         <h2>
           {article.front["article-meta"]["title-group"]["article-title"]}
