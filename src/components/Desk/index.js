@@ -7,7 +7,7 @@ import { View } from "ui-shared/components"
 
 import { Ident, Swiper, TextLink } from ".."
 import { Theme } from "../../theme"
-import api from "../../API"
+const api = require("../../API")
 
 // import { load as graphFromJson } from "ngraph.fromjson"
 // import { save as graphToJson } from "ngraph.tojson"

@@ -7,7 +7,7 @@ import { Ident as _Ident } from "ui-shared/components"
 
 import { TextLink } from ".."
 import { Theme } from "../../theme"
-import api from "../../API"
+const api = require("../../API")
 
 const storage = require("../../helpers/storage")
 
