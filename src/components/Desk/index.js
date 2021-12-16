@@ -41,7 +41,7 @@ class Desk extends Component {
     this.renderArticles = this.renderArticles.bind(this)
     this.state = {
       apikey: undefined,
-      apikeyValidated: false,
+      // apikeyValidated: false,
       passphrase: undefined,
       loading: true,
       activeDOI: undefined,
@@ -68,8 +68,8 @@ class Desk extends Component {
 
     await this.setState({apikey})
 
-    const apikeyValidated = await api.validAPIKey(apikey)
-    await this.setState({apikeyValidated})
+    // const apikeyValidated = await api.validAPIKey(apikey)
+    // await this.setState({apikeyValidated})
     storage.setItem("apikey_validated",true)
 
     await api.getGraph({apikey}).then( async (res) => {
@@ -102,6 +102,7 @@ class Desk extends Component {
   }
 
   renderArticles(DOIFromURL) {
+    console.debug("Rendering articles")
     const g = this.state.articleGraph
     const gLen = ( g || []).length
 

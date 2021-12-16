@@ -21,10 +21,6 @@
           {
             "title": "Introduction",
             "p": "Primary SS (pSS) is a systemic autoimmune disease primarily affecting exocrine glands, resulting in dry eyes and dry mouth. It has a female preponderance, and a recent meta-analysis has identified a prevalence rate of 74/100 000 inhabitants, using the AmericanEuropean Consensus Criteria. The disease can also have extraglandular features, with patients experiencing symptoms of pain, fatigue, neurological symptoms, sleep disturbance, autonomic dysfunction, low mood and an increased risk of developing lymphoma. Consequently, many patients experience reduced quality of life and difficulty with carrying out a range of daily activities. Furthermore, the disease is associated with significant direct and indirect healthcare costs equating to £1215 000 per patient, per year. Similar figures have been identified in the USA. European studies have identified increased physician visits and higher work disability for patients with a diagnosis of pSS. Non-pharmacological interventions for pSS may vary according to the particular symptom that they are targeting. They may be complex, target several symptoms at once and be conducted by more than one member of a multidisciplinary team. Such interventions may include fatigue and mood management, and patient education by healthcare professionals. Other interventions may be conducted by a clinician with specialist skills (such as occupational therapy to establish a balance in daily activities and improve function ), insertion of lacrimal punctal plugs for dry eye symptoms or the use of acupuncture for the symptomatic relief of dry mouth. Treatments in clinics for people with pSS tend to focus on pharmacological interventions. However, a recent systematic review has shown that evidence to support the efficacy of pharmacological therapies in pSS is poor. Given the range of bio-psychosocial symptoms that these patients experience, it is possible that there are effective non-pharmacological treatments that could improve symptoms. The reduced impact of symptoms consequently may lead to an improvement in quality of life, improved work capacity and a reduction in economic costs to society.The objective of this study was to assess the effects of non-pharmacological interventions for PSS in adults."
-          },
-          {
-            "title": "Methods",
-            "p": "All randomized controlled trials (RCTs) were included in this review. We included adult participants (over the age of 18 years) with a diagnosis of pSS. All nonpharmacological interventions that aimed to improve a symptom or symptoms of pSS were considered for inclusion. Pharmacological interventions are classified as medicinal products in accordance with EU Directive 2001/83/ EEC (EU 2001), and these were excluded from the review. Homeopathic remedies, herbal medicines and trials of vitamins were regarded as pharmacological interventions for the purpose of this review and excluded, as the claimed mechanism of action is a chemistry change within the body. Comparison may be a placebo, alternative intervention that could be pharmacological or nonpharmacological or usual care. Outcomes considered within this review fell within the main domains addressed by the World Health Organization International Classification of Functioning Disability and Health."
           }
         ]
       }
@@ -45,18 +41,13 @@
             { "contrib": { "string-name": "Kathryn A Birnie" } },
             { "contrib": { "string-name": "Christine T Chambers" } }
           ]
-        },
-        "abstract": "Offspring of parents with chronic pain may be at risk for poorer outcomes than offspring of healthy parents. The objective of this research was to provide a comprehensive mixed-methods, systematic synthesis of all available research on outcomes in offspring of parents with chronic pain. A systematic search was conducted for published articles in English examining pain, health, psychological, or family outcomes in offspring of parents with chronic pain. Fifty-nine eligible articles were identified (31 population-based, 25 clinical, 3 qualitative), including offspring from birth to adulthood and parents with varying chronic pain diagnoses (e.g., mixed pain samples, arthritis). Meta-analysis was used to synthesize the results from population-based and clinical studies, while meta-ethnography was used to synthesize the results of qualitative studies. Increased pain complaints were found in offspring of mothers and of fathers with chronic pain, and when both parents had chronic pain. Newborns of mothers with chronic pain were more likely to have adverse birth outcomes, including low birthweight, preterm delivery, caesarean section, intensive care admission, and mortality. Offspring of parents with chronic pain had greater externalizing and internalizing problems and poorer social competence and family outcomes. No significant differences were found on teacher-reported externalizing problems. The metaethnography identified six key concepts (developing independence, developing compassion, learning about health and coping, missing out, emotional health, and struggles communicating with parents). Across study designs, offspring of parents with chronic pain had poorer outcomes."
+        }
       },
       "body": {
         "sec": [
           {
             "title": null,
             "p": "Previous studies that have examined offspring of parents with chronic pain have studied the effects of parental chronic pain on the offspring's own pain complaints, other aspects of their physical health, their psychological health, and variables related to family relationships. While several studies have found that offspring of parents with chronic pain have poorer pain, health, and psychological outcomes than other offspring, other studies have found no between-group differences on pain complaints, and psychological and family outcomes. Additionally, few studies have explored possible differences in the effects of maternal versus paternal chronic pain on offspring, although at least one study has found such differences, and other research has explored differences in mothers' and fathers' interactions with children during child pain. These conflicting results highlight the need for a comprehensive review of the literature including studies conducted in various disciplines looking at a variety of outcomes in offspring of parents with chronic pain. One prior narrative review described 18 studies of children of parents with chronic pain. The review concluded that children and adolescents whose parents have chronic pain are at risk for more pain complaints (particularly those similar to their parents), and more internalizing and externalizing symptoms than children and adolescents of parents without chronic pain. However, the previous review contained several critical limitations, including an overly narrow search strategy, lack of meta-analysis, and lack of inclusion of population-based and qualitative studies. It is important to conduct a mixed methods review of the literature on offspring of parents with chronic pain in order to better understand the conflicting results found in the literature. In particular, qualitative research may offer a different perspective on this topic, as participants may address topics that researchers had not previously considered. Better understanding the effects of parental chronic pain on offspring may identify opportunities to provide interventions to improve outcomes in offspring of parents with chronic pain. The aim of the present study was to improve on previous work by conducting a rigorous mixed-methods systematic review, employing both meta-analysis and qualitative synthesis of the full range of empirical research (population-based, clinical, and qualitative studies) examining the relationship between parental chronic pain and pain, health, psychological, and family outcomes in their offspring."
-          },
-          {
-            "title": "Method Search Strategy",
-            "p": "The electronic databases searched included PubMed, PsycINFO, CINAHL, and EMBASE. PubMed was chosen over Web of Science as it has been shown to be an optimal biomedical database. Databases were searched from inception to August 2014. The search strategy included combinations of terms for parent (e.g., parent, mother, father, caregiver, family), pain (e.g., pain, arthritis, fibromyalgia, headache, neuropathy), child (e.g., infant, child, adolescent, young adult), and association (e.g., risk, influence, predictor, association), and was developed in consultation with a librarian specializing in systematic searches. The particular pain conditions included in the search strategy were decided upon through consensus with expert adult and pediatric pain researchers and clinicians. Medical Subject Headings (MeSH) terms and other key terms were included where possible; text terms were searched in all databases for entries including these terms in the title or abstract. See Appendix A for the complete search strategy for each database. Additional hand searching of previous relevant research was also conducted."
           }
         ]
       }
@@ -64,35 +55,28 @@
   },
   {
     "article": {
-      "doi": "10.1136/BMJ.H444",
+      "doi": "10.1186/S13075-015-0533-5",
       "front": {
         "article-meta": {
           "article-id": null,
           "title-group": {
-            "article-title": "Title C",
+            "article-title": "Effects of exercise on depression in adults with arthritis: a systematic review with meta-analysis of randomized controlled trials",
             "subtitle": null
-          }
+          },
+          "contrib-group": [
+            { "contrib": { "string-name": "" } },
+            { "contrib": { "string-name": "" } },
+            { "contrib": { "string-name": "" } }
+          ]
         }
       },
       "body": {
-        "sec": [ {"p":"Blah"} ]
-      }
-    }
-  },
-  {
-    "article": {
-      "doi": "10.5665/SLEEP.5158",
-      "front": {
-        "article-meta": {
-          "article-id": null,
-          "title-group": {
-            "article-title": "Title D",
-            "subtitle": null
-          }
-        }
-      },
-      "body": {
-        "sec": [ {"p":"Blah"} ]
+          "sec": [
+	      {
+		  "title": null,
+		  "p": "Previous randomized controlled trials have led to conflicting findings regarding the effects of exercise on depressive symptoms in adults with arthritis and other rheumatic conditions (AORC). The purpose of this study was to use the meta-analytic approach to resolve these discrepancies. Of the 500 citations we reviewed, 2,449 participants nested within 29 studies were included. Length of training, reported as mean ± standard deviation was 19 ± 16 weeks, frequency 4 ± 2 times per week and duration 34 ± 17 minutes per session. Overall, statistically significant exercise minus control group reductions were found for depressive symptoms. Exercise is associated with reductions in depressive symptoms among selected adults with AORC. A need exists for additional, well-designed and reported studies on this topic."
+	      }
+	  ]
       }
     }
   }

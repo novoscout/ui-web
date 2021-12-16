@@ -1,7 +1,7 @@
 const deepmerge = require("deepmerge");
 require("isomorphic-fetch");
 
-const isOnline = require("../helpers/isOnline")
+// const isOnline = require("../helpers/isOnline")
 const storage = require("../helpers/storage");
 
 const fakeData = require("./data.json");
@@ -12,7 +12,8 @@ if (process.env.apiPort) {
 }
 
 const shouldUseCache = async (cache) => {
-  if (! await isOnline()) { return true; }
+  // if (! await isOnline()) { return true; }
+  if (! navigator.onLine) { return true; }
   return cache == undefined || cache == true ? true : false;
 }
 
@@ -122,9 +123,10 @@ const getGraph = async (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
-  const useCache = await shouldUseCache(cache);
+  // const useCache = await shouldUseCache(cache);
 
-  if (useCache) {
+  if (false) {
+    console.debug("Using cache");
     const cacheKeys = doiKeysFromCache();
     const ret = [];
     for (const key of cacheKeys) {
@@ -140,6 +142,7 @@ const getGraph = async (o) => {
     }
     return new Promise((resolve,reject) => { resolve(ret) })
   } else {
+    console.debug("Not using cache.");
     // Fetch graph from API.
     // Add graph and all its items to cache.
     for (const item of fakeData) {
@@ -156,7 +159,9 @@ const getGraph = async (o) => {
     }
 
     return new Promise((resolve,reject) => {
-      resolve(fakeData)
+      console.debug("Resolving promise:");
+      console.debug(fakeData);
+      resolve(fakeData);
       // fetch(
       //   apiHost + "/v1/graph/doi/" + String(doi || ""), {
       //     headers: {
