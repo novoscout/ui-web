@@ -73,7 +73,6 @@ class Desk extends Component {
     storage.setItem("apikey_validated",true)
 
     await api.getGraph({apikey}).then( async (res) => {
-      console.debug("res",res)
       if (res) {
         await this.setState({ articleGraph: res })
       }
@@ -102,7 +101,6 @@ class Desk extends Component {
   }
 
   renderArticles(DOIFromURL) {
-    console.debug("Rendering articles")
     const g = this.state.articleGraph
     const gLen = ( g || []).length
 

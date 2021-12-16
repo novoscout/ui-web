@@ -126,7 +126,6 @@ const getGraph = async (o) => {
   // const useCache = await shouldUseCache(cache);
 
   if (false) {
-    console.debug("Using cache");
     const cacheKeys = doiKeysFromCache();
     const ret = [];
     for (const key of cacheKeys) {
@@ -142,7 +141,6 @@ const getGraph = async (o) => {
     }
     return new Promise((resolve,reject) => { resolve(ret) })
   } else {
-    console.debug("Not using cache.");
     // Fetch graph from API.
     // Add graph and all its items to cache.
     for (const item of fakeData) {
@@ -159,8 +157,6 @@ const getGraph = async (o) => {
     }
 
     return new Promise((resolve,reject) => {
-      console.debug("Resolving promise:");
-      console.debug(fakeData);
       resolve(fakeData);
       // fetch(
       //   apiHost + "/v1/graph/doi/" + String(doi || ""), {

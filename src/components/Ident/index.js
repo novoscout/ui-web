@@ -35,7 +35,8 @@ class Pass extends Component {
         await this.setState({
           apikey: resp["apikey"]
         })
-        route("/doi",true)
+        // route("/doi",true)
+        window.location.replace("/doi/")
       } else {
         alert("That didn't work, try again?")
       }
@@ -91,8 +92,8 @@ class Ident extends Component {
       }
     })
     if (window.location.pathname != "/doi/") {
-      // window.location.replace("/doi/")
-      route("/doi/",true)
+      window.location.replace("/doi/")
+      // route("/doi/",true)
     }
   }
 
