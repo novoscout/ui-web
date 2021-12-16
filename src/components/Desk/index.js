@@ -37,6 +37,7 @@ const Articles = (props) => {
 class Desk extends Component {
   constructor(props) {
     super(props)
+    this.checkRoute = this.checkRoute.bind(this)
     this.renderArticles = this.renderArticles.bind(this)
     this.state = {
       apikey: undefined,
@@ -162,6 +163,10 @@ class Desk extends Component {
     return (<Fragment>{ret}</Fragment>)
   }
 
+  checkRoute = async (e) => {
+    
+  }
+
   render() {
     if (this.state.loading) { return null }
 
@@ -171,9 +176,9 @@ class Desk extends Component {
                     ? cxs(theme.desk)
                     : null
     return (
-      <Router>
+      <Router onChange={this.checkRoute}>
         <View default id="desk" className={className}>
-          <Router>
+          <Router onChange={this.checkRoute}>
             { /**
             <View default>
               <p>
@@ -193,6 +198,7 @@ class Desk extends Component {
           </Router>
         </View>
         <Ident path={Ident.href} />
+        <Ident.Pass path={Ident.Pass.href} routeOnCancel={Ident.href} />
       </Router>
     )
   }
