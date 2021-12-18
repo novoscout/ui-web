@@ -154,6 +154,10 @@ const common = {
   // }
   swiper: {
     frame: {
+      borderRadius: "6px",
+      borderStyle: "solid",
+      borderWidth: "1px",
+      borderColor: "transparent",
       display: "block",
       overflowY: "scroll",
       padding: "1rem",
