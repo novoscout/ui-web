@@ -1,5 +1,5 @@
 import { h, Component, Fragment } from "preact"
-import { useContext, useMemo } from "preact/compat"
+import { createRef, useContext, useMemo } from "preact/compat"
 import { Router, route } from "preact-router"
 import cxs from "cxs"
 
@@ -39,13 +39,22 @@ class Desk extends Component {
     super(props)
     this.checkRoute = this.checkRoute.bind(this)
     this.renderArticles = this.renderArticles.bind(this)
+    this.swiperShouldPreventDefault = this.swiperShouldPreventDefault.bind(this)
     this.state = {
       apikey: undefined,
       // apikeyValidated: false,
       passphrase: undefined,
       loading: true,
       activeDOI: undefined,
-      articleGraph: []
+      articleGraph: [],
+
+      // Number of articles to "pad" around the displayed one.
+      // The "padding" here is added either side of the displayed
+      // article, so e.g. a padding of 1 each side results
+      // in rendering 3 articles (max). This is done to ensure
+      // the UI doesn't needlessly render hidden elements,
+      // and calculate their transition effects etc.
+      articleGraphWindowPadding: 1,
     }
   }
 
@@ -70,7 +79,7 @@ class Desk extends Component {
 
     // const apikeyValidated = await api.validAPIKey(apikey)
     // await this.setState({apikeyValidated})
-    storage.setItem("apikey_validated",true)
+    // storage.setItem("apikey_validated",true)
 
     await api.getGraph({apikey}).then( async (res) => {
       if (res) {
@@ -84,13 +93,23 @@ class Desk extends Component {
 
 
   swipeEnd(dois,ref,delta) {
-    const { previousDOI, nextDOI } = dois
-    if (delta < 0 && previousDOI != undefined) {
-      route("/doi/" + previousDOI)
-      this.setState({activeDOI:previousDOI})
-    } else if (delta > 0 && nextDOI != undefined) {
-      route("/doi/" + nextDOI)
-      this.setState({activeDOI:nextDOI})
+    const { doi, previousDOI, nextDOI } = dois
+    if (delta > 0) {
+      if (previousDOI != undefined) {
+        route("/doi/" + previousDOI)
+        this.setState({activeDOI:previousDOI})
+      } else {
+        route("/doi/" + doi)
+        this.setState({activeDOI:doi})
+      }
+    } else if (delta < 0) {
+      if (nextDOI != undefined) {
+        route("/doi/" + nextDOI)
+        this.setState({activeDOI:nextDOI})
+      } else {
+        route("/doi/" + doi)
+        this.setState({activeDOI:doi})
+      }
     }
 
     api.recordUserNavigateFromDOIToDOI({
@@ -98,6 +117,12 @@ class Desk extends Component {
       doiA: ref.props.doi,
       doiB: nextDOI
     })
+  }
+
+  swiperShouldPreventDefault(ref,coords) {
+    // Default action (vertical scrolling) should be prevented
+    // if the user is swiping left or right.
+    return coords.direction.left || coords.direction.right
   }
 
   renderArticles(DOIFromURL) {
@@ -113,6 +138,24 @@ class Desk extends Component {
 
     if (! activeDOI) { return null }
 
+    // Some offsetting calcs. Explanation:
+    // 
+    //  [ a, b, c, d, e, f, g, h, i, j, k, l, m, n, o ]  <- All articles in current graph.
+    //                 [ f, g, h, i, j ]                 <- Articles to render.
+    //                         h                         <- Active article.
+    // 
+    // After swipe, moving to the right:
+    // 
+    //  [ a, b, c, d, e, f, g, h, i, j, k, l, m, n, o ]  <- All articles in current graph.
+    //                    [ g, h, i, j, k ]              <- Articles to render.
+    //                            i                      <- Active article.
+    // 
+    // After several more swipes:
+    // 
+    //  [ a, b, c, d, e, f, g, h, i, j, k, l, m, n, o ]  <- All articles in current graph.
+    //  ..a, b, c ]                            [ n, o..  <- Articles to render: n,o,a,b,c.
+    //    a                                              <- Active article.
+
     var offset = 0;
     if (gLen > 0) {
       offset = g.findIndex( (o) => {
@@ -121,13 +164,20 @@ class Desk extends Component {
         } else {
           return -1
         }
-      }) + 1
+      })
     }
-    offset = offset < 0 ? 0 : offset
-    offset = offset % gLen
+    offset = offset < 0 ? 0 : offset % gLen
 
-    var ret = []
-    for (let i = 0 + offset; i < (gLen + offset); i++) {
+    // Ensure article window isn't larger that the available articles.
+    const maxPad = Math.min(
+      this.state.articleGraphWindowPadding,
+      Math.floor((gLen - 1) / 2)
+    )
+
+    const windowStartOffset = (gLen + (offset - maxPad) ) % gLen
+
+    const ret = []
+    for (let i = windowStartOffset; i < windowStartOffset + ( 2 * maxPad ) + 1; i ++) {
       const pointer = i % gLen
       const article = g[pointer].article
       const prevPointer = pointer - 1 < 0 ? gLen - 1 < 0 ? 0 : gLen - 1 : pointer - 1
@@ -146,31 +196,31 @@ class Desk extends Component {
       const para = article.body.sec.map( (section) => {
         return ( <p>{section.p}</p> )
       })
+      const ref = createRef()
       ret.push(
         <Swiper
+          id={"doi:"+doi}
           uniaxial={true}
-          end={this.swipeEnd.bind(this,{previousDOI,nextDOI}) }
-          startThreshold={10}
+          end={this.swipeEnd.bind(this,{doi,previousDOI,nextDOI})}
+          shouldPreventDefault={this.swiperShouldPreventDefault}
+          startThreshold={100}
           path={"/doi/" + doi}
           doi={doi}
-          >{title}<hr />{para}</Swiper>
+          ref={ref}
+          style={{display:activeDOI == doi ? undefined : "none"}}
+        >{title}<hr />{para}</Swiper>
       )
     }
-    if (activeDOI) {
-      route("/doi/" + activeDOI)
-    }
-    return (<Fragment>{ret}</Fragment>)
+
+    route("/doi/" + activeDOI)
+    return <Fragment>{ret}</Fragment>
   }
 
-  checkRoute = async (e) => {
-    
-  }
+  async checkRoute(e) { }
 
   render() {
     if (this.state.loading) { return null }
-
     const theme = useContext(Theme)
-
     const className = theme.desk
                     ? cxs(theme.desk)
                     : null
