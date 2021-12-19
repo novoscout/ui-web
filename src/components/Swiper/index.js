@@ -103,11 +103,19 @@ class Swiper extends Component {
   move(coords) {
     const delta = (coords.start.x - coords.x) * -1
     if (delta < 0) {
-      this.base.previousElementSibling.style.display = "none"
-      this.base.nextElementSibling.style.display = "block"
+      if (this.base.previousElementSibling) {
+        this.base.previousElementSibling.style.display = "none"
+      }
+      if (this.base.nextElementSibling) {
+        this.base.nextElementSibling.style.display = "block"
+      }
     } else if (delta > 0) {
-      this.base.previousElementSibling.style.display = "block"
-      this.base.nextElementSibling.style.display = "none"
+      if (this.base.previousElementSibling) {
+        this.base.previousElementSibling.style.display = "block"
+      }
+      if (this.base.nextElementSibling) {
+        this.base.nextElementSibling.style.display = "none"
+      }
     }
     this.base.style.transform = "translateX(" + String(delta) + "px)"
     this.base.style.zIndex = this.base.style.zIndex || 0 + 10
