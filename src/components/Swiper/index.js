@@ -142,15 +142,26 @@ class Swiper extends Component {
 
     return (
       <_Swiper
-        id={this.props.id}
+        // Theme classes.
         className={className}
+
+        // The following vars are taken straight from props.
+        id={this.props.id}
         uniaxial={this.props.uniaxial}
+        style={this.props.style}
+        ref={this.props.ref}
+
+        // The following vars are kept in the state.
+        startThreshold={this.state.startThreshold}
+        endThreshold={this.state.endThreshold}
+
+        // The following funcs all check and call this.props.func()
+        // after/before/while performing default actions & checks.
         start={this.start}
         end={this.end}
         move={this.move}
         cancel={this.cancel}
         shouldPreventDefault={this.shouldPreventDefault}
-        style={this.props.style}
         >
         {this.props.children}
       </_Swiper>
