@@ -268,7 +268,7 @@ const validAPIKey = async (o) => {
   const { key } = { key: apikey, ...o }
   if ((!apikey) || (!key)) {
     return new Promise((resolve,reject) => {
-      reject("Both apiKey and key are required.")
+      reject("Both apikey and key are required.")
     })
   } else {
     // Can only be done when online.
