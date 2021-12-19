@@ -46,14 +46,17 @@ class Swiper extends Component {
       this.base.style.transition = "all " + this.state.delay + "s ease-out"
       this.base.style.removeProperty("transform")
       this.base.style.borderColor = "transparent"
-      this.base.style.borderColor = "transparent"
     }
     if (! onlySelf) {
+      const ms = (this.state.delay * 1000)
       this.siblings().map( (s) => {
         s.style.transition = "all " + this.state.delay + "s ease-out"
         s.style.removeProperty("transform")
         s.style.borderColor = "transparent"
-        s.style.borderColor = "transparent"
+        const timeoutID = setTimeout(function(s,timeoutID) {
+          s.style.display = "none"
+          clearTimeout(timeoutID)
+        }, ms, s, timeoutID)
       })
     }
   }
@@ -71,7 +74,7 @@ class Swiper extends Component {
 
   end() {
     // FIXME Check if endThreshold has been reached.
-    const ms = (this.state.delay * 1000) + 100
+    const ms = (this.state.delay * 1000)
     const tr = ((this.base.style || {}).transform || "0").match(/(\-?)\d+/)
     const delta = tr[0]
     const sign = tr[1]
