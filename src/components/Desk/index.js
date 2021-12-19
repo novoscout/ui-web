@@ -202,11 +202,11 @@ class Desk extends Component {
           id={"doi:"+doi}
           uniaxial={true}
           end={this.swipeEnd.bind(this,{doi,previousDOI,nextDOI})}
-          shouldPreventDefault={this.swiperShouldPreventDefault}
-          startThreshold={100}
           path={"/doi/" + doi}
           doi={doi}
           ref={ref}
+          shouldPreventDefault={this.swiperShouldPreventDefault}
+          startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
         >{title}<hr />{para}</Swiper>
       )
