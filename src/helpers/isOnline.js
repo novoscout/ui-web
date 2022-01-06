@@ -42,6 +42,8 @@ module.exports = async (opts) => {
           timeout,
           fetch(site).then((r) => {
             return true
+          }).catch((e) => {
+            return false
           })
         )
       })
