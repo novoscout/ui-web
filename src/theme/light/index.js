@@ -2,13 +2,19 @@ import color from "./color"
 import mq from "../common/mq"
 
 const light = {
+  nav: {
+    backgroundColor: color.background,
+    color: color.accent
+  },
   desk: {
-    backgroundColor: color.background
+    backgroundColor: color.background,
+    color: color.text
+  },
+  toolbar: {
+    backgroundColor: color.background,
+    color: color.text
   },
   modal: {
-    backgroundColor: color.background
-  },
-  nav: {
     backgroundColor: color.background,
     color: color.accent
   },
@@ -20,10 +26,12 @@ const light = {
   },
   swiper: {
     frame: {
-      backgroundColor: color.background
+      backgroundColor: color.background,
+      color: color.text
     },
     inner: {
-      backgroundColor: color.background
+      backgroundColor: color.background,
+      color: color.text
     }
   },
   text: {
@@ -45,12 +53,35 @@ const light = {
     }
   },
   ident: {
-    backgroundColor: color.background
+    backgroundColor: color.background,
+    color: color.text
   },
-  passphrase: {
-    borderColor: "silver"
+  button: {
+    backgroundColor: color.accent,
+    backgroundImage: "linear-gradient(to bottom right, " +
+                     color.primaryDarker[1] + " 0%, " +
+                     color.primaryDarker[3] + " 100%)",
+    color: color.background
+  },
+  input: {
+    '[type="text"]': {
+      borderBottomColor: color.text,
+      backgroundColor: color.backgroundAlt
+    }
   }
 }
+
+// ===================================================================
+// Dupes.
+
+light.input['[type="button"]'] = light.button
+light.input['[type="submit"]'] = light.button
+light.input['[type="email"]'] = light.input['[type="text"]']
+light.input['[type="password"]'] = light.input['[type="text"]']
+light.input['[type="search"]'] = light.input['[type="text"]']
+
+light.a = light.textLink
+
 
 // light.nav[mq.md] = {
 //   backgroundColor: color.background + " !important",

@@ -9,6 +9,13 @@ const invisible = {
 }
 
 const common = {
+  button: {
+    border: "1px solid",
+    borderRadius: "6px",
+    cursor: "pointer",
+    minWidth: "8rem",
+    padding: "0.3rem",
+  },
   modal: {
     position: "absolute",
     width: "100%",
@@ -216,10 +223,8 @@ const common = {
   ident: {
     width: "100%",
     height: "100%",
-    lineHeight: "1.3",
     overflowY: "scroll !important",
-    padding: "0 1rem 0 1rem",
-    textAlign: "center",
+    padding: "1rem 1rem 0 1rem",
     " button": {
       marginBottom: "1em"
     },
@@ -227,14 +232,24 @@ const common = {
       display: "none"
     }
   },
-  passphrase: {
-    lineHeight: "1.3",
-    borderRadius: "4px",
-    borderStyle: "solid",
-    borderWidth: "1px",
-    height: "3em"
+  input: {
+    '[type="text"]': {
+      borderStyle: "none none solid none",
+      borderWidth: "0 0 2px 0",
+      borderRadius: "4px 4px 0 0"
+    }
   }
 }
+
+// ===================================================================
+// Dupes.
+
+common.input['[type="button"]'] = common.button
+common.input['[type="submit"]'] = common.button
+common.input['[type="email"]'] = common.input['[type="text"]']
+common.input['[type="password"]'] = common.input['[type="text"]']
+common.input['[type="search"]'] = common.input['[type="text"]']
+
 
 // ===================================================================
 // Media queries:

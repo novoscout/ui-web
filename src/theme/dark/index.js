@@ -2,15 +2,21 @@ import color from "./color"
 import mq from "../common/mq"
 
 const dark = {
-  desk: {
-    backgroundColor: color.background
-  },
-  modal: {
-    backgroundColor: color.background
-  },
   nav: {
     backgroundColor: color.background,
     color: color.accent
+  },
+  desk: {
+    backgroundColor: color.background,
+    color: color.text
+  },
+  toolbar: {
+    backgroundColor: color.background,
+    color: color.text
+  },
+  modal: {
+    backgroundColor: color.background,
+    color: color.text
   },
   navAction: {
     color: color.accent
@@ -20,10 +26,12 @@ const dark = {
   },
   swiper: {
     frame: {
-      backgroundColor: color.background
+      backgroundColor: color.background,
+      color: color.text
     },
     inner: {
-      backgroundColor: color.background
+      backgroundColor: color.background,
+      color: color.text
     }
   },
   text: {
@@ -45,12 +53,36 @@ const dark = {
     }
   },
   ident: {
-    backgroundColor: color.background
+    backgroundColor: color.background,
+    color: color.text
   },
-  passphrase: {
-    borderColor: "silver"
+  button: {
+    backgroundColor: color.accent,
+    backgroundImage: "linear-gradient(to bottom right, " +
+                     color.accent + " 0%, " +
+                     color.primaryDesat[1] + " 100%)",
+    color: color.background
+  },
+  input: {
+    '[type="text"]': {
+      borderBottomColor: color.text,
+      backgroundColor: color.backgroundAlt,
+      color: "white"
+    }
   }
 }
+
+// ===================================================================
+// Dupes.
+
+dark.input['[type="button"]'] = dark.button
+dark.input['[type="submit"]'] = dark.button
+dark.input['[type="email"]'] = dark.input['[type="text"]']
+dark.input['[type="password"]'] = dark.input['[type="text"]']
+dark.input['[type="search"]'] = dark.input['[type="text"]']
+
+dark.a = dark.textLink
+
 
 // dark.nav[mq.md] = {
 //   backgroundColor: color.background + " !important",

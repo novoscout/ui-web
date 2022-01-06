@@ -1,13 +1,15 @@
 const color = {
   background: "#000",
+  backgroundAlt: "#222",
   backgroundShadow: null,
 
-  text: "#000",
+  text: "#765",
 
   accent: "#900",
 
   primary: "#c00",
   primaryDesat: ["#900","#600","#300"],
+  primarySuperSat: ["#c30","#c60","#c90"],
 
   error: "red",
   warn: "orange",
