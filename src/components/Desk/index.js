@@ -88,7 +88,7 @@ class Desk extends Component {
     }).catch( (err) => {
       console.debug("Couldn't get graph: " + String(err))
     })
-    this.setState({loading:false})
+    await this.setState({loading:false})
   }
 
 
@@ -216,7 +216,7 @@ class Desk extends Component {
     return <Fragment>{ret}</Fragment>
   }
 
-  async checkRoute(e) { }
+  checkRoute(e) { }
 
   render() {
     if (this.state.loading) { return null }
@@ -225,9 +225,9 @@ class Desk extends Component {
                     ? cxs(theme.desk)
                     : null
     return (
-      <Router onChange={this.checkRoute}>
+      <Router>
         <View default id="desk" className={className}>
-          <Router onChange={this.checkRoute}>
+          <Router>
             { /**
             <View default>
               <p>
@@ -236,6 +236,7 @@ class Desk extends Component {
             </View>
             */ }
             <Articles
+              default
               id="articles"
               path="/doi/:doi*"
               renderCallback={this.renderArticles}
@@ -246,8 +247,7 @@ class Desk extends Component {
               />
           </Router>
         </View>
-        <Ident path={Ident.href} />
-        <Ident.Pass path={Ident.Pass.href} routeOnCancel={Ident.href} />
+        <Ident path={Ident.path} />
       </Router>
     )
   }
