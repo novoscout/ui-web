@@ -1,7 +1,7 @@
 const deepmerge = require("deepmerge");
 require("isomorphic-fetch");
 
-// const isOnline = require("../helpers/isOnline")
+const isOnline = require("../helpers/isOnline")
 const storage = require("../helpers/storage");
 
 const fakeData = require("./data.json");
@@ -12,8 +12,8 @@ if (process.env.apiPort) {
 }
 
 const shouldUseCache = async (cache) => {
-  // if (! await isOnline()) { return true; }
   if (! navigator.onLine) { return true; }
+  if (! await isOnline()) { return true; }
   return cache == undefined || cache == true ? true : false;
 }
 
@@ -123,8 +123,8 @@ const getGraph = async (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
+  // FIXME...
   // const useCache = await shouldUseCache(cache);
-
   if (false) {
     const cacheKeys = doiKeysFromCache();
     const ret = [];
@@ -224,27 +224,35 @@ const recordUserShareDOI = (o) => {
   }
 }
 
-const register = () => {
-  return new Promise((resolve,reject) => {
-    fetch(apiHost + "/v1/register").then( r => {
-      if (r.ok) { return r.json() } else { reject(r) }
-    }).then( j => {
-      try {
-        resolve(j.data[0].attributes)
-      } catch(err) {
-        reject("Data structure problem: " + String(j))
-      }
-    }).catch( e => {
-      reject("API problem: " + String(e))
-    })
-  })
-}
+// const getAPIKey = (passphrase) => {
+//   const payload = JSON.stringify({passphrase:passphrase})
+//   return new Promise((resolve,reject) => {
+//     fetch(
+//       apiHost + "/v1/login/apikey", {
+//         headers: {
+//           "Content-Type": "application/json"
+//         },
+//         method: "POST",
+//         mode: "cors",
+//         body: payload
+//     }).then( r => {
+//       if (r.ok) { return r.json() } else { reject("API problem: " + String(r)) }
+//     }).then( j => {
+//       try {
+//         resolve(j.data[0].attributes)
+//       } catch(err) {
+//         reject("Data structure problem: " + String(j))
+//       }
+//     })
+//   })
+// }
 
-const getAPIKey = (passphrase) => {
-  const payload = JSON.stringify({passphrase:passphrase})
+const login = (o) => {
+  const { username, passphrase } = o || {}
+  const payload = JSON.stringify({username,passphrase})
   return new Promise((resolve,reject) => {
     fetch(
-      apiHost + "/v1/login/apikey", {
+      apiHost + "/v1/login", {
         headers: {
           "Content-Type": "application/json"
         },
@@ -259,6 +267,59 @@ const getAPIKey = (passphrase) => {
       } catch(err) {
         reject("Data structure problem: " + String(j))
       }
+    })
+  })
+}
+
+// const register = (o) => {
+//   const { username, passphrase, permit } = o || {};
+//   const payload = JSON.stringify({username,passphrase,permit})
+//   return new Promise((resolve,reject) => {
+//     fetch(
+//       apiHost + "/v1/register", {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         method: "POST",
+//         mode: "cors",
+//         body: payload
+//       }
+//     ).then( r => {
+//       if (r.ok) { return r.json() } else { reject(r) }
+//     }).then( j => {
+//       try {
+//         resolve(j.data[0].attributes)
+//       } catch(err) {
+//         reject("Data structure problem: " + String(j))
+//       }
+//     }).catch( e => {
+//       reject("API problem: " + String(e))
+//     })
+//   })
+// }
+
+const register = (o) => {
+  const { username, passphrase, permit } = o || {}
+  const payload = JSON.stringify({username,passphrase,permit})
+  return new Promise((resolve,reject) => {
+    fetch(
+      apiHost + "/v1/register", {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        mode: "cors",
+        body: payload
+    }).then( r => {
+      if (r.ok) {
+        return r.json()
+      } else {
+        reject(r)
+      }
+    }).then( j => {
+      resolve(j)
+    }).catch((err) => {
+      return false
     })
   })
 }
@@ -284,11 +345,10 @@ const validAPIKey = async (o) => {
           mode: "cors",
           body: payload
       }).then( r => {
-        console.log(r);
         return r.json()
       }).then( j => {
         try {
-          console.log(j);
+          console.debug(j);
           if (j.data[0].attributes.apikey) {
             resolve(true)
           }
@@ -306,9 +366,9 @@ const api = {
   cache: crummyCache,
   doiKeysFromCache,
   generateStorageKey,
-  getAPIKey,
   getArticleByDOI,
   getGraph,
+  login,
   recordUserNavigateFromDOIToDOI,
   recordUserShareDOI,
   register,
