@@ -88,8 +88,6 @@ hr {
 /* Form elements. */
 
 input, input[type="text"], input[type="email"], input[type="search"], input[type="password"] {
-  border: 1px solid #888;
-  border-radius: 4px;
   width: 100%;
   margin: auto;
 }
