@@ -3,183 +3,143 @@ import { useContext } from "preact/compat"
 import { route } from "preact-router"
 import cxs from "cxs"
 
-import { Ident as _Ident, TextInput } from "ui-shared/components"
+import { Ident as _Ident } from "ui-shared/components"
+import { TextInput } from ".."
 
-import { TextLink } from ".."
+import { Button, TextLink } from ".."
 import { Theme } from "../../theme"
+
 const api = require("../../API")
-
 const storage = require("../../helpers/storage")
-
-
-class Pass extends Component {
-  constructor(props) {
-    super(props)
-    this.authenticate = this.authenticate.bind(this)
-    this.updatePassphrase = this.updatePassphrase.bind(this)
-    this.state = {
-      passphrase: undefined,
-      apikey: undefined
-    }
-  }
-
-  updatePassphrase(e) {
-    this.setState({passphrase:e.target.value})
-  }
-
-  async authenticate() {
-    try {
-      const resp = await api.getAPIKey(this.state.passphrase)
-      if (typeof(resp) == "object" && "apikey" in resp) {
-        await storage.setItem("apikey",resp["apikey"])
-        await this.setState({
-          apikey: resp["apikey"]
-        })
-        // route("/doi",true)
-        window.location.replace("/doi/")
-      } else {
-        alert("That didn't work, try again?")
-      }
-    } catch(err) {
-      alert("That didn't work, try again?")
-    }
-  }
-
-  render() {
-    return (
-      <div style={{textAlign:"center", padding:"1rem 1rem 0 1rem"}}>
-        <p>Enter your 6 word passphrase:</p>
-        <p>
-          <TextInput onChange={this.updatePassphrase} style={{textAlign:"initial"}} /><br/>
-        </p>
-        <p>
-          <button onclick={this.authenticate}>Ok</button>
-        </p>
-        <span><hr/></span>
-        <p>
-          <button onclick={ () => { route(this.props.routeOnCancel,true) } }>Cancel</button>
-        </p>
-      </div>
-    )
-  }
-}
-
-Pass.href = "/id/pass"
 
 
 class Ident extends Component {
   constructor(props) {
     super(props)
     this.forceLogout = this.forceLogout.bind(this)
-    this.getNewPassphrase = this.getNewPassphrase.bind(this)
-    this.showNewPassphrase = this.showNewPassphrase.bind(this)
-    this.fixPassphrase = this.fixPassphrase.bind(this)
-    this.alreadyGotPassphrase = this.alreadyGotPassphrase.bind(this)
+    this.forceRedirect = this.forceRedirect.bind(this)
+    this.register = this.register.bind(this)
+    this.login = this.login.bind(this)
+    this.updateUsername = this.updateUsername.bind(this)
+    this.updatePassphrase = this.updatePassphrase.bind(this)
+    this.updatePermit = this.updatePermit.bind(this)
+    this.handleForm = this.handleForm.bind(this)
+    this.toggleFaqWhat = this.toggleFaqWhat.bind(this)
     this.state = {
       loading: true,
-      passphrase: null,
-      apikey: null
+      apikey: null,
+      username: undefined,
+      passphrase: undefined,
+      permit: undefined,
+      submittingForm: false,
+      faqWhatVisible: false
     }
   }
 
-  forceLogout() {
-    storage.removeItem("apikey")
-    this.setState(function(state) {
+  updateUsername(e) { this.setState({username:e.target.value}) }
+  updatePassphrase(e) { this.setState({passphrase:e.target.value}) }
+  updatePermit(e) { this.setState({permit:e.target.value}) }
+
+  toggleFaqWhat(e) {
+    this.setState(function(state,props) {
       return {
-        loading: true,
-        passphrase: null,
-        apikey: null
+        faqWhatVisible: ! state.faqWhatVisible
       }
     })
-    if (window.location.pathname != "/doi/") {
-      window.location.replace("/doi/")
-      // route("/doi/",true)
-    }
   }
 
-  alreadyGotPassphrase() {
-    route(Pass.href,true)
+  async handleForm(e) {
+    e.preventDefault()
+    await this.setState({submittingForm:true})
+    if (this.state.permit) {
+      try {
+        await this.register()
+      } catch(err) {
+        alert("Registration failed, try again?")
+      }
+    } else {
+      await this.login()
+    }
+    await this.setState({submittingForm:false})
   }
 
-  async getNewPassphrase() {
-    if (this.state.passphrase) {
-      await this.setState({ passphrase: null })
-    }
-    var passphrase = null
+  async login() {
     try {
-      const getReg = await api.register()
-      passphrase = getReg.passphrase
-      await this.setState({ passphrase: passphrase })
+      const resp = await api.login({
+        username: this.state.username,
+        passphrase: this.state.passphrase
+      })
+      console.debug("Login response:",resp)
+      if (typeof(resp) == "object" && "apikey" in resp) {
+        await storage.setItem("apikey",resp["apikey"])
+        await this.setState({
+          apikey: resp["apikey"]
+        })
+      } else {
+        alert("Login failed, try again?")
+      }
     } catch(err) {
-      this.forceLogout()
-      return // Quit!
+      alert("Log failed, try again?")
     }
   }
 
-  shouldComponentUpdate(nextProps,nextState) {
-    // Prevent glitchy re-rendering cause by calling getNewPassphrase in render(). Oops.
-    if (nextState.loading) {
-      return true
-    }
-    if (this.state.passphrase && ! nextState.passphrase) {
-      return false
-    }
-    if (this.state.passphrase && nextState.passphrase) {
-      return true
+  async register() {
+    try {
+      const resp = await api.register({
+        username: this.state.username,
+        passphrase: this.state.passphrase,
+        permit: this.state.permit
+      })
+    } catch(err) {
+      alert("Registration failed, try again?")
     }
   }
 
-  componentDidMount() {
-    this.setState({loading:false})
+  async forceLogout() {
+    storage.removeItem("apikey")
+    await this.setState({
+      loading: true,
+      apikey: null,
+      username: undefined,
+      passphrase: undefined,
+      permit: undefined,
+      submittingForm: false
+    })
+    window.location.replace("/id")
   }
 
-  showNewPassphrase(theme) {
-    // const pairwise = (arr) => {
-    //   return arr.reduce((result, value, index, sourceArray) => index % 2 === 0 ? [...result, sourceArray.slice(index, index + 2)] : result, [])
-    // }
-    const SNP = (props) => {
-      return <p className={theme.passphrase ? cxs(theme.passphrase) : null}>{props.children}</p>
-    }
-    if (! this.state.passphrase) { return <SNP/> }
-    return (
-      <SNP>
-        {
-          this.state.passphrase.split(" ").filter( word => {
-            if (word) { return word }
-          }).join(" ")
-        }
-      </SNP>
-    )
-  }
-
-  forceRedirectToDOIs() {
-    // FIXME Unsure why <a> and <TextLink> both fail to redirect the user??
+  forceRedirect() {
     window.location.replace("/doi/")
   }
 
-  async fixPassphrase() {
-    const getAPIKey = await api.getAPIKey(this.state.passphrase)
-    const apikey = getAPIKey.apikey
-    if (apikey) {
-      await storage.setItem("apikey",apikey)
-      await this.setState({
-        apikey: apikey,
-        passphrase: null,
-        loading: true
-      })
-      this.forceRedirectToDOIs()
+  shouldComponentUpdate(nextProps,nextState) {
+    if (nextState.submittingForm != this.state.submittingForm) {
+      return true
+    }
+    if (nextState.username || nextState.passphrase || nextState.permit) {
+      return false
     }
   }
 
+  async componentDidMount() {
+    if (storage.getItem("apikey") && ! this.state.apikey) {
+      await this.setState({
+        apikey: storage.getItem("apikey")
+      })
+    }
+    await this.setState({loading:false,submittingForm:false})
+  }
+
   render() {
-    if (this.state.loading) { return null }
-    if ( ! this.state.passphrase) { this.getNewPassphrase() ; return null }
+    const theme = useContext(Theme)
+    if (this.state.loading || this.state.submittingForm) {
+      return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
+    }
 
     const newProps = {...this.props}
     delete(newProps.path)
     delete(newProps.url)
 
-    const theme = useContext(Theme)
     const className = theme.ident ? cxs(theme.ident) : null
 
     const ID = (p) => {
@@ -191,34 +151,67 @@ class Ident extends Component {
     if (this.state.apikey) {
       return (
         <ID>
-          <p style={{paddingTop:"2rem"}}>
-            You can <a onclick={this.forceRedirectToDOIs}>browse articles</a> on OsteoScout and easily share them with your colleagues to discuss as part of your CPD.
+          <p><h4 style={{textAlign:"center"}}>About OsteoScout</h4></p>
+          <p>
+            You can <TextLink onclick={this.forceRedirect}>browse articles</TextLink> and easily share them with your colleagues to discuss as part of your CPD.
           </p>
           <p>
-            If you <TextLink>logout</TextLink> OsteoScout will no longer be able to recommend articles that relate to your interests, and will not be able to keep a record of articles you are reading for your CPD. But you can always <TextLink>login</TextLink> again with your passphrase.
+            OsteoScout will remember you each time you visit, unless you <TextLink onclick={this.forceLogout}>logout</TextLink>.
           </p>
+          <p><h4 style={{textAlign:"center",paddingTop:"1.5rem"}}>FAQ</h4></p>
+          <ul style={{padding:"0 0 0 1rem"}}>
+            <li><TextLink onclick={this.toggleFaqWhat}>What information does OsteoScout store about me?</TextLink></li>
+          </ul>
+          <div id="faq-what" style={{ display:this.state.faqWhatVisible ? "block" : "none" }}>
+            <p>Your username, and safely encrypted password.</p>
+            <p>In order to learn what articles are relevant to you, OsteoScout asks you to create an account and to login. The <u>only</u> information OsteoScout stores is your username. We don't even store your password, your IP address, and we don't use cookies. See below for more details.</p>
+            <p>About your password: Like any good website, we don't store the plain-text version of your password; we store a <u>securely encrypted</u> version of it instead. This means we can't know your password so we can't remind you of it if you lose it, so keep it safe!</p>
+            <p>About IP addresses: Any computer on the internet (including the one you're reading this with, right now) is assigned an 'IP address' (IP stands for 'internet protocol'). The IP address may be temporary, or might be more permanent such as when using a computer in a workplace. Some web service providers collect the IP addresses of visitors. OsteoScout does not do this.</p>
+            <p>About cookies: In internet parlance, a 'cookie' is a small piece of data that a website might send to your device. Your device stores the cookie, then sends it back when visiting the website. Cookies are typically used to track individuals, often for advertising purposes. OsteoScout does not use cookies.</p>
+            <p>Even more about cookies: OsteoScout uses a third-party service called Cloudflare which may send you cookies. OsteoScout does not make use of these cookies.</p>
+          </div>
         </ID>
       )
     } else {
       return (
         <ID>
-          <p style={{paddingTop:"2rem",lineHeight:"1.3",textAlign:"left"}}>
-            OsteoScout does not record any personal information about you. Instead, a unique, random phrase is assigned to each user. Your phrase lets you access your OsteoScout account from any device.
-          </p>
-          <p>
-            Here is a brand-new 6 word phrase just for you:
-          </p>
-          { this.showNewPassphrase(theme) }
-          <p>
-            Do you want to keep it? You need to make a note of all 6 words.
-          </p>
-          <p>
-            <button onclick={ () => { route(Pass.href,true) } }>No, I've already got one</button>
-            <br />
-            <button onclick={this.fixPassphrase}>Yes, I've written it down</button>
-            <br />
-            <button onclick={this.getNewPassphrase}>No, show me another</button>
-          </p>
+          <form onSubmit={this.handleForm} style={{textAlign:"center"}}>
+            <p>Username:</p>
+            <p>
+              <TextInput
+                disabled={this.state.submittingForm}
+                onChange={this.updateUsername}
+                value={this.state.username}
+                style={{textAlign:"initial"}} /><br/>
+            </p>
+            <p>Passphrase:</p>
+            <p>
+              <TextInput
+                type="password"
+                disabled={this.state.submittingForm}
+                onChange={this.updatePassphrase}
+                value={this.state.password}
+                style={{textAlign:"initial"}} /><br/>
+            </p>
+            <p>If you are creating a new user, enter your <i>permit</i> here:</p>
+            <p>
+              <TextInput
+                disabled={this.state.submittingForm}
+                onChange={this.updatePermit}
+                value={this.state.permit}
+                style={{textAlign:"initial"}} />
+            </p>
+            <p style={{paddingTop:"2rem"}}>
+              <Button
+                disabled={this.state.submittingForm}
+                type="submit">OK</Button>
+            </p>
+            <p>
+              <Button
+                disabled={this.state.submittingForm}
+                onclick={ () => { route("/") } }>Cancel</Button>
+            </p>
+          </form>
         </ID>
       )
     }
@@ -226,7 +219,7 @@ class Ident extends Component {
 }
 
 Ident.href = "/id"
-Ident.Pass = Pass
+Ident.path = Ident.href
 
 export default Ident
 export { Ident }
