@@ -21,13 +21,11 @@ class Demo extends Component {
     this.setState({loading:false})
   }
 
-  toggleModal(e) {
+  async toggleModal(e) {
     if (e && e.hasOwnProperty("visible")) {
-      this.setState({ modal: { visible: e.visible }})
+      await this.setState({ modal: { visible: e.visible }})
     } else {
-      this.setState(function(state,props) {
-        return { modal: { visible: ! state.modal.visible } }
-      })
+      await this.setState({ modal: { visible: ! this.state.modal.visible }})
     }
   }
 
