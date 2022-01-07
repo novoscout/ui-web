@@ -4,7 +4,7 @@ import cxs from "cxs"
 
 import { TextLink } from "ui-shared/components"
 
-import { NavActionCancel, NavActionIdent, NavActionShare, NavActionTheme } from ".."
+import { NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme } from ".."
 import { Theme } from "../../theme"
 
 
@@ -17,8 +17,9 @@ const _Inner = (props) => {
     <ul>
       <li><NavActionShare order={1} {...commonActions} /></li>
       <li><NavActionIdent order={2} {...commonActions} /></li>
-      <li><NavActionTheme order={3} {...commonActions} /></li>
-      <li><NavActionCancel order={4} {...commonActions} /></li>
+      <li><NavActionPrint order={3} {...commonActions} /></li>
+      <li><NavActionTheme order={4} {...commonActions} /></li>
+      <li><NavActionCancel order={5} {...commonActions} /></li>
     </ul>
   )
 }

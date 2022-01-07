@@ -8,6 +8,7 @@ import { Nav } from "./Nav"
 import { NavAction } from "./NavAction"
 import { NavActionCancel } from "./NavActionCancel"
 import { NavActionIdent } from "./NavActionIdent"
+import { NavActionPrint } from "./NavActionPrint"
 import { NavActionShare } from "./NavActionShare"
 import { NavActionTheme } from "./NavActionTheme"
 import { NavMenu } from "./NavMenu"
@@ -24,7 +25,7 @@ const exp = {
   FAB,
   Ident,
   Modal,
-  Nav, NavAction, NavActionCancel, NavActionIdent, NavActionShare, NavActionTheme, NavMenu, NavTitle,
+  Nav, NavAction, NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme, NavMenu, NavTitle,
   Swiper,
   TextInput,
   TextLink,
@@ -39,7 +40,7 @@ export {
   FAB,
   Ident,
   Modal,
-  Nav, NavAction, NavActionCancel, NavActionIdent, NavActionShare, NavActionTheme, NavMenu, NavTitle,
+  Nav, NavAction, NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme, NavMenu, NavTitle,
   Swiper,
   TextInput,
   TextLink,
