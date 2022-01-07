@@ -124,3 +124,10 @@ input, input[type="text"], input[type="email"], input[type="search"], input[type
   border-radius: 4px;
 }
 
+
+/* ====================================================================== */
+/* Adjust the WhatsApp share icon. */
+
+.tool-icon.whatsapp .the-icon {
+  filter: brightness(160%) hue-rotate(-20deg)
+}
