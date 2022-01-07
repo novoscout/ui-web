@@ -1,14 +1,8 @@
 /* ====================================================================== */
-/* Print-related styles. */
-
-@media screen {
-  .print-only {
-    display: none !important;
-  }
-  .print-only a { text-decoration: underline !important }
-}
+/* Print-related styles. Also see base.css */
 
 @media print {
+  .print-only a { text-decoration: underline !important }
   #toolbar {
     display: none !important;
   }

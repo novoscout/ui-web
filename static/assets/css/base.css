@@ -131,3 +131,12 @@ input, input[type="text"], input[type="email"], input[type="search"], input[type
 .tool-icon.whatsapp .the-icon {
   filter: brightness(160%) hue-rotate(-20deg)
 }
+
+/* ====================================================================== */
+/* Print-related styles. Also see print.css */
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
