@@ -193,10 +193,14 @@ class Desk extends Component {
           {article.front["article-meta"]["title-group"]["article-title"]}
         </h2>
       )
-      const para = article.body.sec.map( (section) => {
+      const summary = article.body.sec.map( (section) => {
         return ( <p>{section.p}</p> )
       })
+      const authors = article.front["article-meta"]["contrib-group"].map( (c) => {
+        return c["contrib"]["string-name"]
+      }).filter( (i) => { if (i) { return true } })
       const ref = createRef()
+      const doiUrl = String("https://doi.org/" + doi).toLowerCase()
       ret.push(
         <Swiper
           id={"doi:"+doi}
@@ -208,7 +212,17 @@ class Desk extends Component {
           shouldPreventDefault={this.swiperShouldPreventDefault}
           startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
-        >{title}<hr />{para}</Swiper>
+        >{title}
+          <hr />
+          Link to full paper:
+          <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
+          <hr />
+          {
+            authors.length > 0 &&
+            <Fragment><p>Authors: {authors.map( (a) => { return (<span>{a}. </span>) })}</p><hr /></Fragment>
+          }
+          {summary}
+        </Swiper>
       )
     }
 
