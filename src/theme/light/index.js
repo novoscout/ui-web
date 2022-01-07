@@ -11,7 +11,7 @@ const light = {
     color: color.text
   },
   toolbar: {
-    backgroundColor: color.background,
+    // backgroundColor: color.background
     color: color.text
   },
   modal: {
