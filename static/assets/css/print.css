@@ -1,0 +1,15 @@
+/* ====================================================================== */
+/* Print-related styles. */
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+  .print-only a { text-decoration: underline !important }
+}
+
+@media print {
+  #toolbar {
+    display: none !important;
+  }
+}

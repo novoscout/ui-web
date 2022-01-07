@@ -201,6 +201,7 @@ class Desk extends Component {
       }).filter( (i) => { if (i) { return true } })
       const ref = createRef()
       const doiUrl = String("https://doi.org/" + doi).toLowerCase()
+      const osUrl = String("https://app.osteoscout.com/doi/" + doi).toLowerCase()
       ret.push(
         <Swiper
           id={"doi:"+doi}
@@ -213,14 +214,19 @@ class Desk extends Component {
           startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
         >{title}
-          <hr />
-          Link to full paper:
-          <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
-          <hr />
-          {
-            authors.length > 0 &&
-            <Fragment><p>Authors: {authors.map( (a) => { return (<span>{a}. </span>) })}</p><hr /></Fragment>
-          }
+          <div style={{fontSize:"0.9rem"}}>
+            <hr />
+            Full paper: <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
+            <hr />
+            <span class="print-only">
+              Accessed at: <a style={{textDecoration:"underline !important"}} href={osUrl}>{osUrl}</a>
+              <hr />
+            </span>
+            {
+              authors.length > 0 &&
+              <Fragment><p>Authors: {authors.map( (a) => { return (<span>{a}. </span>) })}</p><hr /></Fragment>
+            }
+          </div>
           {summary}
         </Swiper>
       )
