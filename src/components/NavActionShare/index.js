@@ -18,10 +18,10 @@ class NavActionShare extends Component {
     if (this.props.toggleModal) {
       this.props.toggleModal({visible:false})
     }
-    // alert("Prompt: how is this relevant to clinical practise?")
+    alert("If you're sharing this with a colleague, consider: How is this relevant to clinical practise? Have you critically evaluated the paper's findings?")
     navigator.share({
       title: "OsteoScout",
-      text: "Interesting article",
+      text: "",
       url: window.location.href
     },{
       copy: true,
@@ -33,8 +33,8 @@ class NavActionShare extends Component {
       whatsapp: true,
       twitter: true,
       linkedin: true,
-      telegram: true,
-      skype: true,
+      telegram: false,
+      skype: false,
       pinterest: false,
       language: 'en'
     })
