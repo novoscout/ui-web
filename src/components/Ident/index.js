@@ -4,9 +4,8 @@ import { route } from "preact-router"
 import cxs from "cxs"
 
 import { Ident as _Ident } from "ui-shared/components"
-import { TextInput } from ".."
+import { Button, TextLink, TextInput } from ".."
 
-import { Button, TextLink } from ".."
 import { Theme } from "../../theme"
 
 const api = require("../../API")
@@ -48,50 +47,54 @@ class Ident extends Component {
     })
   }
 
-  async handleForm(e) {
+  handleForm(e) {
     e.preventDefault()
-    await this.setState({submittingForm:true})
     if (this.state.permit) {
-      try {
-        await this.register()
-      } catch(err) {
-        alert("Registration failed, try again?")
-      }
+      this.register()
     } else {
-      await this.login()
+      this.login()
     }
-    await this.setState({submittingForm:false})
   }
 
-  async login() {
+  async login(o) {
+    const { forceRefresh } = o || {}
+    await this.setState({submittingForm:true})
     try {
-      const resp = await api.login({
+      await api.login({
         username: this.state.username,
         passphrase: this.state.passphrase
+      }).then( async (resp) => {
+        if (typeof(resp) == "object" && "apikey" in resp) {
+          await storage.setItem("apikey",resp["apikey"])
+          await this.setState({apikey:resp["apikey"]})
+          if (forceRefresh) {
+            window.location.replace("/id")
+          }
+        } else {
+          alert("Login failed, try again?")
+        }
       })
-      console.debug("Login response:",resp)
-      if (typeof(resp) == "object" && "apikey" in resp) {
-        await storage.setItem("apikey",resp["apikey"])
-        await this.setState({
-          apikey: resp["apikey"]
-        })
-      } else {
-        alert("Login failed, try again?")
-      }
     } catch(err) {
       alert("Log failed, try again?")
+    } finally {
+      this.setState({submittingForm:false})
     }
   }
 
   async register() {
+    await this.setState({submittingForm:true})
     try {
-      const resp = await api.register({
+      await api.register({
         username: this.state.username,
         passphrase: this.state.passphrase,
         permit: this.state.permit
+      }).then( (r) => {
+        this.login({forceRefresh:true})
       })
     } catch(err) {
       alert("Registration failed, try again?")
+    } finally {
+      await this.setState({submittingForm:false})
     }
   }
 
@@ -132,9 +135,10 @@ class Ident extends Component {
 
   render() {
     const theme = useContext(Theme)
-    if (this.state.loading || this.state.submittingForm) {
-      return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
-    }
+    // if (this.state.loading || this.state.submittingForm) {
+    //   return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
+    // }
+    if (this.state.loading) { return null }
 
     const newProps = {...this.props}
     delete(newProps.path)
