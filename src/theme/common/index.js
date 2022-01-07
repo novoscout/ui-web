@@ -86,7 +86,7 @@ const common = {
     " ul > li": {
       display: "inline-block",
       lineHeight: "1rem",
-      margin: "1.5rem auto",
+      margin: "1rem auto",
       padding: 0,
       listStyle: "none",
     }
