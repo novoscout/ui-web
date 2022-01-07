@@ -188,6 +188,7 @@ const common = {
     height: "3rem",
   },
   fabCollapsed: {
+    fontSize: "1.35rem",
     borderRadius: "50%",
     height: "2rem",
     width: "2rem",
@@ -196,14 +197,16 @@ const common = {
     ":after": {
       display: "block",
       position: "absolute",
+      height: "100%",
       width: "100%",
       textAlign: "center",
       margin: 0,
-      top: "-3px",
+      // top: "-3px",
       content: '"+"'
     }
   },
   fabExpanded: {
+    fontSize: "1.35rem",
     borderRadius: "50%",
     height: "2rem",
     width: "2rem",
@@ -213,10 +216,11 @@ const common = {
     ":after": {
       display: "block",
       position: "absolute",
+      height: "100%",
       width: "100%",
       textAlign: "center",
       margin: 0,
-      top: "-2px",
+      // top: "-2px",
       content: '"-"'
     }
   },
