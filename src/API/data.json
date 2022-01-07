@@ -20,7 +20,11 @@
         "sec": [
           {
             "title": "Introduction",
-            "p": "Primary SS (pSS) is a systemic autoimmune disease primarily affecting exocrine glands, resulting in dry eyes and dry mouth. It has a female preponderance, and a recent meta-analysis has identified a prevalence rate of 74/100 000 inhabitants, using the AmericanEuropean Consensus Criteria. The disease can also have extraglandular features, with patients experiencing symptoms of pain, fatigue, neurological symptoms, sleep disturbance, autonomic dysfunction, low mood and an increased risk of developing lymphoma. Consequently, many patients experience reduced quality of life and difficulty with carrying out a range of daily activities. Furthermore, the disease is associated with significant direct and indirect healthcare costs equating to £1215 000 per patient, per year. Similar figures have been identified in the USA. European studies have identified increased physician visits and higher work disability for patients with a diagnosis of pSS. Non-pharmacological interventions for pSS may vary according to the particular symptom that they are targeting. They may be complex, target several symptoms at once and be conducted by more than one member of a multidisciplinary team. Such interventions may include fatigue and mood management, and patient education by healthcare professionals. Other interventions may be conducted by a clinician with specialist skills (such as occupational therapy to establish a balance in daily activities and improve function ), insertion of lacrimal punctal plugs for dry eye symptoms or the use of acupuncture for the symptomatic relief of dry mouth. Treatments in clinics for people with pSS tend to focus on pharmacological interventions. However, a recent systematic review has shown that evidence to support the efficacy of pharmacological therapies in pSS is poor. Given the range of bio-psychosocial symptoms that these patients experience, it is possible that there are effective non-pharmacological treatments that could improve symptoms. The reduced impact of symptoms consequently may lead to an improvement in quality of life, improved work capacity and a reduction in economic costs to society.The objective of this study was to assess the effects of non-pharmacological interventions for PSS in adults."
+            "p": "Primary SS (pSS) is a systemic autoimmune disease primarily affecting exocrine glands, resulting in dry eyes and dry mouth. It has a female preponderance, and a recent meta-analysis has identified a prevalence rate of 74/100 000 inhabitants. The disease can also have extraglandular features, with patients experiencing symptoms of pain, fatigue, neurological symptoms, sleep disturbance, autonomic dysfunction, low mood and an increased risk of developing lymphoma. Many patients experience reduced quality of life and difficulty with carrying out a range of daily activities. The disease is associated with significant direct and indirect healthcare costs equating to £1215 000 per patient, per year. European studies have identified increased physician visits and higher work disability for patients with a diagnosis of pSS."
+          }, {
+            "p": "Non-pharmacological interventions for pSS may vary according to the particular symptom that they are targeting. They may be complex, target several symptoms at once and be conducted by more than one member of a multidisciplinary team. Such interventions may include fatigue and mood management, and patient education by healthcare professionals. Other interventions may be conducted by a clinician with specialist skills, insertion of lacrimal punctal plugs for dry eye symptoms or the use of acupuncture for the symptomatic relief of dry mouth."
+          }, {
+            "p": "Treatments in clinics for people with pSS tend to focus on pharmacological interventions. However, a recent systematic review has shown that evidence to support the efficacy of pharmacological therapies in pSS is poor. Given the range of bio-psychosocial symptoms that these patients experience, it is possible that there are effective non-pharmacological treatments that could improve symptoms. The reduced impact of symptoms consequently may lead to an improvement in quality of life, improved work capacity and a reduction in economic costs to society.The objective of this study was to assess the effects of non-pharmacological interventions for PSS in adults."
           }
         ]
       }
@@ -73,10 +77,88 @@
       "body": {
           "sec": [
 	      {
-		  "title": null,
-		  "p": "Previous randomized controlled trials have led to conflicting findings regarding the effects of exercise on depressive symptoms in adults with arthritis and other rheumatic conditions (AORC). The purpose of this study was to use the meta-analytic approach to resolve these discrepancies. Of the 500 citations we reviewed, 2,449 participants nested within 29 studies were included. Length of training, reported as mean ± standard deviation was 19 ± 16 weeks, frequency 4 ± 2 times per week and duration 34 ± 17 minutes per session. Overall, statistically significant exercise minus control group reductions were found for depressive symptoms. Exercise is associated with reductions in depressive symptoms among selected adults with AORC. A need exists for additional, well-designed and reported studies on this topic."
+		"p": "Previous randomized controlled trials have led to conflicting findings regarding the effects of exercise on depressive symptoms in adults with arthritis and other rheumatic conditions (AORC). The purpose of this study was to use the meta-analytic approach to resolve these discrepancies. Of the 500 citations we reviewed, 2,449 participants nested within 29 studies were included. Length of training, reported as mean ± standard deviation was 19 ± 16 weeks, frequency 4 ± 2 times per week and duration 34 ± 17 minutes per session. Overall, statistically significant exercise minus control group reductions were found for depressive symptoms. Exercise is associated with reductions in depressive symptoms among selected adults with AORC. A need exists for additional, well-designed and reported studies on this topic."
 	      }
 	  ]
+      }
+    }
+  },
+  {
+    "article": {
+      "doi": "10.1016/j.jbmt.2017.05.014",
+      "front": {
+        "article-meta": {
+          "article-id": null,
+          "title-group": {
+            "article-title": "Osteopathic manipulative treatment for low back and pelvic girdle pain during and after pregnancy: A systematic review and meta-analysis",
+            "subtitle": null
+          },
+          "contrib-group": [
+            { "contrib": { "string-name": "Helge Franke" } },
+            { "contrib": { "string-name": "Jan-David Franke" } },
+            { "contrib": { "string-name": "Sebastian Belz" } },
+            { "contrib": { "string-name": "Gary Fryer" } }
+          ]
+        }
+      },
+      "body": {
+        "sec": [
+          { "p": "This review found that OMT significantly improved both pain and function in women with low back and pelvic pain during pregnancy." }
+        ]
+      }
+    }
+  },
+  {
+    "article": {
+      "doi": "10.1186/2045-709X-22-12",
+      "front": {
+        "article-meta": {
+          "article-id": null,
+          "title-group": {
+            "article-title": "Clinical effectiveness of manual therapy for the management of musculoskeletal and non-musculoskeletal conditions: systematic review and update of UK evidence report",
+            "subtitle": null
+          },
+          "contrib-group": [
+            { "contrib": { "string-name": "Christine Clar" } },
+            { "contrib": { "string-name": "Alexander Tsertsvadze" } },
+            { "contrib": { "string-name": "Rachel Court" } },
+            { "contrib": { "string-name": "Gillian Lewando Hundt" } },
+            { "contrib": { "string-name": "Aileen Clarke" } },
+            { "contrib": { "string-name": "Paul Sutcliffe" } }
+          ]
+        }
+      },
+      "body": {
+        "sec": [
+          { "p": "Manual therapy is a non-surgical type of conservative management that includes different skilled hands/fingerson techniques directed to the patient's body for the purpose of assessing, diagnosing, and treating a variety of symptoms and conditions. Spinal manipulation and mobilisation are commonly used treatment modalities for back pain, particularly by physical therapists, osteopaths, and chiropractors. Spinal manipulation and mobilisation are commonly used treatment modalities for back pain, particularly by physical therapists, osteopaths, and chiropractors."
+          }, {
+            "p": "Outcomes assessed included pain intensity, pain-related disability, analgesic use, function, mobility, activities of daily living, characteristic symptoms or indicators of disease, patient satisfaction, quality of life, views/themes from qualitative data, adverse events, and mortality. There was limited evidence for cervical lateral glide mobilisation and/or high velocity low amplitude manipulation with soft tissue release and exercise. Inconclusive evidence for cervical lateral glide mobilisation and/or high velocity low amplitude manipulation with soft tissue release and exercise in minor neurogenic shoulder pain. Evidence regarding benefits of spinal manipulation for chronic tension-type headache was inconclusive. Evidence regarding benefits of manual traction, connective tissue manipulation, Cyriax's mobilisation or exercise for tension-type headaches was inconclusive. Osteopathic manual therapy improving symptoms of myalgic encephalomyelitis. Osteopathic manual therapy improving symptoms of paediatric dysfunctional voiding."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "article": {
+      "doi": "10.1186/1746-1340-18-14",
+      "front": {
+        "article-meta": {
+          "article-id": null,
+          "title-group": {
+            "article-title": "Chiropractic diagnosis and management of non-musculoskeletal conditions in children and adolescents",
+            "subtitle": null
+          },
+          "contrib-group": [
+            { "contrib": { "string-name": "Randy J Ferrance" } },
+            { "contrib": { "string-name": "Joyce Miller" } }
+          ]
+        }
+      },
+      "body": {
+        "sec": [
+          { "p": "While most patients presenting to a chiropractor's practice for care do so for musculoskeletal complaints, the National Center for Health Statistics found that in the United States, attention deficit hyperactivity disorder, sleep problems, asthma and sinusitis were also frequent complaints for which parents sought complementary and alternative medicine for their children. Wiberg found that chiropractic manipulation was effective in relieving infant colic. More data is needed in order to make more definitive statements."
+          }
+        ]
       }
     }
   }
