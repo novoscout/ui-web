@@ -13,14 +13,16 @@ class TextLink extends Component {
       return
     } else {
       if (e) {
-        if (e.stopImmediatePropagation) { e.stopImmediatePropagation() }
-        if (e.stopPropagation) { e.stopPropagation() }
-        e.preventDefault()
+        if (props.preventDefault != false) {
+          if (e.stopImmediatePropagation) { e.stopImmediatePropagation() }
+          if (e.stopPropagation) { e.stopPropagation() }
+          e.preventDefault()
+        }
       }
       if (props) {
         if (props.onClick) { props.onClick() }
         if (props.onclick) { props.onclick() }
-        if (props.href) {
+        if (props.href && props.preventDefault != false) {
           if (props.replaceHistory) {
             route(props.href, true)
           } else {
