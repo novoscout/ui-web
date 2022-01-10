@@ -49,7 +49,7 @@ class Ident extends Component {
 
   handleForm(e) {
     e.preventDefault()
-    if (this.state.permit) {
+    if (e.submitter.name == "register") {
       this.register()
     } else {
       this.login()
@@ -88,13 +88,12 @@ class Ident extends Component {
         username: this.state.username,
         passphrase: this.state.passphrase,
         permit: this.state.permit
-      }).then( (r) => {
-        this.login({forceRefresh:true})
+      }).then( async (r) => {
+        this.login()
       })
     } catch(err) {
+      this.setState({submittingForm:false})
       alert("Registration failed, try again?")
-    } finally {
-      await this.setState({submittingForm:false})
     }
   }
 
@@ -134,11 +133,13 @@ class Ident extends Component {
   }
 
   render() {
-    const theme = useContext(Theme)
-    // if (this.state.loading || this.state.submittingForm) {
-    //   return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
-    // }
     if (this.state.loading) { return null }
+
+    const theme = useContext(Theme)
+
+    if (this.state.submittingForm) {
+      return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
+    }
 
     const newProps = {...this.props}
     delete(newProps.path)
@@ -197,7 +198,14 @@ class Ident extends Component {
                 value={this.state.password}
                 style={{textAlign:"initial"}} /><br/>
             </p>
-            <p>If you are creating a new user, enter your <i>permit</i> here:</p>
+            <p style={{paddingTop:"2rem"}}>
+              <Button
+                disabled={this.state.submittingForm}
+                type="submit" name="login">Login</Button>&nbsp;&nbsp;<Button
+                disabled={this.state.submittingForm}
+                onclick={ () => { route("/") } }>Cancel</Button>
+            </p>
+            <p>If you are creating a new user, enter your <i>permit</i> here, as well as your choice of username and passphrase above.</p>
             <p>
               <TextInput
                 disabled={this.state.submittingForm}
@@ -208,10 +216,7 @@ class Ident extends Component {
             <p style={{paddingTop:"2rem"}}>
               <Button
                 disabled={this.state.submittingForm}
-                type="submit">OK</Button>
-            </p>
-            <p>
-              <Button
+                type="submit" name="register">Register</Button>&nbsp;&nbsp;<Button
                 disabled={this.state.submittingForm}
                 onclick={ () => { route("/") } }>Cancel</Button>
             </p>
