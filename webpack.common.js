@@ -1,7 +1,8 @@
 const path = require("path");
 const webpack = require("webpack");
-const htmlWebpackPlugin = require("html-webpack-plugin");
 const copyPlugin = require("copy-webpack-plugin");
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
+
 
 // Webpack 5 no longer automatically bundles certain polyfills.
 const bundleFallbacks = {
@@ -100,9 +101,24 @@ module.exports = {
     }
   },
   externals: externals,
-  entry: path.resolve(__dirname, "src/index.js"),
+  entry: {
+    index: path.resolve(__dirname, "src/index.js"),
+    "styles.min": [
+      path.resolve(__dirname, "public/assets/css/base.css"),
+      path.resolve(__dirname, "public/assets/css/print.css")
+    ]
+  },
   module: {
     rules: [
+      {
+        exclude: /node_modules/,
+        test: /\.css$/i,
+        use: [
+          // "style-loader",
+          miniCssExtractPlugin.loader,
+          "css-loader"
+        ]
+      },
       {
         exclude: /node_modules/,
         test: /\.(js|jsx)$/i,
@@ -135,14 +151,10 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
-    new htmlWebpackPlugin({
-      template: './public/index.html',
-      filename: 'index.html',
-    }),
-
     new copyPlugin({
       patterns: [{from:"static/"}]
     }),
+    new miniCssExtractPlugin()
   ],
 
   resolve: {

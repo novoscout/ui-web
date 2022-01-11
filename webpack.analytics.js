@@ -4,6 +4,8 @@ const webpack = require('webpack');
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const htmlWebpackPlugin = require("html-webpack-plugin");
+
 module.exports = merge(prodCfg, {
   output: {
     filename: "[name].js",
@@ -20,5 +22,9 @@ module.exports = merge(prodCfg, {
       openAnalyzer: false,
       generateStatsFile: true
     }),
-  ],
+    new htmlWebpackPlugin({
+      template: './public/index.html',
+      filename: 'index.html',
+    })
+  ]
 });

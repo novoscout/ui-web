@@ -107,7 +107,7 @@ input, input[type="text"], input[type="email"], input[type="search"], input[type
   top: 0;
   height: 100%;
   width: 100%;
-  background-image: url("/assets/img/spinner.gif");
+  background-image: url("../img/spinner.gif");
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -116,7 +116,7 @@ input, input[type="text"], input[type="email"], input[type="search"], input[type
   z-index: 200;
   height: 100%;
   width: 100%;
-  background-image: url("/assets/img/spinner.gif");
+  background-image: url("../img/spinner.gif");
   background-repeat: no-repeat;
   background-position: center;
   background-color: #f3f3f3;

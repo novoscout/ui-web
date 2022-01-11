@@ -9,6 +9,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const htmlWebpackPlugin = require("html-webpack-plugin");
 
 
 // FIXME Determine best (smallest, most widely compatible) choice:
@@ -131,7 +132,7 @@ module.exports = merge(common, {
     new appCachePlugin({
       cache: [
         "index.html",
-        "assets/css/base.css",
+        // "assets/css/base.css",
         "assets/img/offline.png",
         "assets/img/spinner.gif",
         "assets/img/share.svg",
@@ -144,6 +145,14 @@ module.exports = merge(common, {
       settings: ['prefer-online'],
       // exclude: [/.*\.js$/],
       output: 'manifest.appcache'
+    }),
+
+    new htmlWebpackPlugin({
+      template: './public/index.html',
+      filename: 'index.html',
+      chunks: ['index', 'styles.min'],
+      minify: true,
+      hash: true
     })
   ]
 });

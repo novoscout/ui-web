@@ -2,6 +2,8 @@ const { merge } = require('webpack-merge');
 const path = require("path");
 const webpack = require('webpack');
 
+const htmlWebpackPlugin = require("html-webpack-plugin");
+
 const common = require('./webpack.common.js');
 
 const distDir = "dev";
@@ -48,6 +50,12 @@ module.exports = merge(common, {
           "NODE_TLS_REJECT_UNAUTHORIZED": 0,
         }
       }
+    }),
+
+    new htmlWebpackPlugin({
+      template: './public/index.html',
+      filename: 'index.html',
+      chunks: ['index', 'styles.min' ]
     })
-  ],
+  ]
 });
