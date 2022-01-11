@@ -1,15 +1,18 @@
-const deepmerge = require("deepmerge");
 require("isomorphic-fetch");
+
+const deepmerge = require("deepmerge");
 
 const isOnline = require("../helpers/isOnline")
 const storage = require("../helpers/storage");
 
 const fakeData = require("./data.json");
 
+
 var apiHost = process.env.apiScheme + "://" + process.env.apiHostname;
 if (process.env.apiPort) {
   apiHost = apiHost + ":" + process.env.apiPort;
 }
+const apiUrlBase = apiHost + "/v1"
 
 const shouldUseCache = async (cache) => {
   if (! navigator.onLine) { return true; }
@@ -56,6 +59,7 @@ const generateStorageKey = (o) => {
     return `\{"type":"delayedAction","name":"${delayedActionName}"\}`
   }
 }
+
 const getArticleByDOI = async (o) => {
   const { doi, apikey, cache } = o || {};
   if (! apikey) {
@@ -87,7 +91,7 @@ const getArticleByDOI = async (o) => {
   } else {
     return new Promise((resolve,reject) => {
       fetch(
-        apiHost + "/v1/graph/doi/" + String(doi || ""), {
+        apiUrlBase + "/graph/doi/" + String(doi || ""), {
           headers: {
             "Content-Type": "application/json",
             "Authorization": String(apikey)
@@ -159,7 +163,7 @@ const getGraph = async (o) => {
     return new Promise((resolve,reject) => {
       resolve(fakeData);
       // fetch(
-      //   apiHost + "/v1/graph/doi/" + String(doi || ""), {
+      //   apiUrlBase + "/graph/doi/" + String(doi || ""), {
       //     headers: {
       //       "Content-Type": "application/json",
       //       "Authorization": String(apikey)
@@ -185,9 +189,10 @@ const recordUserNavigateFromDOIToDOI = (o) => {
 
   return Promise.all([
     fetch(
-      apiHost +
-      "/v1/graph/user/action/user_navigated_from/doi/" +
-      String(doiA), {
+      apiUrlBase +
+      "/graph/user/action/user_navigated_from/doi/" +
+      String(doiA),
+      {
         headers: {
           "Content-Type": "application/json",
           "Authorization": String(apikey)
@@ -198,9 +203,10 @@ const recordUserNavigateFromDOIToDOI = (o) => {
       if (! r.ok) { reject("API problem: " + String(r)) }
     }),
     fetch(
-      apiHost +
-      "/v1/graph/user/action/user_navigated_to/doi/" +
-      String(doiB), {
+      apiUrlBase +
+      "/graph/user/action/user_navigated_to/doi/" +
+      String(doiB),
+      {
         headers: {
           "Content-Type": "application/json",
           "Authorization": String(apikey)
@@ -228,7 +234,7 @@ const recordUserShareDOI = (o) => {
 //   const payload = JSON.stringify({passphrase:passphrase})
 //   return new Promise((resolve,reject) => {
 //     fetch(
-//       apiHost + "/v1/login/apikey", {
+//       apiUrlBase + "/login/apikey", {
 //         headers: {
 //           "Content-Type": "application/json"
 //         },
@@ -252,7 +258,7 @@ const login = (o) => {
   const payload = JSON.stringify({username,passphrase})
   return new Promise((resolve,reject) => {
     fetch(
-      apiHost + "/v1/login", {
+      apiUrlBase + "/login", {
         headers: {
           "Content-Type": "application/json"
         },
@@ -276,7 +282,7 @@ const login = (o) => {
 //   const payload = JSON.stringify({username,passphrase,permit})
 //   return new Promise((resolve,reject) => {
 //     fetch(
-//       apiHost + "/v1/register", {
+//       apiUrlBase + "/register", {
 //         headers: {
 //           "Content-Type": "application/json",
 //         },
@@ -303,7 +309,7 @@ const register = (o) => {
   const payload = JSON.stringify({username,passphrase,permit})
   return new Promise((resolve,reject) => {
     fetch(
-      apiHost + "/v1/register", {
+      apiUrlBase + "/register", {
         headers: {
           "Content-Type": "application/json"
         },
@@ -336,7 +342,7 @@ const validAPIKey = async (o) => {
     const payload = JSON.stringify({key})
     return new Promise((resolve,reject) => {
       fetch(
-        apiHost + "/v1/valid/apikey", {
+        apiUrlBase + "/valid/apikey", {
           headers: {
             "Content-Type": "application/json",
             "Authorization": String(apikey)
