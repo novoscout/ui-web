@@ -1,7 +1,7 @@
 [
   {
     "article": {
-      "doi": "10.1136/BMJOPEN-2017-019040",
+      "doi": "10.1093/RHEUMATOLOGY/KEV227",
       "front": {
         "article-meta": {
           "article-id": null,
@@ -12,7 +12,11 @@
           "contrib-group": [
             { "contrib": { "string-name": "Katie L Hackett" } },
             { "contrib": { "string-name": "Katherine H O Deane" } },
-            { "contrib": { "string-name": "Victoria Strassheim" } }
+            { "contrib": { "string-name": "Victoria Strassheim" } },
+            { "contrib": { "string-name": "Vincent Deary" } },
+            { "contrib": { "string-name": "Tim Rapley" } },
+            { "contrib": { "string-name": "Julia L Newton" } },
+            { "contrib": { "string-name": "Wan-Fai Ng" } }
           ]
         }
       },
