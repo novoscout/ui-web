@@ -48,9 +48,12 @@ class Ident extends Component {
   }
 
   handleForm(e) {
-    console.debug("Submit button:",e)
     e.preventDefault()
-    if ((((e || {}).nativeEvent || {}).submitter || {}).name == "register") {
+    console.debug("Submit button:",e.nativeEvent.submitter.name)
+    if (
+      ((((e || {}).nativeEvent || {}).submitter || {}).name == "register") ||
+        (((e || {}).submitter || {}).name == "register")
+    ) {
       this.register()
     } else {
       this.login()
