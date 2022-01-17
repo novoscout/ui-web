@@ -52,7 +52,8 @@ class Ident extends Component {
     e.preventDefault()
     if (
       ((((e || {}).nativeEvent || {}).submitter || {}).name == "register") ||
-        (((e || {}).submitter || {}).name == "register")
+        (((e || {}).submitter || {}).name == "register") ||
+        (((e || {}).target || {}).name == "register")
     ) {
       this.register()
     } else {
@@ -184,7 +185,7 @@ class Ident extends Component {
     } else {
       return (
         <ID>
-          <form onSubmit={this.handleForm} style={{textAlign:"center"}}>
+          <form style={{textAlign:"center"}}>
             <p>Username:</p>
             <p>
               <TextInput
@@ -205,7 +206,8 @@ class Ident extends Component {
             <p style={{paddingTop:"2rem"}}>
               <Button
                 disabled={this.state.submittingForm}
-                type="submit" name="login">Login</Button>&nbsp;&nbsp;<Button
+                type="submit" name="login"
+                onclick={this.handleForm}>Login</Button>&nbsp;&nbsp;<Button
                 disabled={this.state.submittingForm}
                 onclick={ () => { route("/") } }>Cancel</Button>
             </p>
@@ -220,7 +222,8 @@ class Ident extends Component {
             <p style={{paddingTop:"2rem"}}>
               <Button
                 disabled={this.state.submittingForm}
-                type="submit" name="register">Register</Button>&nbsp;&nbsp;<Button
+                name="register"
+                onclick={this.handleForm}>Register</Button>&nbsp;&nbsp;<Button
                 disabled={this.state.submittingForm}
                 onclick={ () => { route("/") } }>Cancel</Button>
             </p>
