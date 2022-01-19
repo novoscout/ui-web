@@ -9,12 +9,16 @@ const invisible = {
 }
 
 const common = {
+  textLink: {
+    textDecoration: "underline !important",
+    cursor: "pointer !important"
+  },
   button: {
     border: "1px solid",
     borderRadius: "6px",
     cursor: "pointer",
-    minWidth: "8rem",
-    padding: "0.3rem",
+    minWidth: "12rem",
+    padding: "0.3rem 1rem",
   },
   modal: {
     position: "absolute",

@@ -1,6 +1,7 @@
 import { Button } from "./Button"
 import { Container } from "./Container"
 import { Desk } from "./Desk"
+import { Details } from "./Details"
 import { FAB } from "./FAB"
 import { Ident } from "./Ident"
 import { Modal } from "./Modal"
@@ -13,34 +14,38 @@ import { NavActionShare } from "./NavActionShare"
 import { NavActionTheme } from "./NavActionTheme"
 import { NavMenu } from "./NavMenu"
 import { NavTitle } from "./NavTitle"
+import { Summary } from "./Summary"
 import { Swiper } from "./Swiper"
 import { TextInput } from "./TextInput"
 import { TextLink } from "./TextLink"
 import { Toolbar } from "./Toolbar"
 
-const exp = {
+export default {
   Button,
   Container,
   Desk,
+  Details,
   FAB,
   Ident,
   Modal,
   Nav, NavAction, NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme, NavMenu, NavTitle,
+  Summary,
   Swiper,
   TextInput,
   TextLink,
   Toolbar
 }
 
-export default exp
 export {
   Button,
   Container,
   Desk,
+  Details,
   FAB,
   Ident,
   Modal,
   Nav, NavAction, NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme, NavMenu, NavTitle,
+  Summary,
   Swiper,
   TextInput,
   TextLink,
