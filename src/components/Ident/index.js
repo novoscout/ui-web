@@ -4,7 +4,7 @@ import { route } from "preact-router"
 import cxs from "cxs"
 
 import { Ident as _Ident } from "ui-shared/components"
-import { Button, TextLink, TextInput } from ".."
+import { Button, Details, Summary, TextLink, TextInput } from ".."
 
 import { Theme } from "../../theme"
 
@@ -23,7 +23,7 @@ class Ident extends Component {
     this.updatePassphrase = this.updatePassphrase.bind(this)
     this.updatePermit = this.updatePermit.bind(this)
     this.handleForm = this.handleForm.bind(this)
-    this.toggleFaqWhat = this.toggleFaqWhat.bind(this)
+    this.showLoginButton = this.showLoginButton.bind(this)
     this.state = {
       loading: true,
       apikey: null,
@@ -31,7 +31,7 @@ class Ident extends Component {
       passphrase: undefined,
       permit: undefined,
       submittingForm: false,
-      faqWhatVisible: false
+      formFunction: "login",
     }
   }
 
@@ -39,16 +39,7 @@ class Ident extends Component {
   updatePassphrase(e) { this.setState({passphrase:e.target.value}) }
   updatePermit(e) { this.setState({permit:e.target.value}) }
 
-  toggleFaqWhat(e) {
-    this.setState(function(state,props) {
-      return {
-        faqWhatVisible: ! state.faqWhatVisible
-      }
-    })
-  }
-
   handleForm(e) {
-    console.debug("Submit button:",e)
     e.preventDefault()
     if (
       ((((e || {}).nativeEvent || {}).submitter || {}).name == "register") ||
@@ -80,7 +71,7 @@ class Ident extends Component {
         }
       })
     } catch(err) {
-      alert("Log failed, try again?")
+      alert("Login failed, try again?")
     } finally {
       this.setState({submittingForm:false})
     }
@@ -97,8 +88,10 @@ class Ident extends Component {
         this.login()
       })
     } catch(err) {
-      this.setState({submittingForm:false})
+      // this.setState({submittingForm:false})
       alert("Registration failed, try again?")
+    } finally {
+      this.setState({submittingForm:false})
     }
   }
 
@@ -137,6 +130,25 @@ class Ident extends Component {
     await this.setState({loading:false,submittingForm:false})
   }
 
+  shouldComponentUpdate(nextProps,nextState) {
+    if (nextState.formFunction != this.state.formFunction) {
+      return false
+    }
+    return true
+  }
+
+  showLoginButton() {
+    if (this.state.formFunction == "login") {
+      return (
+        <Button
+          disabled={this.state.submittingForm}
+          type="submit" name="login"
+          onclick={this.handleForm}>Login</Button>
+      )
+    }
+    return null
+  }
+
   render() {
     if (this.state.loading) { return null }
 
@@ -169,23 +181,25 @@ class Ident extends Component {
             OsteoScout will remember you each time you visit, unless you <TextLink onclick={this.forceLogout}>logout</TextLink>.
           </p>
           <p><h4 style={{textAlign:"center",paddingTop:"1.5rem"}}>FAQ</h4></p>
-          <ul style={{padding:"0 0 0 1rem"}}>
-            <li><TextLink onclick={this.toggleFaqWhat}>What information does OsteoScout store about me?</TextLink></li>
-          </ul>
-          <div id="faq-what" style={{ display:this.state.faqWhatVisible ? "block" : "none" }}>
+          <Details>
+            <Summary>What information does OsteoScout store about me?</Summary>
             <p>Your username, and safely encrypted password.</p>
             <p>In order to learn what articles are relevant to you, OsteoScout asks you to create an account and to login. The <u>only</u> information OsteoScout stores is your username. We don't even store your password, your IP address, and we don't use cookies. See below for more details.</p>
             <p>About your password: Like any good website, we don't store the plain-text version of your password; we store a <u>securely encrypted</u> version of it instead. This means we can't know your password so we can't remind you of it if you lose it, so keep it safe!</p>
             <p>About IP addresses: Any computer on the internet (including the one you're reading this with, right now) is assigned an 'IP address' (IP stands for 'internet protocol'). The IP address may be temporary, or might be more permanent such as when using a computer in a workplace. Some web service providers collect the IP addresses of visitors. OsteoScout does not do this.</p>
             <p>About cookies: In internet parlance, a 'cookie' is a small piece of data that a website might send to your device. Your device stores the cookie, then sends it back when visiting the website. Cookies are typically used to track individuals, often for advertising purposes. OsteoScout does not use cookies.</p>
             <p>Even more about cookies: OsteoScout uses a third-party service called Cloudflare which may send you cookies. OsteoScout does not make use of these cookies.</p>
-          </div>
+          </Details>
         </ID>
       )
     } else {
       return (
         <ID>
           <form style={{textAlign:"center"}}>
+            <p><b>Login</b></p>
+            <p style={{textAlign:"initial"}}>
+              If you already have a username and password, enter them here.
+            </p>
             <p>Username:</p>
             <p>
               <TextInput
@@ -194,7 +208,7 @@ class Ident extends Component {
                 value={this.state.username}
                 style={{textAlign:"initial"}} /><br/>
             </p>
-            <p>Passphrase:</p>
+            <p>Password:</p>
             <p>
               <TextInput
                 type="password"
@@ -203,30 +217,59 @@ class Ident extends Component {
                 value={this.state.password}
                 style={{textAlign:"initial"}} /><br/>
             </p>
-            <p style={{paddingTop:"2rem"}}>
+
+            <p style={{paddingTop:"1rem"}}>
+              { this.showLoginButton() }
+              <br/>
               <Button
-                disabled={this.state.submittingForm}
-                type="submit" name="login"
-                onclick={this.handleForm}>Login</Button>&nbsp;&nbsp;<Button
                 disabled={this.state.submittingForm}
                 onclick={ () => { route("/") } }>Cancel</Button>
             </p>
-            <p>If you are creating a new user, enter your <i>permit</i> here, as well as your choice of username and passphrase above.</p>
-            <p>
-              <TextInput
-                disabled={this.state.submittingForm}
-                onChange={this.updatePermit}
-                value={this.state.permit}
-                style={{textAlign:"initial"}} />
-            </p>
-            <p style={{paddingTop:"2rem"}}>
-              <Button
-                disabled={this.state.submittingForm}
-                name="register"
-                onclick={this.handleForm}>Register</Button>&nbsp;&nbsp;<Button
-                disabled={this.state.submittingForm}
-                onclick={ () => { route("/") } }>Cancel</Button>
-            </p>
+            <Details
+              style={{
+                backgroundColor: "#eee",
+                display: "block",
+                margin: "auto",
+                borderRadius: "6px"
+              }}>
+              <Summary
+                style={{
+                  borderRadius: "6px",
+                  display: "block",
+                  margin: "auto",
+                  minWidth: "12rem",
+                  padding: "0.3rem 1rem",
+                  margin: "2rem 0"
+                }}
+                onClick={ (e) => {
+                  this.setState({
+                    formFunction: this.state.formFunction == "login"
+                                ? "register"
+                                : "login"
+                  })
+                }}>No login? <span style={{
+                  color: "green !important",
+                  textDecoration: "underline !important"
+                }}>Create a new account</span>.</Summary>
+              <div style={{padding:"0 1rem"}}>
+                <p style={{textAlign:"initial"}}>If you are registering as a new user, enter your '<i>permit</i>' here. <u>You also need to provide a username and password above</u> for your new account.</p>
+                <p>
+                  <TextInput
+                    disabled={this.state.submittingForm}
+                    onChange={this.updatePermit}
+                    value={this.state.permit}
+                    style={{textAlign:"initial"}}
+                    placeholder="permit"
+                  />
+                </p>
+                <p style={{paddingTop:"1rem"}}>
+                  <Button
+                    disabled={this.state.submittingForm}
+                    name="register"
+                    onclick={this.handleForm}>Register new user</Button>
+                </p>
+              </div>
+            </Details>
           </form>
         </ID>
       )
