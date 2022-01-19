@@ -18,7 +18,6 @@ class NavActionShare extends Component {
     if (this.props.toggleModal) {
       this.props.toggleModal({visible:false})
     }
-    alert("If you're sharing this with a colleague, consider: How is this relevant to clinical practise? Have you critically evaluated the paper's findings?")
     navigator.share({
       title: "OsteoScout",
       text: "",
