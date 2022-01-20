@@ -9,16 +9,20 @@ const invisible = {
 }
 
 const common = {
+  summary: {
+    display: "inline",
+    textDecoration: "underline",
+    cursor: "pointer"
+  },
   textLink: {
-    textDecoration: "underline !important",
-    cursor: "pointer !important"
+    textDecoration: "underline",
+    cursor: "pointer"
   },
   button: {
-    border: "1px solid",
-    borderRadius: "6px",
+    borderRadius: "1.6rem",
     cursor: "pointer",
     minWidth: "12rem",
-    padding: "0.3rem 1rem",
+    padding: "0.5rem 0.5rem 0.7rem 0.5rem",
   },
   modal: {
     position: "absolute",
@@ -242,9 +246,9 @@ const common = {
   },
   input: {
     '[type="text"]': {
-      borderStyle: "none none solid none",
-      borderWidth: "0 0 2px 0",
-      borderRadius: "4px 4px 0 0"
+      // borderStyle: "none none solid none",
+      // borderWidth: "0 0 2px 0",
+      // borderRadius: "4px 4px 0 0"
     }
   }
 }
@@ -254,9 +258,9 @@ const common = {
 
 common.input['[type="button"]'] = common.button
 common.input['[type="submit"]'] = common.button
-common.input['[type="email"]'] = common.input['[type="text"]']
-common.input['[type="password"]'] = common.input['[type="text"]']
-common.input['[type="search"]'] = common.input['[type="text"]']
+// common.input['[type="email"]'] = common.input['[type="text"]']
+// common.input['[type="password"]'] = common.input['[type="text"]']
+// common.input['[type="search"]'] = common.input['[type="text"]']
 
 
 // ===================================================================

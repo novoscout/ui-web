@@ -1,4 +1,5 @@
 import { h, Component, Fragment } from "preact"
+import { createRef } from "preact/compat"
 import { useContext } from "preact/compat"
 import { route } from "preact-router"
 import cxs from "cxs"
@@ -23,7 +24,8 @@ class Ident extends Component {
     this.updatePassphrase = this.updatePassphrase.bind(this)
     this.updatePermit = this.updatePermit.bind(this)
     this.handleForm = this.handleForm.bind(this)
-    this.showLoginButton = this.showLoginButton.bind(this)
+    this.toggleFormPurpose = this.toggleFormPurpose.bind(this)
+    this.registerDetailsRef = createRef()
     this.state = {
       loading: true,
       apikey: null,
@@ -31,7 +33,7 @@ class Ident extends Component {
       passphrase: undefined,
       permit: undefined,
       submittingForm: false,
-      formFunction: "login",
+      formPurpose: "login"
     }
   }
 
@@ -39,12 +41,26 @@ class Ident extends Component {
   updatePassphrase(e) { this.setState({passphrase:e.target.value}) }
   updatePermit(e) { this.setState({permit:e.target.value}) }
 
+  toggleFormPurpose(e) {
+    // console.debug(this.registerDetailsRef)
+    const deets = ((this.registerDetailsRef || {}).current || {}).base || {}
+    if (deets.hasOwnProperty("open")) {
+      deets.setAttribute("open", ! deets["open"])
+    }
+    // console.debug(deets)
+    this.setState({
+      formPurpose: this.state.formPurpose == "login" ? "register" : "login"
+    })
+  }
+
   handleForm(e) {
     e.preventDefault()
+    // Yuck
     if (
       ((((e || {}).nativeEvent || {}).submitter || {}).name == "register") ||
-        (((e || {}).submitter || {}).name == "register") ||
-        (((e || {}).target || {}).name == "register")
+      (((e || {}).submitter || {}).name == "register") ||
+      (((e || {}).target || {}).name == "register") ||
+      (this.state.formPurpose == "register")
     ) {
       this.register()
     } else {
@@ -85,7 +101,7 @@ class Ident extends Component {
         passphrase: this.state.passphrase,
         permit: this.state.permit
       }).then( async (r) => {
-        this.login()
+        await this.login({forceRefresh:true})
       })
     } catch(err) {
       // this.setState({submittingForm:false})
@@ -113,12 +129,21 @@ class Ident extends Component {
   }
 
   shouldComponentUpdate(nextProps,nextState) {
-    if (nextState.submittingForm != this.state.submittingForm) {
-      return true
-    }
-    if (nextState.username || nextState.passphrase || nextState.permit) {
+    // if (nextState.formPurpose != this.state.formPurpose) {
+    //   // return false
+    //   return true
+    // }
+    // if (nextState.submittingForm != this.state.submittingForm) {
+    //   return true
+    // }
+    if (
+      (nextState.username != this.state.username) ||
+      (nextState.passphrase != this.state.passphrase) ||
+      (nextState.permit != this.state.permit)
+    ){
       return false
     }
+    return true
   }
 
   async componentDidMount() {
@@ -127,29 +152,14 @@ class Ident extends Component {
         apikey: storage.getItem("apikey")
       })
     }
-    await this.setState({loading:false,submittingForm:false})
-  }
-
-  shouldComponentUpdate(nextProps,nextState) {
-    if (nextState.formFunction != this.state.formFunction) {
-      return false
-    }
-    return true
-  }
-
-  showLoginButton() {
-    if (this.state.formFunction == "login") {
-      return (
-        <Button
-          disabled={this.state.submittingForm}
-          type="submit" name="login"
-          onclick={this.handleForm}>Login</Button>
-      )
-    }
-    return null
+    await this.setState({
+      loading: false,
+      submittingForm: false
+    })
   }
 
   render() {
+    console.debug("render")
     if (this.state.loading) { return null }
 
     const theme = useContext(Theme)
@@ -170,6 +180,10 @@ class Ident extends Component {
       )
     }
 
+    const detailsOpen = this.state.formPurpose == "register" ? true : false
+    console.debug("formPurpose:",this.state.formPurpose)
+    console.debug("Details open:",detailsOpen)
+
     if (this.state.apikey) {
       return (
         <ID>
@@ -183,12 +197,14 @@ class Ident extends Component {
           <p><h4 style={{textAlign:"center",paddingTop:"1.5rem"}}>FAQ</h4></p>
           <Details>
             <Summary>What information does OsteoScout store about me?</Summary>
-            <p>Your username, and safely encrypted password.</p>
-            <p>In order to learn what articles are relevant to you, OsteoScout asks you to create an account and to login. The <u>only</u> information OsteoScout stores is your username. We don't even store your password, your IP address, and we don't use cookies. See below for more details.</p>
-            <p>About your password: Like any good website, we don't store the plain-text version of your password; we store a <u>securely encrypted</u> version of it instead. This means we can't know your password so we can't remind you of it if you lose it, so keep it safe!</p>
-            <p>About IP addresses: Any computer on the internet (including the one you're reading this with, right now) is assigned an 'IP address' (IP stands for 'internet protocol'). The IP address may be temporary, or might be more permanent such as when using a computer in a workplace. Some web service providers collect the IP addresses of visitors. OsteoScout does not do this.</p>
-            <p>About cookies: In internet parlance, a 'cookie' is a small piece of data that a website might send to your device. Your device stores the cookie, then sends it back when visiting the website. Cookies are typically used to track individuals, often for advertising purposes. OsteoScout does not use cookies.</p>
-            <p>Even more about cookies: OsteoScout uses a third-party service called Cloudflare which may send you cookies. OsteoScout does not make use of these cookies.</p>
+            <div>
+              <p>Your username, and safely encrypted password.</p>
+              <p>In order to keep track of articles that you find relevant, OsteoScout asks you to create an account and to login. The <u>only</u> information OsteoScout stores is your username, a safely encrypted version of your password. We don't store your IP address, and we don't use cookies (see below for more details). We also keep track of which articles you read so we can find further information that is relevant for you.</p>
+              <p>About your password: Like any good website, we don't store the plain-text version of your password; we store a <u>securely encrypted</u> version of it instead. This means we can't know your password so we can't remind you of it if you lose it, so keep it safe!</p>
+              <p>About IP addresses: Any computer on the internet (including the one you're reading this with, right now) is assigned an 'IP address' (IP stands for 'internet protocol'). The IP address may be temporary, or might be more permanent such as when using a computer in a workplace. Some web service providers collect the IP addresses of visitors. OsteoScout does not do this.</p>
+              <p>About cookies: In internet parlance, a 'cookie' is a small piece of data that a website might send to your device. Your device stores the cookie, then sends it back when visiting the website. Cookies are typically used to track individuals, often for advertising purposes. OsteoScout does not use cookies.</p>
+              <p>Even more about cookies: OsteoScout uses a third-party service called Cloudflare which may send you cookies. OsteoScout does not make use of these cookies.</p>
+            </div>
           </Details>
         </ID>
       )
@@ -196,11 +212,8 @@ class Ident extends Component {
       return (
         <ID>
           <form style={{textAlign:"center"}}>
-            <p><b>Login</b></p>
-            <p style={{textAlign:"initial"}}>
-              If you already have a username and password, enter them here.
-            </p>
-            <p>Username:</p>
+            <h4>Login</h4>
+            <p style={{textAlign:"initial"}}>Username:</p>
             <p>
               <TextInput
                 disabled={this.state.submittingForm}
@@ -208,7 +221,7 @@ class Ident extends Component {
                 value={this.state.username}
                 style={{textAlign:"initial"}} /><br/>
             </p>
-            <p>Password:</p>
+            <p style={{textAlign:"initial",marginTop:"1.2rem"}}>Password:</p>
             <p>
               <TextInput
                 type="password"
@@ -219,39 +232,27 @@ class Ident extends Component {
             </p>
 
             <p style={{paddingTop:"1rem"}}>
-              { this.showLoginButton() }
-              <br/>
-              <Button
-                disabled={this.state.submittingForm}
-                onclick={ () => { route("/") } }>Cancel</Button>
+              { this.state.formPurpose == "login" &&
+                <Fragment>
+                  <Button
+                    disabled={this.state.submittingForm}
+                    type="submit" name="login"
+                    onclick={this.handleForm}>Login</Button>
+                  <br/>
+                  <Button
+                    disabled={this.state.submittingForm}
+                    onclick={ () => { route("/") } }>Cancel</Button>
+                </Fragment>
+              }
             </p>
             <Details
-              style={{
-                backgroundColor: "#eee",
-                display: "block",
-                margin: "auto",
-                borderRadius: "6px"
-              }}>
+              open={detailsOpen}
+              ref={this.registerDetailsRef}
+              style={{display:"block",margin:"auto"}}>
               <Summary
-                style={{
-                  borderRadius: "6px",
-                  display: "block",
-                  margin: "auto",
-                  minWidth: "12rem",
-                  padding: "0.3rem 1rem",
-                  margin: "2rem 0"
-                }}
-                onClick={ (e) => {
-                  this.setState({
-                    formFunction: this.state.formFunction == "login"
-                                ? "register"
-                                : "login"
-                  })
-                }}>No login? <span style={{
-                  color: "green !important",
-                  textDecoration: "underline !important"
-                }}>Create a new account</span>.</Summary>
-              <div style={{padding:"0 1rem"}}>
+                style={{display:"block",margin:"1.3rem auto"}}
+                onClick={this.toggleFormPurpose}>No login? Create a new account.</Summary>
+              <div style={{padding:"0 0 2rem 0"}}>
                 <p style={{textAlign:"initial"}}>If you are registering as a new user, enter your '<i>permit</i>' here. <u>You also need to provide a username and password above</u> for your new account.</p>
                 <p>
                   <TextInput
@@ -266,7 +267,11 @@ class Ident extends Component {
                   <Button
                     disabled={this.state.submittingForm}
                     name="register"
-                    onclick={this.handleForm}>Register new user</Button>
+                    onclick={this.handleForm}>Register</Button>
+                  <br/>
+                  <Button
+                    disabled={this.state.submittingForm}
+                    onclick={ () => { route("/") } }>Cancel</Button>
                 </p>
               </div>
             </Details>

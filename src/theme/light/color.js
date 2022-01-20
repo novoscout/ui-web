@@ -3,16 +3,17 @@ const color = {
   backgroundAlt: "#e0e0e0",
   backgroundShadow: "rgba(127,127,127,0.5)",
 
-  text: "#333",
+  text: "#024",
 
-  accent: "#060",
+  accent: "#f06",
+  accentAlt: "#fc0",
 
-  primary: "#0f0",
-  primaryDesat: ["#3f3","#6f6","#9f9","#cfc"],
-  primaryDarker: ["#0c0","#090","#060","#030"],
+  primary: "#f36",
+  primaryDesat: ["#f69","#f9c","#fcf"],
+  primaryDarker: ["#c03","#900","#600"],
 
   error: "red",
-  warn: "orange",
+  warn: "darkorange",
   info: "#6495ed", // cornflowerblue,
 }
 

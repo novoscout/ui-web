@@ -5,7 +5,7 @@ import cxs from "cxs"
 
 import { View } from "ui-shared/components"
 
-import { Ident, Swiper, TextLink } from ".."
+import { Details, Ident, Swiper, TextLink } from ".."
 import { Theme } from "../../theme"
 const api = require("../../API")
 

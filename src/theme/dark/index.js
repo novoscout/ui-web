@@ -2,6 +2,9 @@ import color from "./color"
 import mq from "../common/mq"
 
 const dark = {
+  summary: {
+    color: color.accent
+  },
   nav: {
     backgroundColor: color.background,
     color: color.accent
@@ -38,7 +41,8 @@ const dark = {
     color: color.text
   },
   textLink: {
-    color: color.accent
+    color: color.accent,
+    textDecorationColor: color.accentAlt
   },
   fabCollapsed: {
     backgroundColor: color.accent,
@@ -58,7 +62,7 @@ const dark = {
   },
   button: {
     backgroundColor: color.accent,
-    backgroundImage: "linear-gradient(to bottom right, " +
+    backgroundImage: "linear-gradient(to right, " +
                      color.accent + " 0%, " +
                      color.primaryDesat[1] + " 100%)",
     color: color.background

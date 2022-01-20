@@ -6,6 +6,7 @@ const color = {
   text: "#765",
 
   accent: "#900",
+  accentAlt: "#922",
 
   primary: "#c00",
   primaryDesat: ["#900","#600","#300"],

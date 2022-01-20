@@ -2,6 +2,9 @@ import color from "./color"
 import mq from "../common/mq"
 
 const light = {
+  summary: {
+    color: color.accent
+  },
   nav: {
     backgroundColor: color.background,
     color: color.accent
@@ -38,7 +41,8 @@ const light = {
     color: color.text
   },
   textLink: {
-    color: color.accent
+    color: color.accent,
+    textDecorationColor: color.accentAlt
   },
   fabCollapsed: {
     backgroundColor: color.accent,
@@ -57,10 +61,11 @@ const light = {
     color: color.text
   },
   button: {
+    boxShadow: "rgba(0, 0, 0, 0.6) 0px 12px 18px -8px",
     backgroundColor: color.accent,
-    backgroundImage: "linear-gradient(to bottom right, " +
-                     color.primaryDarker[1] + " 0%, " +
-                     color.primaryDarker[3] + " 100%)",
+    backgroundImage: "linear-gradient(to right, " +
+                     color.accent + " 0%, " +
+                     color.accentAlt + " 100%)",
     color: color.background
   },
   input: {

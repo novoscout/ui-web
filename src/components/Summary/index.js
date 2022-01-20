@@ -11,7 +11,7 @@ const Summary = (props) => {
         ? cxs(theme.summary)
         : null
   return (
-    <_Summary {...props}>{props.children}</_Summary>
+    <_Summary className={className} {...props}>{props.children}</_Summary>
   )
 }
 

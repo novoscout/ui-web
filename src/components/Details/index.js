@@ -11,7 +11,7 @@ const Details = (props) => {
         ? cxs(theme.details)
         : null
   return (
-    <_Details {...props}>{props.children}</_Details>
+    <_Details className={className} {...props}>{props.children}</_Details>
   )
 }
 
