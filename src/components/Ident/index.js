@@ -42,12 +42,10 @@ class Ident extends Component {
   updatePermit(e) { this.setState({permit:e.target.value}) }
 
   toggleFormPurpose(e) {
-    // console.debug(this.registerDetailsRef)
     const deets = ((this.registerDetailsRef || {}).current || {}).base || {}
     if (deets.hasOwnProperty("open")) {
       deets.setAttribute("open", ! deets["open"])
     }
-    // console.debug(deets)
     this.setState({
       formPurpose: this.state.formPurpose == "login" ? "register" : "login"
     })
@@ -78,18 +76,18 @@ class Ident extends Component {
       }).then( async (resp) => {
         if (typeof(resp) == "object" && "apikey" in resp) {
           await storage.setItem("apikey",resp["apikey"])
-          await this.setState({apikey:resp["apikey"]})
+          await this.setState({
+            apikey:resp["apikey"],
+            submittingForm:false
+          })
           if (forceRefresh) {
             window.location.replace("/id")
           }
-        } else {
-          alert("Login failed, try again?")
         }
       })
     } catch(err) {
-      alert("Login failed, try again?")
-    } finally {
       this.setState({submittingForm:false})
+      alert("Login failed, try again?")
     }
   }
 
@@ -101,13 +99,12 @@ class Ident extends Component {
         passphrase: this.state.passphrase,
         permit: this.state.permit
       }).then( async (r) => {
-        await this.login({forceRefresh:true})
+        this.setState({submittingForm:false})
+        await this.login() // {forceRefresh:true})
       })
     } catch(err) {
-      // this.setState({submittingForm:false})
-      alert("Registration failed, try again?")
-    } finally {
       this.setState({submittingForm:false})
+      alert("Registration failed, try again?")
     }
   }
 
@@ -129,17 +126,18 @@ class Ident extends Component {
   }
 
   shouldComponentUpdate(nextProps,nextState) {
-    // if (nextState.formPurpose != this.state.formPurpose) {
-    //   // return false
-    //   return true
-    // }
-    // if (nextState.submittingForm != this.state.submittingForm) {
-    //   return true
-    // }
+    // Dance to ensure details/summary toggle register/login buttons
+    // appear and disappear as expected.
+    if (nextState.formPurpose != this.state.formPurpose) {
+      return true
+    }
+    if (nextState.submittingForm != this.state.submittingForm) {
+      return true
+    }
     if (
       (nextState.username != this.state.username) ||
-      (nextState.passphrase != this.state.passphrase) ||
-      (nextState.permit != this.state.permit)
+      (nextState.permit != this.state.permit) ||
+      (nextState.passphrase != this.state.passphrase)
     ){
       return false
     }
@@ -159,12 +157,8 @@ class Ident extends Component {
   }
 
   render() {
-    console.debug("render")
-    if (this.state.loading) { return null }
-
     const theme = useContext(Theme)
-
-    if (this.state.submittingForm) {
+    if (this.state.loading || this.state.submittingForm) {
       return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
     }
 
@@ -181,8 +175,6 @@ class Ident extends Component {
     }
 
     const detailsOpen = this.state.formPurpose == "register" ? true : false
-    console.debug("formPurpose:",this.state.formPurpose)
-    console.debug("Details open:",detailsOpen)
 
     if (this.state.apikey) {
       return (
@@ -227,7 +219,7 @@ class Ident extends Component {
                 type="password"
                 disabled={this.state.submittingForm}
                 onChange={this.updatePassphrase}
-                value={this.state.password}
+                value={this.state.passphrase}
                 style={{textAlign:"initial"}} /><br/>
             </p>
 
