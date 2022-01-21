@@ -2,9 +2,6 @@ import color from "./color"
 import mq from "../common/mq"
 
 const dark = {
-  summary: {
-    color: color.accent
-  },
   nav: {
     backgroundColor: color.background,
     color: color.accent

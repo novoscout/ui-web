@@ -5,7 +5,7 @@ import cxs from "cxs"
 
 import { View } from "ui-shared/components"
 
-import { Details, Ident, Swiper, TextLink } from ".."
+import { Details, Ident, Summary, Swiper, TextLink } from ".."
 import { Theme } from "../../theme"
 const api = require("../../API")
 
@@ -214,19 +214,27 @@ class Desk extends Component {
           startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
         >{title}
+          <hr />
           <div style={{fontSize:"0.9rem"}}>
-            <hr />
-            Full paper: <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
-            <hr />
-            <span class="print-only">
-              Accessed at: <a style={{textDecoration:"underline !important"}} href={osUrl}>{osUrl}</a>
-              <hr />
-            </span>
-            {
-              authors.length > 0 &&
-              <Fragment><p>Authors: {authors.map( (a) => { return (<span>{a}. </span>) })}</p><hr /></Fragment>
-            }
+            <Details>
+              <Summary>Details</Summary>
+              <p>
+                <span class="print-only">
+                  Accessed at: <a style={{textDecoration:"underline !important"}} href={osUrl}>{osUrl}</a>
+                </span>
+              </p>
+              <p>
+                Full paper: <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
+              </p>
+              {
+                authors.length > 0 &&
+                <p>Authors: {authors.map( (auth) => {
+                    return (<span>{auth}. </span>)
+                  })}</p>
+              }
+            </Details>
           </div>
+          <hr />
           {summary}
         </Swiper>
       )
@@ -239,11 +247,15 @@ class Desk extends Component {
   checkRoute(e) { }
 
   render() {
-    if (this.state.loading) { return null }
     const theme = useContext(Theme)
+    if (this.state.loading) {
+      return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
+    }
+
     const className = theme.desk
                     ? cxs(theme.desk)
                     : null
+
     return (
       <Router>
         <View default id="desk" className={className}>

@@ -10,8 +10,11 @@ const Summary = (props) => {
   const className = theme.summary
         ? cxs(theme.summary)
         : null
+  const linkClassName = theme.textLink
+        ? cxs(theme.textLink)
+        : null
   return (
-    <_Summary className={className} {...props}>{props.children}</_Summary>
+    <_Summary className={className} {...props}><span className={linkClassName}>{props.children}</span></_Summary>
   )
 }
 

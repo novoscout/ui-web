@@ -10,8 +10,6 @@ const invisible = {
 
 const common = {
   summary: {
-    display: "inline",
-    textDecoration: "underline",
     cursor: "pointer"
   },
   textLink: {
