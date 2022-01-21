@@ -194,6 +194,7 @@ const common = {
     height: "3rem",
   },
   fabCollapsed: {
+    cursor: "pointer",
     fontSize: "1.35rem",
     borderRadius: "50%",
     height: "2rem",
@@ -212,6 +213,7 @@ const common = {
     }
   },
   fabExpanded: {
+    cursor: "pointer",
     fontSize: "1.35rem",
     borderRadius: "50%",
     height: "2rem",

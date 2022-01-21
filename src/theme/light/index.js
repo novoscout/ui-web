@@ -42,6 +42,7 @@ const light = {
     textDecorationColor: color.accentAlt
   },
   fabCollapsed: {
+    boxShadow: "rgba(0, 0, 0, 0.6) 0px 4px 6px 0px",
     backgroundColor: color.accent,
     ":after": {
       color: color.background
