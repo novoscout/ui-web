@@ -29,11 +29,12 @@ class NavActionIdent extends Component {
                     : null
 
     return (
-      <NavAction className={className}>
+      <NavAction
+        href={Ident.href}
+        className={className}
+        onclick={this.handleIdent}>
         <NavAction.Icon ariaLabel="Login/out">🔒</NavAction.Icon>
-        <NavAction.Text
-          href={Ident.href}
-          onclick={this.handleIdent}>&nbsp;Login/out</NavAction.Text>
+        <NavAction.Text>&nbsp;Login/out</NavAction.Text>
       </NavAction>
     )
   }

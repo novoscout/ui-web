@@ -100,7 +100,7 @@ const common = {
     // ...invisible
   },
   navAction: {
-    display: "",
+    display: "inline-block",
     cursor: "pointer",
     // height: "2rem",
     // margin: "2rem auto 0 auto",
@@ -116,6 +116,7 @@ const common = {
     }
   },
   navActionIcon: {
+    display: "inline",
     margin: 0, // "auto 0 auto 2rem !important"
   },
 

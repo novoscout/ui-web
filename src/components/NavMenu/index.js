@@ -15,10 +15,10 @@ const _Inner = (props) => {
   }
   return (
     <ul>
-      <li><NavActionShare order={1} {...commonActions} /></li>
-      <li><NavActionIdent order={2} {...commonActions} /></li>
-      <li><NavActionPrint order={3} {...commonActions} /></li>
-      <li><NavActionTheme order={4} {...commonActions} /></li>
+      <li><NavActionShare  order={1} {...commonActions} /></li>
+      <li><NavActionIdent  order={2} {...commonActions} /></li>
+      <li><NavActionPrint  order={3} {...commonActions} /></li>
+      <li><NavActionTheme  order={4} {...commonActions} /></li>
       <li><NavActionCancel order={5} {...commonActions} /></li>
     </ul>
   )

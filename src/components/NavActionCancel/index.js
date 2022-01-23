@@ -25,13 +25,13 @@ class NavActionCancel extends Component {
 
     return (
       <NavAction
-        className={className}
-        {...this.props}>
-        <NavAction.Icon ariaLabel="Cancel" role="none"><b style={{color:"red",fontSize:"1.4em"}}>&times;</b></NavAction.Icon>
-        <NavAction.Text
-          href={null}
-          onclick={this.handleCancel}
-          >&nbsp;Cancel</NavAction.Text>
+        href={null}
+        onclick={this.handleCancel}
+        className={className}>
+        <NavAction.Icon
+          ariaLabel="Cancel"
+          role="none"><b style={{color:"red",fontSize:"1.4em"}}>&times;</b></NavAction.Icon>
+        <NavAction.Text>&nbsp;Cancel</NavAction.Text>
       </NavAction>
     )
   }

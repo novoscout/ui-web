@@ -28,11 +28,12 @@ class NavActionTheme extends Component {
                     ? cxs(theme.navActionTheme)
                     : null
     return (
-      <NavAction className={className}>
+      <NavAction
+        href={null}
+        onclick={this.handleChooseTheme}
+        className={className}>
         <NavAction.Icon ariaLabel="Choose day/night theme">🌗</NavAction.Icon>
-        <NavAction.Text
-          href={null}
-          onclick={this.handleChooseTheme}>&nbsp;Day/night</NavAction.Text>
+        <NavAction.Text>&nbsp;Day/night</NavAction.Text>
       </NavAction>
     )
   }

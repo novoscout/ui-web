@@ -27,13 +27,13 @@ class NavActionPrint extends Component {
 
     return (
       <NavAction
-        className={className}
-        {...this.props}>
-        <NavAction.Icon ariaLabel="Print" role="none"><b style={{color:theme.text,fontSize:"1.4em"}}>&#128438;</b></NavAction.Icon>
-        <NavAction.Text
-          href={null}
-          onclick={this.handlePrint}
-          >&nbsp;Print</NavAction.Text>
+        href={null}
+        onclick={this.handlePrint}
+        className={className}>
+        <NavAction.Icon
+          ariaLabel="Print"
+          role="none"><b style={{color:theme.text,fontSize:"1.4em"}}>&#128438;</b></NavAction.Icon>
+        <NavAction.Text>&nbsp;Print</NavAction.Text>
       </NavAction>
     )
   }

@@ -13,10 +13,11 @@ const NavAction = (props) => {
   const className = theme.navAction
                   ? cxs(theme.navAction)
                   : null
+  const handleClick = props.onclick || props.onClick || null
   return (
-    <span className={className}>
+    <TextLink href={props.href} onClick={handleClick} className={className}>
       {props.children}
-    </span>
+    </TextLink>
   )
 }
 
@@ -27,7 +28,7 @@ const _NavActionIcon = (props) => {
                   : null
   const role = props.role || "img"
   return (
-    <span className={className} aria-label={props.ariaLabel} role={role}>
+    <span className={className} aria-label={props.ariaLabel} role={role} {...props}>
       {props.children}
     </span>
   )
@@ -39,9 +40,9 @@ const _NavActionText = (props) => {
                   ? cxs(theme.navActionText)
                   : null
   return (
-    <TextLink className={className} aria-label={props.ariaLabel} {...props}>
+    <span className={className} {...props}>
       {props.children}
-    </TextLink>
+    </span>
   )
 }
 
