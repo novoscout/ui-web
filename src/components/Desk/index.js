@@ -1,37 +1,18 @@
 import { h, Component, Fragment } from "preact"
-import { createRef, useContext, useMemo } from "preact/compat"
+import { createRef, useContext } from "preact/compat"
 import { Router, route } from "preact-router"
 import cxs from "cxs"
 
 import { View } from "ui-shared/components"
 
-import { Details, Ident, Summary, Swiper, TextLink } from ".."
+import { Details, Ident, MemoizedArticles, Summary, Swiper, TextLink } from ".."
 import { Theme } from "../../theme"
+
 const api = require("../../API")
+const storage = require("../../helpers/storage")
 
 // import { load as graphFromJson } from "ngraph.fromjson"
 // import { save as graphToJson } from "ngraph.tojson"
-
-const storage = require("../../helpers/storage")
-
-
-const Articles = (props) => {
-  // This component is separate from the Desk component so it can access
-  // the doi prop inserted by preact-router.
-  const doi = (props || {}).doi
-
-  // Ensure articles are only generated when necessary.
-  const memoizedArticles = useMemo(
-    () => { return props.renderCallback(doi) },
-    props.renderChecks
-  )
-
-  return (
-    <View style={{height:"100%"}}>
-      {memoizedArticles}
-    </View>
-  )
-}
 
 
 class Desk extends Component {
@@ -214,10 +195,9 @@ class Desk extends Component {
           startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
         >{title}
-          <hr />
-          <div style={{fontSize:"0.9rem"}}>
-            <Details>
-              <Summary>Details</Summary>
+          <div style={{paddingTop:"0.5rem",fontSize:"0.8rem"}}>
+            <Details className="always-print">
+              <Summary className="not-print">Details</Summary>
               <p>
                 <span class="print-only">
                   Accessed at: <a style={{textDecoration:"underline !important"}} href={osUrl}>{osUrl}</a>
@@ -234,7 +214,9 @@ class Desk extends Component {
               }
             </Details>
           </div>
-          <hr />
+          <div style={{margin:"0 -1rem"}}>
+            <hr />
+          </div>
           {summary}
         </Swiper>
       )
@@ -260,15 +242,12 @@ class Desk extends Component {
       <Router>
         <View default id="desk" className={className}>
           <Router>
-            { /**
             <View default>
               <p>
                 <TextLink href={Ident.href}>Login</TextLink>
               </p>
             </View>
-            */ }
-            <Articles
-              default
+            <MemoizedArticles
               id="articles"
               path="/doi/:doi*"
               renderCallback={this.renderArticles}
