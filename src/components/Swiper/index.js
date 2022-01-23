@@ -45,14 +45,14 @@ class Swiper extends Component {
     if (! onlySiblings) {
       this.base.style.transition = "all " + this.state.delay + "s ease-out"
       this.base.style.removeProperty("transform")
-      this.base.style.borderColor = "transparent"
+      this.base.style.removeProperty("box-shadow")
     }
     if (! onlySelf) {
       const ms = (this.state.delay * 1000)
       this.siblings().map( (s) => {
         s.style.transition = "all " + this.state.delay + "s ease-out"
         s.style.removeProperty("transform")
-        s.style.borderColor = "transparent"
+        s.style.removeProperty("box-shadow")
         const timeoutID = setTimeout(function(s,timeoutID) {
           s.style.display = "none"
           clearTimeout(timeoutID)
@@ -65,8 +65,7 @@ class Swiper extends Component {
     // FIXME Check if startThreshold has been reached.
     const delta = ((this.base.style || {}).transform || "0").match(/(\-?)\d+/)[0]
     this.base.style.removeProperty("transition")
-    this.base.style.borderColor = "#888"
-    this.base.style.borderColor = "#888"
+    this.base.style.boxShadow = "black 0 8px 10px -4px"
     if (this.props && this.props.start) {
       this.props.start(this)
     }
@@ -93,7 +92,7 @@ class Swiper extends Component {
       that.base.style.removeProperty("transition")
       that.base.style.removeProperty("transform")
       that.base.style.removeProperty("z-index")
-      that.base.style.borderColor = "transparent"
+      that.base.style.removeProperty("box-shadow")
       if (Math.abs(delta) > that.state.endThreshold) {
         if (that.props && that.props.end) {
           that.props.end(that,delta)
