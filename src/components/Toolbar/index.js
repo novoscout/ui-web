@@ -11,7 +11,7 @@ import { Theme } from "../../theme"
 const Toolbar = (props) => {
   const theme = useContext(Theme)
   const className = theme.toolbar
-                  ? cxs(theme.toolbar)
+                  ? cxs(theme.toolbar) + " not-print"
                   : null
   return (
     <_Toolbar id="toolbar" className={className} {...props}>
