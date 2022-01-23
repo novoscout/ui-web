@@ -3,15 +3,14 @@ import mq from "../common/mq"
 
 const dark = {
   nav: {
-    backgroundColor: color.background,
-    color: color.accent
+    backgroundColor: color.accent,
+    color: color.background
   },
   desk: {
     backgroundColor: color.background,
     color: color.text
   },
   toolbar: {
-    // backgroundColor: color.background,
     color: color.text
   },
   modal: {
@@ -27,7 +26,13 @@ const dark = {
   swiper: {
     frame: {
       backgroundColor: color.background,
-      color: color.text
+      color: color.text,
+      " > h2": {
+        background: color.accent,
+        color: color.background,
+        margin: "0 -1rem",
+        padding: "0.5rem 1rem 1rem 1rem"
+      }
     },
     inner: {
       backgroundColor: color.background,

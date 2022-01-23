@@ -25,7 +25,7 @@ const common = {
   modal: {
     position: "absolute",
     width: "100%",
-    top: 0,
+    top: "2rem", // Allow nav to show above modal
     right: 0,
     bottom: 0,
     left: 0,
@@ -41,6 +41,7 @@ const common = {
   desk: {
     position: "relative",
     display: "block",
+    height: "100%",
     width: "100%",
     margin: "0",
     padding: "0",
@@ -71,7 +72,7 @@ const common = {
     lineHeight: "1.5em",
     fontSize: "1.5em",
     // width: "100%",
-    zIndex: 99, // Above modal.
+    zIndex: 5 // underneath modal
   },
   navMenu: {
     ...invisible
@@ -167,21 +168,16 @@ const common = {
   // }
   swiper: {
     frame: {
-      borderRadius: "6px",
-      borderStyle: "solid",
-      borderWidth: "1px",
-      borderColor: "transparent",
+      border: "none",
       display: "block",
       overflowY: "scroll",
-      padding: "1rem",
       width: "100%",
       position: "absolute",
       height: "100%",
 
       // This allows content to scroll up into the bottom of
       // the screen in Safari and Firefox on iOS. FIXME!
-      paddingBottom: "4rem",
-
+      padding: "0 1rem 6rem 1rem"
     }
   },
   toolbar: {

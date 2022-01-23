@@ -4,6 +4,7 @@ const color = {
   backgroundShadow: "rgba(127,127,127,0.5)",
 
   text: "#024",
+  textBright: "#ff0",
 
   accent: "#f06",
   accentAlt: "#fc0",

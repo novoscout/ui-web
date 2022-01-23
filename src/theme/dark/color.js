@@ -4,6 +4,7 @@ const color = {
   backgroundShadow: null,
 
   text: "#765",
+  textBright: "#f03",
 
   accent: "#900",
   accentAlt: "#922",
@@ -14,7 +15,7 @@ const color = {
 
   error: "red",
   warn: "orange",
-  info: "#556b2f", // darkolivegreen
+  info: "#660"
 }
 
 color.warning = color.warn
