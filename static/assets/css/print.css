@@ -3,7 +3,7 @@
 
 @media print {
   .print-only a { text-decoration: underline !important }
-  #toolbar {
-    display: none !important;
-  }
+  .not-print { display: none !important }
+  .always-print { display: block !important }
+  details { display: block !important }
 }

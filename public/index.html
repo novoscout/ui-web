@@ -6,6 +6,9 @@
     <!-- Disable 300ms delay in Chrome and Firefox -->
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- minimum-scale=1, maximum-scale=1 -->
 
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/print.css">
+
     <!-- Disable 300ms delay in IE -->
     <style>html{touch-action:manipulation;-ms-touch-action:manipulation}</style>
 
@@ -16,6 +19,21 @@
          <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha512-qWVvreMuH9i0DrugcOtifxdtZVBBL0X75r9YweXsdCHtXUidlctw7NXg5KVP3ITPtqZ2S575A0wFkvgS2anqSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
          <![endif] -->
 
+    <!-- Scripts policy: defer instead of async where feasible. Kudos https://stackoverflow.com/a/39711009 -->
+
+    <!-- Polyfill.io: automatic polyfills for many features/browsers -->
+    <script defer src="https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default" crossorigin="anonymous"></script>
+
+    <!-- Font Face Observer, used to address issues with font flashes when styling. -->
+    <script src="/assets/js/fontfaceobserver.standalone.min.js"></script>
+
+    <!-- Fallback for Navigator.share() which is not widely supported. -->
+    <!-- See https://unpkg.com/share-api-polyfill/ -->
+    <script defer src="/assets/js/share-min.js"></script>
+
+    <!-- Fallback for details/share elements, mainly for IE or whatever :) -->
+    <script defer src="/assets/js/details-polyfill.js"></script>
+
     <script>
       let storage = undefined;
       if (typeof localStorage !== "undefined") {
@@ -23,48 +41,104 @@
       } else if (typeof window !== "undefined" && typeof window.localStorage !== "undefined") {
         storage = window.localStorage;
       }
+
       function updateBackground() {
         const theme = storage.getItem("theme");
         if (theme && theme == "dark") {
           document.body.parentElement.style.backgroundColor = "black";
           document.body.style.backgroundColor = "black";
           document.body.style.color = "#765";
+          // document.getElementById("nav").style.backgroundColor = "#900";
         } else {
           document.body.parentElement.style.backgroundColor = "white";
           document.body.style.backgroundColor = "white";
-          document.body.style.color = "#333";
+          document.body.style.color = "#024";
+          // document.getElementById("nav").style.backgroundColor = "#f06";
         }
+      }
+
+      function fontFixups() {
+        const f1 = new FontFaceObserver('Noto Serif');
+        const f2 = new FontFaceObserver('DejaVu Serif');
+        const f3 = new FontFaceObserver('Zilla Slab');
+        const f4 = new FontFaceObserver('Zilla Slab', { weight: 700 });
+
+        f1.load().then( () => {
+          document.body.classList.add("wf-noto-serif-loaded")
+        }).catch( (e) => {
+          console.warn("Font failed to load:",f1)
+        })
+
+        f2.load().then( () => {
+          document.body.classList.add("wf-dejavu-serif-loaded")
+        }).catch( (e) => {
+          console.warn("Font failed to load:",f2)
+        })
+
+        f3.load().then( () => {
+          document.body.classList.add("wf-zilla-slab-loaded")
+        }).catch( (e) => {
+          console.warn("Font failed to load:",f3)
+        })
+
+        f4.load().then( () => {
+          document.body.classList.add("wf-zilla-slab-700-loaded")
+        }).catch( (e) => {
+          console.warn("Font failed to load:",f4)
+        })
+
+      }
+
+      function initStuff() {
+        updateBackground();
       }
     </script>
 
     <title></title>
   </head>
-  <body onload="updateBackground()">
+  <body onload="initStuff()" class="no-js">
     <noscript>
       <div>
         Please enable JavaScript.
       </div>
     </noscript>
+
+    <div id="app"></div>
+
+    <div aria-visibility="hidden" class="hidden" style="font-family: 'Noto Serif'">&nbsp; </div>
+    <div aria-visibility="hidden" class="hidden" style="font-family: 'DejaVu Serif'">&nbsp; </div>
+    <div aria-visibility="hidden" class="hidden" style="font-family: 'Zilla Slab'">&nbsp; </div>
+
+    <script> 
+      // Remove "no-js" class.
+      document.getElementsByTagName("body")[0].classList.remove("no-js");
+
+      // Font style fix-ups!
+      fontFixups();
+
+      // Expand all details/summary items when printing.
+      // Kudos: https://stackoverflow.com/a/70062967
+      window.addEventListener('beforeprint', () => {
+        const allDetails = document.body.querySelectorAll('details');
+        for (let i=0; i < allDetails.length; i++) {
+          if (allDetails[i].open) {
+            allDetails[i].dataset.open = '1';
+          } else {
+            allDetails[i].setAttribute('open', '');
+          }
+        }
+      });
+      // After printing, close details elements not opened before.
+      window.addEventListener('afterprint', () => {
+        const allDetails = document.body.querySelectorAll('details');
+        for (let i=0; i < allDetails.length; i++) {
+          if (allDetails[i].dataset.open) {
+            allDetails[i].dataset.open = '';
+          } else {
+            allDetails[i].removeAttribute('open');
+          }
+        }
+      })
+    </script>
   </body>
-  <!-- Scripts policy: defer instead of async where feasible. Kudos https://stackoverflow.com/a/39711009 -->
-
-  <!-- Polyfill.io: automatic polyfills for many features/browsers -->
-  <script>
-    if (navigator) {
-      if (navigator.onLine) {
-        var p = document.createElement('script');
-        p.src = "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default";
-        p.defer = true;
-        p.setAttribute('crossorigin','anonymous')
-        document.head.appendChild(p);
-      }
-    }
-  </script>
-
-  <!-- Fallback for Navigator.share() which is not widely supported. -->
-  <!-- See https://unpkg.com/share-api-polyfill/ -->
-  <script defer src="/assets/js/share-min.js"></script>
-
-  <!-- Fallback for details/share elements, mainly for IE or whatever :) -->
-  <script defer src="/assets/js/details-polyfill.js"></script>
 </html>

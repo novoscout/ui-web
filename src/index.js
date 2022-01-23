@@ -9,5 +9,5 @@ import UI from './UI'
 
 render(
   <UI />,
-  document.getElementsByTagName("body")[0]
+  document.getElementById("app")
 )

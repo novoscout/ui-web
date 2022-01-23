@@ -13,6 +13,28 @@ const apiScheme = (( process || {}).env || {}).API_SCHEME || 'http';
 const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout.home';
 const apiPort = (( process || {}).env || {}).API_PORT || '';
 
+var devPlugins = merge(common.plugins, {
+  "webpack.DefinePlugin": new webpack.DefinePlugin({
+    process: {
+      env: {
+        apiScheme: JSON.stringify(apiScheme),
+        apiHostname: JSON.stringify(apiHostname),
+        apiPort: JSON.stringify(apiPort),
+        development: true,
+        production: false,
+        "NODE_TLS_REJECT_UNAUTHORIZED": 0,
+      }
+    }
+  }),
+
+  "htmlWebpackPlugin": new htmlWebpackPlugin({
+    template: './public/index.html',
+    filename: 'index.html',
+    chunks: ['index' ]
+  })
+});
+
+
 module.exports = merge(common, {
   mode: 'development',
   // devtool: 'eval-cheap-source-map',
@@ -38,24 +60,7 @@ module.exports = merge(common, {
     filename: "[name].js",
     chunkFilename: "[name].js"
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      process: {
-        env: {
-          apiScheme: JSON.stringify(apiScheme),
-          apiHostname: JSON.stringify(apiHostname),
-          apiPort: JSON.stringify(apiPort),
-          development: true,
-          production: false,
-          "NODE_TLS_REJECT_UNAUTHORIZED": 0,
-        }
-      }
-    }),
 
-    new htmlWebpackPlugin({
-      template: './public/index.html',
-      filename: 'index.html',
-      chunks: ['index', 'styles.min' ]
-    })
-  ]
+  plugins: Object.keys(devPlugins).map( p => devPlugins[p] ),
+
 });
