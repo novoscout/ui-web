@@ -233,7 +233,7 @@ class Ident extends Component {
                   <br/>
                   <Button
                     disabled={this.state.submittingForm}
-                    onclick={ () => { route("/") } }>Cancel</Button>
+                    onclick={ () => { window.history.go(-1); return false; } }>Cancel</Button>
                 </Fragment>
               }
             </p>
@@ -263,7 +263,7 @@ class Ident extends Component {
                   <br/>
                   <Button
                     disabled={this.state.submittingForm}
-                    onclick={ () => { route("/") } }>Cancel</Button>
+                    onclick={ () => { window.history.go(-1); return false; } }>Cancel</Button>
                 </p>
               </div>
             </Details>
