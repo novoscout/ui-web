@@ -10,9 +10,10 @@ import { Theme } from "../../theme"
 
 const Toolbar = (props) => {
   const theme = useContext(Theme)
-  const className = theme.toolbar
-                  ? cxs(theme.toolbar) + " not-print"
-                  : null
+  const className = String(
+    theme.toolbar
+    ? cxs(theme.toolbar)
+    : "")  + " not-print"
   return (
     <_Toolbar id="toolbar" className={className} {...props}>
       <FAB onclick={props.toggleModal} />
