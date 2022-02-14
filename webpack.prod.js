@@ -25,37 +25,6 @@ const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout
 const apiPort = (( process || {}).env || {}).API_PORT || '';
 
 
-var prodPlugins = merge(common.plugins, {
-
-  // Ensure file hashes don't change unexpectedly
-  "webpack.ids.HashedModuleIdsPlugin": new webpack.ids.HashedModuleIdsPlugin({
-    hashFunction: hashFunction
-  }),
-  
-  "webpack.DefinePlugin": new webpack.DefinePlugin({
-    process: {
-      env: {
-        apiScheme: JSON.stringify(apiScheme),
-        apiHostname: JSON.stringify(apiHostname),
-        apiPort: JSON.stringify(apiPort),
-        development: false,
-        production: true
-      }
-    }
-  }),
-
-  "miniCssExtractPlugin": new miniCssExtractPlugin(),
-
-  "htmlWebpackPlugin": new htmlWebpackPlugin({
-    template: './public/index.html',
-    filename: 'index.html',
-    chunks: ['index'],
-    minify: true,
-    hash: true
-  })
-});
-
-
 module.exports = merge(common, {
   devServer: {
     allowedHosts: [".osteoscout.home",".osteoscout.com"],
@@ -64,27 +33,26 @@ module.exports = merge(common, {
       directory: distDir
     }
   },
+
   // devtool: 'source-map',
+
   mode: 'production',
-  module: {
-    rules: [
-      {
-        // include: /static\/assets\/css/,
-        exclude: /node_modules/,
-        test: /.s?css$/i,
-        use: [
-          miniCssExtractPlugin.loader,
-          "css-loader",
-          "sass-loader"
-        ]
-      },
-      {
-        exclude: /node_modules/,
-        include: /public/,
-        test: /.html$/i,
-      }
-    ]
-  },
+
+  // module: {
+  //   rules: [
+  //     {
+  //       // include: /static\/assets\/css/,
+  //       exclude: /node_modules/,
+  //       test: /.s?css$/i,
+  //       use: [
+  //         miniCssExtractPlugin.loader,
+  //         "css-loader",
+  //         "sass-loader"
+  //       ]
+  //     }
+  //   ]
+  // },
+
   optimization: {
     splitChunks: {
       minSize: 1,
@@ -110,7 +78,7 @@ module.exports = merge(common, {
     minimizer: [
       new terser({
         parallel: true,
-        // extractComments: true,
+        extractComments: true,
         terserOptions: {
           warnings: true,
           compress: {
@@ -134,6 +102,7 @@ module.exports = merge(common, {
       new htmlMinimizerPlugin()
     ],
   },
+
   output: {
     path: distPath,
     filename: '[contenthash].js',
@@ -142,6 +111,35 @@ module.exports = merge(common, {
     hashDigestLength: hashDigestLength
   },
 
-  plugins: Object.keys(prodPlugins).map( p => prodPlugins[p] )
+  plugins: [
+    // Ensure file hashes don't change unexpectedly
+    new webpack.ids.HashedModuleIdsPlugin({
+      hashFunction: hashFunction
+    }),
 
+    new webpack.DefinePlugin({
+      process: {
+        env: {
+          apiScheme: JSON.stringify(apiScheme),
+          apiHostname: JSON.stringify(apiHostname),
+          apiPort: JSON.stringify(apiPort),
+          development: false,
+          production: true
+        }
+      }
+    }),
+
+    new miniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    }),
+
+    new htmlWebpackPlugin({
+      template: './public/index.html',
+      filename: 'index.html',
+      chunks: ['index'], // 'styles'],
+      minify: true,
+      hash: true
+    })
+  ]
 });

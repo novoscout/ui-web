@@ -2,8 +2,9 @@ const path = require("path");
 const webpack = require("webpack");
 const copyPlugin = require("copy-webpack-plugin");
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
-var appCachePlugin = require("appcache-webpack-plugin");
-
+const appCachePlugin = require("appcache-webpack-plugin");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const htmlInlineCssWebpackPlugin = require("html-inline-css-webpack-plugin").default;
 
 // Webpack 5 no longer automatically bundles certain polyfills.
 const bundleFallbacks = {
@@ -88,41 +89,6 @@ const babelPlugins = [
 ];
 
 
-const commonPlugins = {
-  "copyPlugin": new copyPlugin({
-    patterns: [{from:"static/"}]
-  }),
-
-  "miniCssExtractPlugin": new miniCssExtractPlugin(),
-
-  "appCachePlugin": new appCachePlugin({
-    cache: [
-      "/index.html",
-      "/assets/css/base.css",
-      "/assets/css/print.css",
-      "/assets/font/noto-serif-400-latin-ext.woff2",
-      "/assets/font/noto-serif-400-latin.woff2",
-      "/assets/font/noto-serif-italic-400-latin-ext.woff2",
-      "/assets/font/noto-serif-italic-400-latin.woff2",
-      "/assets/font/zilla-slab-700-latin-ext.woff2",
-      "/assets/font/zilla-slab-700-latin.woff2",
-      "/assets/img/offline.png",
-      "/assets/img/spinner.gif",
-      "/assets/img/share.svg",
-      "/assets/js/share-min.js",
-      "/favicon.ico",
-      "https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js",
-      "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default",
-    ],
-    // network: null, // No network!
-    settings: ['prefer-online'],
-    // exclude: [/.*\.js$/],
-    output: 'manifest.appcache'
-  })
-};
-
-
 module.exports = {
   devServer: {
     host: "app.osteoscout.home",
@@ -141,10 +107,10 @@ module.exports = {
   externals: externals,
   entry: {
     index: path.resolve(__dirname, "src/index.js"),
-    "styles.min": [
-      path.resolve(__dirname, "static/assets/css/base.css"),
-      path.resolve(__dirname, "static/assets/css/print.css")
-    ]
+    // "styles": [
+    //   path.resolve(__dirname, "public/assets/css/base.css"),
+    //   path.resolve(__dirname, "public/assets/css/print.css")
+    // ]
   },
   module: {
     rules: [
@@ -152,6 +118,7 @@ module.exports = {
         exclude: /node_modules/,
         test: /\.s?css$/i,
         use: [
+          miniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader"
         ]
@@ -188,7 +155,51 @@ module.exports = {
     publicPath: '/'
   },
 
-  plugins: Object.keys(commonPlugins).map( p => commonPlugins[p] ),
+  plugins: [
+    new copyPlugin({
+      patterns: [{from:"static/"}]
+    }),
+
+    // new htmlWebpackPlugin({
+    //   template: "public/index.html",
+    //   // filename: "index.html",
+    //   // chunks: ["index"], // ,"styles"],
+    //   // minify: false,
+    //   // hash: true
+    //   minify: false,
+    //   hash: false
+    // }),
+
+    new htmlInlineCssWebpackPlugin({
+      leaveCSSFile: true
+    }),
+
+    new appCachePlugin({
+      cache: [
+        "/index.html",
+        "/assets/css/base.css",
+        "/assets/css/print.css",
+        "/assets/font/noto-serif-400-latin-ext.woff2",
+        "/assets/font/noto-serif-400-latin.woff2",
+        "/assets/font/noto-serif-italic-400-latin-ext.woff2",
+        "/assets/font/noto-serif-italic-400-latin.woff2",
+        "/assets/font/zilla-slab-700-latin-ext.woff2",
+        "/assets/font/zilla-slab-700-latin.woff2",
+        "/assets/img/offline.png",
+        "/assets/img/spinner.gif",
+        "/assets/img/share.svg",
+        "/assets/js/share-min.js",
+        "/favicon.ico",
+        "https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js",
+        "https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default",
+      ],
+      // network: null, // No network!
+      settings: ['prefer-online'],
+      // exclude: [/.*\.js$/],
+      output: 'manifest.appcache'
+    })
+  ],
 
   resolve: {
     fallback: { ...bundleFallbacks },
