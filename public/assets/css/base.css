@@ -12,7 +12,21 @@
   font-style: normal;
   font-weight: 700;
   /* font-display: optional; */
-  src: url(../font/zilla-slab-700-latin.woff2) format('woff2');
+  /* src: url(../font/zilla-slab-700-latin.eot); */
+  /* src: local('Zilla Slab'), */
+  /*      local('Zilla-Slab'), */
+  /*      local('ZillaSlab'), */
+  /*      local('Zilla Slab Bold'), */
+  /*      local('Zilla-Slab-Bold'), */
+  /*      local('ZillaSlabBold'), */
+  /*      local('ZillaSlab Bold'), */
+  /*      local('ZillaSlab-Bold'), */
+  /*      url('../font/zilla-slab-700-latin.woff2') format('woff2'), */
+  /*      url('../font/zilla-slab-700-latin.eot?#iefix') format('embedded-opentype'), */
+  /*      url('../font/zilla-slab-700-latin.woff') format('woff'), */
+  /*      url('../font/zilla-slab-700-latin.ttf') format('truetype'), */
+  /*      url('../font/zilla-slab-700-latin.svg#ZillaSlab-Bold') format('svg'); */
+  src: url('../font/zilla-slab-700-latin.svg#ZillaSlab-Bold') format('svg');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
