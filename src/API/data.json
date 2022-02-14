@@ -1,23 +1,30 @@
 [
   {
     "article": {
-      "doi": "10.1093/RHEUMATOLOGY/KEV227",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1093/RHEUMATOLOGY/KEV227"
+          },
           "title-group": {
             "article-title": "A systematic review of non-pharmacological interventions for primary Sjögren's syndrome",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "Katie L Hackett" } },
-            { "contrib": { "string-name": "Katherine H O Deane" } },
-            { "contrib": { "string-name": "Victoria Strassheim" } },
-            { "contrib": { "string-name": "Vincent Deary" } },
-            { "contrib": { "string-name": "Tim Rapley" } },
-            { "contrib": { "string-name": "Julia L Newton" } },
-            { "contrib": { "string-name": "Wan-Fai Ng" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "Katie L Hackett" },
+              { "string-name": "Katherine H O Deane" },
+              { "string-name": "Victoria Strassheim" },
+              { "string-name": "Vincent Deary" },
+              { "string-name": "Tim Rapley" },
+              { "string-name": "Julia L Newton" },
+              { "string-name": "Wan-Fai Ng" }
+            ]
+          }
         }
       },
       "body": {
@@ -36,19 +43,26 @@
   },
   {
     "article": {
-      "doi": "10.1136/BMJOPEN-2015-007642",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1136/BMJOPEN-2015-007642"
+          },
           "title-group": {
             "article-title": "Parents with Chronic Pain: A Systematic Review and Meta-Analysis of Pain, Health, Psychological, and Family Outcomes",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "Kristen S Higgins" } },
-            { "contrib": { "string-name": "Kathryn A Birnie" } },
-            { "contrib": { "string-name": "Christine T Chambers" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "Kristen S Higgins" },
+              { "string-name": "Kathryn A Birnie" },
+              { "string-name": "Christine T Chambers" }
+            ]
+          }
         }
       },
       "body": {
@@ -63,19 +77,22 @@
   },
   {
     "article": {
-      "doi": "10.1186/S13075-015-0533-5",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1186/S13075-015-0533-5"
+          },
           "title-group": {
             "article-title": "Effects of exercise on depression in adults with arthritis: a systematic review with meta-analysis of randomized controlled trials",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "" } },
-            { "contrib": { "string-name": "" } },
-            { "contrib": { "string-name": "" } }
-          ]
+          "contrib-group": {
+            "contrib": []
+          }
         }
       },
       "body": {
@@ -89,20 +106,27 @@
   },
   {
     "article": {
-      "doi": "10.1016/J.JBMT.2017.05.014",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1016/J.JBMT.2017.05.014"
+          },
           "title-group": {
             "article-title": "Osteopathic manipulative treatment for low back and pelvic girdle pain during and after pregnancy: A systematic review and meta-analysis",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "Helge Franke" } },
-            { "contrib": { "string-name": "Jan-David Franke" } },
-            { "contrib": { "string-name": "Sebastian Belz" } },
-            { "contrib": { "string-name": "Gary Fryer" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "Helge Franke" },
+              { "string-name": "Jan-David Franke" },
+              { "string-name": "Sebastian Belz"},
+              { "string-name": "Gary Fryer" }
+            ]
+          }
         }
       },
       "body": {
@@ -114,22 +138,29 @@
   },
   {
     "article": {
-      "doi": "10.1186/2045-709X-22-12",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1186/2045-709X-22-12"
+          },
           "title-group": {
             "article-title": "Clinical effectiveness of manual therapy for the management of musculoskeletal and non-musculoskeletal conditions: systematic review and update of UK evidence report",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "Christine Clar" } },
-            { "contrib": { "string-name": "Alexander Tsertsvadze" } },
-            { "contrib": { "string-name": "Rachel Court" } },
-            { "contrib": { "string-name": "Gillian Lewando Hundt" } },
-            { "contrib": { "string-name": "Aileen Clarke" } },
-            { "contrib": { "string-name": "Paul Sutcliffe" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "Christine Clar" },
+              { "string-name": "Alexander Tsertsvadze" },
+              { "string-name": "Rachel Court" },
+              { "string-name": "Gillian Lewando Hundt" },
+              { "string-name": "Aileen Clarke" },
+              { "string-name": "Paul Sutcliffe" }
+            ]
+          }
         }
       },
       "body": {
@@ -144,18 +175,25 @@
   },
   {
     "article": {
-      "doi": "10.1186/1746-1340-18-14",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1186/1746-1340-18-14"
+          },
           "title-group": {
             "article-title": "Chiropractic diagnosis and management of non-musculoskeletal conditions in children and adolescents",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "Randy J Ferrance" } },
-            { "contrib": { "string-name": "Joyce Miller" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "Randy J Ferrance" },
+              { "string-name": "Joyce Miller" }
+            ]
+          }
         }
       },
       "body": {
@@ -168,19 +206,26 @@
   },
   {
     "article": {
-      "doi": "10.1136/BMJOPEN-2018-023770",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1136/BMJOPEN-2018-023770"
+          },
           "title-group": {
             "article-title": "The role of osteopathy in the Swiss primary health care system: a practice review",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "Paul Vaucher" } },
-            { "contrib": { "string-name": "Roy Macdonald" } },
-            { "contrib": { "string-name": "Dawn Carnes" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "Paul Vaucher" },
+              { "string-name": "Roy Macdonald" },
+              { "string-name": "Dawn Carnes" }
+            ]
+          }
         }
       },
       "body": {
@@ -212,20 +257,27 @@
   },
   {
     "article": {
-      "doi": "10.1002/14651858.CD003132.PUB2",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1002/14651858.CD003132.PUB2"
+          },
           "title-group": {
             "article-title": "Therapeutic ultrasound for osteoarthritis of the knee or hip",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "A Rutjes" } },
-            { "contrib": { "string-name": "E Nüesch" } },
-            { "contrib": { "string-name": "R Sterchi" } },
-            { "contrib": { "string-name": "P Jüni" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "A Rutjes" },
+              { "string-name": "E Nüesch" },
+              { "string-name": "R Sterchi" },
+              { "string-name": "P Jüni" }
+            ]
+          }
         }
       },
       "body": {
@@ -272,20 +324,27 @@
   },
   {
     "article": {
-      "doi": "10.3109/09593985.2012.731675",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.3109/09593985.2012.731675"
+          },
           "title-group": {
             "article-title": "The clinical effects of Kinesio Tex taping: A systematic review",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "D Morris" } },
-            { "contrib": { "string-name": "D Jones" } },
-            { "contrib": { "string-name": "H Ryan" } },
-            { "contrib": { "string-name": "C Ryan" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "D Morris" },
+              { "string-name": "D Jones" },
+              { "string-name": "H Ryan" },
+              { "string-name": "C Ryan" }
+            ]
+          }
         }
       },
       "body": {
@@ -335,20 +394,27 @@
   },
   {
     "article": {
-      "doi": "10.1038/S41746-019-0109-X",
       "front": {
+        "abstract": null,
+        "kwd-group": null,
         "article-meta": {
-          "article-id": null,
+          "article-categories": null,
+          "article-id": {
+            "@pub-id-type": "doi",
+            "#text": "10.1038/S41746-019-0109-X"
+          },
           "title-group": {
             "article-title": "App-based multidisciplinary back pain treatment versus combined physiotherapy plus online education: a randomized controlled trial",
             "subtitle": null
           },
-          "contrib-group": [
-            { "contrib": { "string-name": "Thomas Toelle" } },
-            { "contrib": { "string-name": "Daniel Utpadel-Fischler" } },
-            { "contrib": { "string-name": "Katharina-Kristina Haas" } },
-            { "contrib": { "string-name": "Janosch Priebe" } }
-          ]
+          "contrib-group": {
+            "contrib": [
+              { "string-name": "Thomas Toelle" },
+              { "string-name": "Daniel Utpadel-Fischler" },
+              { "string-name": "Katharina-Kristina Haas" },
+              { "string-name": "Janosch Priebe" }
+            ]
+          }
         }
       },
       "body": {
