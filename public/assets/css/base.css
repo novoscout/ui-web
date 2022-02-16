@@ -1,34 +1,71 @@
 @font-face {
   font-family: 'Zilla Slab';
-  font-style: normal;
-  font-weight: 700;
+  /* font-style: normal; */
+  /* font-weight: 700; */
   /* font-display: optional; */
-  src: url(../font/zilla-slab-700-latin-ext.woff2) format('woff2');
+  src: local('Zilla Slab'),
+       local('Zilla-Slab'),
+       local('ZillaSlab'),
+       local('Zilla Slab Bold'),
+       local('Zilla-Slab-Bold'),
+       local('ZillaSlab Bold'),
+       local('ZillaSlab-Bold'),
+       local('Zilla SlabBold'),
+       local('Zilla-SlabBold'),
+       local('ZillaSlabBold'),
+       url('../font/zilla-slab-700-latin-ext.woff2') format('woff2'),
+       url('../font/zilla-slab-700-latin-ext.eot?#iefix') format('embedded-opentype'),
+       url('../font/zilla-slab-700-latin-ext.woff') format('woff'),
+       url('../font/zilla-slab-700-latin-ext.ttf') format('truetype'),
+       url('../font/zilla-slab-700-latin-ext.svg#ZillaSlab-Bold') format('svg');
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
   font-family: 'Zilla Slab';
-  font-style: normal;
-  font-weight: 700;
+  /* font-style: normal; */
+  /* font-weight: 700; */
   /* font-display: optional; */
-  /* src: url(../font/zilla-slab-700-latin.eot); */
-  /* src: local('Zilla Slab'), */
-  /*      local('Zilla-Slab'), */
-  /*      local('ZillaSlab'), */
-  /*      local('Zilla Slab Bold'), */
-  /*      local('Zilla-Slab-Bold'), */
-  /*      local('ZillaSlabBold'), */
-  /*      local('ZillaSlab Bold'), */
-  /*      local('ZillaSlab-Bold'), */
-  /*      url('../font/zilla-slab-700-latin.woff2') format('woff2'), */
-  /*      url('../font/zilla-slab-700-latin.eot?#iefix') format('embedded-opentype'), */
-  /*      url('../font/zilla-slab-700-latin.woff') format('woff'), */
-  /*      url('../font/zilla-slab-700-latin.ttf') format('truetype'), */
-  /*      url('../font/zilla-slab-700-latin.svg#ZillaSlab-Bold') format('svg'); */
-  src: url('../font/zilla-slab-700-latin.svg#ZillaSlab-Bold') format('svg');
+  src: local('Zilla Slab'),
+       local('Zilla-Slab'),
+       local('ZillaSlab'),
+       local('Zilla Slab Bold'),
+       local('Zilla-Slab-Bold'),
+       local('ZillaSlab Bold'),
+       local('ZillaSlab-Bold'),
+       local('Zilla SlabBold'),
+       local('Zilla-SlabBold'),
+       local('ZillaSlabBold'),
+       url('../font/zilla-slab-700-latin.woff2') format('woff2'),
+       url('../font/zilla-slab-700-latin.eot?#iefix') format('embedded-opentype'),
+       url('../font/zilla-slab-700-latin.woff') format('woff'),
+       url('../font/zilla-slab-700-latin.ttf') format('truetype'),
+       url('../font/zilla-slab-700-latin.svg#ZillaSlab-Bold') format('svg');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
+/* @font-face { */
+/*   font-family: 'Zilla Slab'; */
+/*   font-style: normal; */
+/*   font-weight: 400; */
+/*   font-display: optional; */
+/*   src: url(../font/zilla-slab-700-latin.woff2) format('woff2'); */
+/*   src: local('Zilla Slab'), */
+/*        local('Zilla-Slab'), */
+/*        local('ZillaSlab'), */
+/*        local('Zilla Slab Bold'), */
+/*        local('Zilla-Slab-Bold'), */
+/*        local('ZillaSlabBold'), */
+/*        local('ZillaSlab Bold'), */
+/*        local('ZillaSlab-Bold'), */
+/*        url('../font/zilla-slab-700-latin.woff2') format('woff2'), */
+/*        url('../font/zilla-slab-700-latin.eot?#iefix') format('embedded-opentype'), */
+/*        url('../font/zilla-slab-700-latin.woff') format('woff'), */
+/*        url('../font/zilla-slab-700-latin.ttf') format('truetype'), */
+/*        url('../font/zilla-slab-700-latin.svg#ZillaSlab-Bold') format('svg'); */
+/*   src: url('../font/zilla-slab-700-latin.svg#ZillaSlab-Bold') format('svg'); */
+/*   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; */
+/* } */
 
 @font-face {
   font-family: 'Noto Serif';
@@ -132,7 +169,7 @@ body {
   font-family: "Noto Serif",
                "DejaVu Serif", /* Ubuntu etc */
                serif;          /* fallback */
-  letter-spacing: 0.4px;
+  letter-spacing: 0.1px;
   line-height: 1.5;
 }
 
@@ -152,37 +189,14 @@ h1, #nav h1, a.title {
 
 p, h2, h3, h4, h5, h6 { margin: 0 0 0.5rem 0 }
 
-button, h1, h2, h3, h4, h5, h6 {
-  font-family: serif;
-  font-weight: 700;
-}
+h1,h2,h3,h4,h5,h6 { font-family: serif; font-weight: 700; line-height: 1.15; letter-spacing: 0.3px }
 
-/* ====================================================================== */
-
-/* Font tweaks, minimising jarring from resizing. */
-
-h1,h2,h3,h4,h5,h6 { font-family: serif; transition: font-size 0.5s }
-
-h1 { font-size: 1.2rem; line-height: 1.15; letter-spacing: 2.4px }
-h2 { font-size: 1.1rem; line-height: 1.15; letter-spacing: 2.4px }
-h3 { font-size: 1.0rem; line-height: 1.15; letter-spacing: 2.4px }
-h4 { font-size: 1.0rem; line-height: 1.15; letter-spacing: 2.4px }
-h5 { font-size: 1.0rem; line-height: 1.15; letter-spacing: 2.4px }
-h6 { font-size: 1.0rem; line-height: 1.15; letter-spacing: 2.4px }
-
-.wf-dejavu-serif-loaded h1 { font-family: "DejaVu Serif"; font-size: 1.2rem; line-height: 1.3; letter-spacing: 0.4px }
-.wf-dejavu-serif-loaded h2 { font-family: "DejaVu Serif"; font-size: 1.1rem; line-height: 1.3; letter-spacing: 0.4px }
-.wf-dejavu-serif-loaded h3 { font-family: "DejaVu Serif"; font-size: 1.0rem; line-height: 1.3; letter-spacing: 0.4px }
-.wf-dejavu-serif-loaded h4 { font-family: "DejaVu Serif"; font-size: 1.0rem; line-height: 1.3; letter-spacing: 0.4px }
-.wf-dejavu-serif-loaded h5 { font-family: "DejaVu Serif"; font-size: 1.0rem; line-height: 1.3; letter-spacing: 0.4px }
-.wf-dejavu-serif-loaded h6 { font-family: "DejaVu Serif"; font-size: 1.0rem; line-height: 1.3; letter-spacing: 0.4px }
-
-.wf-zilla-slab-loaded h1 { font-family: "Zilla Slab"; font-size: 1.4rem; line-height: 1.1; letter-spacing: 0.4px }
-.wf-zilla-slab-loaded h2 { font-family: "Zilla Slab"; font-size: 1.3rem; line-height: 1.1; letter-spacing: 0.4px }
-.wf-zilla-slab-loaded h3 { font-family: "Zilla Slab"; font-size: 1.2rem; line-height: 1.1; letter-spacing: 0.4px }
-.wf-zilla-slab-loaded h4 { font-family: "Zilla Slab"; font-size: 1.1rem; line-height: 1.1; letter-spacing: 0.4px }
-.wf-zilla-slab-loaded h5 { font-family: "Zilla Slab"; font-size: 1.1rem; line-height: 1.1; letter-spacing: 0.4px }
-.wf-zilla-slab-loaded h6 { font-family: "Zilla Slab"; font-size: 1.1rem; line-height: 1.1; letter-spacing: 0.4px }
+h1 { font-size: 1.2rem }
+h2 { font-size: 1.1rem }
+h3 { font-size: 1.0rem }
+h4 { font-size: 1.0rem }
+h5 { font-size: 1.0rem }
+h6 { font-size: 1.0rem }
 
 /* ====================================================================== */
 
@@ -193,19 +207,18 @@ input, input[type="button"], input[type="submit"], input[type="text"], input[typ
   margin: auto;
 }
 
-input[type="button"], input[type="submit"] {
-  font-family: "Zilla Slab", "DejaVu Serif", serif;
+button, input[type="button"], input[type="submit"] {
+  font-family: serif;
+  border: 0;
   font-weight: 700;
 }
 
 input[type="text"], input[type="email"], input[type="password"], input[type="search"] {
+  font-family: "Courier New", courier, fixed, system;
   border-style: none none solid none;
   border-width: 0 0 2px 0;
-  border-radius: 4px 4px 0 0
-}
-
-button, input[type="button"], input[type="submit"] {
-  border: 0;
+  border-radius: 4px 4px 0 0;
+  padding: 3px 4px 2px 4px;
 }
 
 /* ====================================================================== */
@@ -282,4 +295,110 @@ hr {
   border-top-color: #765;
   overflow: visible;
   height: 1px;
+}
+/* ====================================================================== */
+
+/* Font tweaks, minimising jarring from resizing. */
+
+/* FIXME Add noto serif here */
+
+.font-dejavu-serif h1,
+.font-dejavu-serif h2,
+.font-dejavu-serif h3,
+.font-dejavu-serif h4,
+.font-dejavu-serif h5,
+.font-dejavu-serif h6 {
+  font-weight: 700;
+  font-family: "DejaVu Serif";
+  letter-spacing: 0.4px;
+  /* line-height: 1.3 */
+}
+
+.font-dejavu-serif h1 { font-size: 1.20rem; letter-spacing: 1px }
+.font-dejavu-serif h2 { font-size: 1.10rem }
+.font-dejavu-serif h3 { font-size: 0.97rem }
+.font-dejavu-serif h4 { font-size: 0.97rem }
+.font-dejavu-serif h5 { font-size: 0.97rem }
+.font-dejavu-serif h6 { font-size: 0.97rem }
+
+.font-zilla-slab h1, .font-zilla-slab-700 h1,
+.font-zilla-slab h2, .font-zilla-slab-700 h2,
+.font-zilla-slab h3, .font-zilla-slab-700 h3,
+.font-zilla-slab h4, .font-zilla-slab-700 h4,
+.font-zilla-slab h5, .font-zilla-slab-700 h5,
+.font-zilla-slab h6, .font-zilla-slab-700 h6 {
+  font-weight: 700;
+  font-family: "Zilla Slab" !important;
+  letter-spacing: 0.4px;
+  line-height: 1.1
+}
+
+.font-zilla-slab h1, .font-zilla-slab-700 h1 { font-size: 1.42rem; line-height: 1.25 }
+.font-zilla-slab h2, .font-zilla-slab-700 h2 { font-size: 1.30rem }
+.font-zilla-slab h3, .font-zilla-slab-700 h3 { font-size: 1.20rem }
+.font-zilla-slab h4, .font-zilla-slab-700 h4 { font-size: 1.10rem; line-height: 1 }
+.font-zilla-slab h5, .font-zilla-slab-700 h5 { font-size: 1.10rem }
+.font-zilla-slab h6, .font-zilla-slab-700 h6 { font-size: 1.10rem }
+
+.font-dejavu-serif button,
+.font-dejavu-serif input[type="button"],
+.font-dejavu-serif input[type="submit"] {
+  font-family: "DejaVu Serif";
+  letter-spacing: 1px;
+}
+
+.font-zilla-slab button,
+.font-zilla-slab input[type="button"],
+.font-zilla-slab input[type="submit"],
+.font-zilla-slab-700 button,
+.font-zilla-slab-700 input[type="button"],
+.font-zilla-slab-700 input[type="submit"] {
+  font-family: "Zilla Slab" !important;
+  font-size: 1.11rem !important;
+  padding: 0.4rem 0.4rem 0.6rem !important;
+}
+.font-zilla-slab-700 button,
+.font-zilla-slab-700 input[type="button"],
+.font-zilla-slab-700 input[type="submit"] {
+  font-weight: 400 !important;
+  letter-spacing: 0.8px !important;
+}
+
+.font-noto-serif p,
+.font-dejavu-serif p,
+.font-zilla-slab p,
+.font-zilla-slab-700 p,
+.font-noto-serif h1,
+.font-dejavu-serif h1,
+.font-zilla-slab h1,
+.font-zilla-slab-700 h1,
+.font-noto-serif h2,
+.font-dejavu-serif h2,
+.font-zilla-slab h2,
+.font-zilla-slab-700 h2,
+.font-noto-serif h3,
+.font-dejavu-serif h3,
+.font-zilla-slab h3,
+.font-zilla-slab-700 h3,
+.font-noto-serif h4,
+.font-dejavu-serif h4,
+.font-zilla-slab h4,
+.font-zilla-slab-700 h4,
+.font-noto-serif h5,
+.font-dejavu-serif h5,
+.font-zilla-slab h5,
+.font-zilla-slab-700 h5,
+.font-noto-serif h6,
+.font-dejavu-serif h6,
+.font-zilla-slab h6,
+.font-zilla-slab-700 h6,
+.font-noto-serif button,
+.font-dejavu-serif button,
+.font-zilla-slab button,
+.font-zilla-slab-700 button,
+.font-noto-serif input,
+.font-dejavu-serif input,
+.font-zilla-slab input,
+.font-zilla-slab-700 input {
+  transition: font-family 0.5s, font-size 0.5s, font-weight 0.5s, letter-spacing 0.5s, line-height 0.5s, padding 0.5s;
 }

@@ -34,3 +34,11 @@ this.addEventListener('install', function(event) {
     })
   )
 })
+
+this.addEventListener('activate', function(event) {
+  console.log('Activated', event);
+});
+
+self.addEventListener('push', function(event) {
+  console.log('Push message received', event);
+});

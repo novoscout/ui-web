@@ -4,7 +4,7 @@ import cxs from "cxs"
 
 import { View } from "ui-shared/components"
 
-import { NavTitle, NavMenu } from ".."
+import { NavMenu, NavTitle } from ".."
 import { Theme } from "../../theme"
 
 

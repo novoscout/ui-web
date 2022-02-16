@@ -112,12 +112,12 @@ class Desk extends Component {
 
     if ((! g) || (gLen == 0)) { return null }
 
-    const activeDOI = this.state.activeDOI
+    var activeDOI = this.state.activeDOI
           || DOIFromURL
           || ((g[Math.floor(Math.random() * gLen)] || {}).article || {}).doi
           // || g[g.length-1].article.doi
 
-    if (! activeDOI) { return null }
+    // if (! activeDOI) { return null }
 
     // Some offsetting calcs. Explanation:
     // 
@@ -140,8 +140,21 @@ class Desk extends Component {
     var offset = 0;
     if (gLen > 0) {
       offset = g.findIndex( (o) => {
-        if (o && typeof(o) === "object" && "article" in o && "doi" in o.article) {
-          return String(o.article.doi) == String(activeDOI)
+        if (
+          // (((o || {}).article || {}).front || {})["article-meta"] etc! FIXME
+          o
+          && typeof(o) === "object"
+          && o.article
+          && o.article.front
+          && "article-meta" in o.article.front
+          && "article-id" in o.article.front["article-meta"]
+          && "#text" in o.article.front["article-meta"]["article-id"]
+          && "@pub-id-type" in o.article.front["article-meta"]["article-id"]
+          && o.article.front["article-meta"]["article-id"]["@pub-id-type"] === "doi"
+        ) {
+          return String(
+            o.article.front["article-meta"]["article-id"]["#text"]
+          ).toLowerCase == String(activeDOI).toLowerCase()
         } else {
           return -1
         }
@@ -163,12 +176,12 @@ class Desk extends Component {
       const article = g[pointer].article
       const prevPointer = pointer - 1 < 0 ? gLen - 1 < 0 ? 0 : gLen - 1 : pointer - 1
       const previous = g[prevPointer]
-      if (typeof(previous) != "object" || (! "article" in previous) || (! "doi" in previous.article)) {
+      if (typeof(previous) != "object" || (! "article" in previous) || (! "front" in previous.article) || (! "article-meta" in previous.article.front) || (! "article-id" in previous.article.front["article-meta"]) || (! "#text" in previous.article.front["article-meta"]["article-id"]) || (! "@pub-id-type" in previous.article.front["article-meta"]["article-id"]) || (! previous.article.front["article-meta"]["article-id"]["@pub-id-type"] == "doi")) {
         continue
       }
-      const previousDOI = previous.article.doi
-      const nextDOI = g[(pointer + 1) % gLen].article.doi
-      const doi = article.doi
+      const previousDOI = previous.article.front["article-meta"]["article-id"]["#text"]
+      const nextDOI = g[(pointer + 1) % gLen].article.front["article-meta"]["article-id"]["#text"]
+      const doi = article.front["article-meta"]["article-id"]["#text"]
       const title = (
         <h2>
           {article.front["article-meta"]["title-group"]["article-title"]}
@@ -177,8 +190,8 @@ class Desk extends Component {
       const summary = article.body.sec.map( (section) => {
         return ( <p>{section.p}</p> )
       })
-      const authors = article.front["article-meta"]["contrib-group"].map( (c) => {
-        return c["contrib"]["string-name"]
+      const authors = article.front["article-meta"]["contrib-group"]["contrib"].map( (c) => {
+        return c["string-name"]
       }).filter( (i) => { if (i) { return true } })
       const ref = createRef()
       const doiUrl = String("https://doi.org/" + doi).toLowerCase()
@@ -220,6 +233,21 @@ class Desk extends Component {
           {summary}
         </Swiper>
       )
+    }
+
+    // If no article is visible, make the middle one visible and active!
+    if (
+      ret.map( (e) => {
+        return (e.props.style || {}).display
+      }).filter( (e) => {
+        return e != "none"
+      }).length == 0) {
+      const selected = ret[Math.floor(ret.length / 2)];
+      selected.style = null;
+      activeDOI = selected.props.doi;
+      this.setState(function(state,props) {
+        return {activeDOI:activeDOI}
+      });
     }
 
     route("/doi/" + activeDOI)

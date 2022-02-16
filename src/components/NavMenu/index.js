@@ -4,8 +4,21 @@ import cxs from "cxs"
 
 import { TextLink } from "ui-shared/components"
 
-import { NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme } from ".."
 import { Theme } from "../../theme"
+
+import { NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme } from ".."
+
+// import { lazyLoad } from "../../helpers/lazyLoad"
+// var NavActionCancel = undefined;
+// lazyLoad("NavActionCancel").then( m => { NavActionCancel = m.default })
+// var NavActionIdent = undefined;
+// lazyLoad("NavActionIdent").then( m => { NavActionIdent = m.default })
+// var NavActionPrint = undefined;
+// lazyLoad("NavActionPrint").then( m => { NavActionPrint = m.default })
+// var NavActionShare = undefined;
+// lazyLoad("NavActionShare").then( m => { NavActionShare = m.default })
+// var NavActionTheme = undefined;
+// lazyLoad("NavActionTheme").then( m => { NavActionTheme = m.default })
 
 
 const _Inner = (props) => {

@@ -70,7 +70,7 @@ const common = {
     display: "inline-block",
     position: "relative",
     lineHeight: "1.5em",
-    fontSize: "1.5em",
+    // fontSize: "1.5em",
     // width: "100%",
     zIndex: 5 // underneath modal
   },

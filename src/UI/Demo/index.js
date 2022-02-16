@@ -4,8 +4,6 @@ import { useContext } from "preact/compat"
 import { Text, View } from "ui-shared/components"
 import { Desk, Modal, Nav, Toolbar } from "../../components"
 
-// import { LoremIpsum } from "lorem-ipsum"
-
 
 class Demo extends Component {
   constructor(props) {
