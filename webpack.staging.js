@@ -73,14 +73,14 @@ module.exports = merge(common, {
           test: /[\\/]node_modules[\\/]/,
           chunks: "all",
           enforce: true,
-          // name(module) {
-          //   // get the name. E.g. node_modules/packageName/not/this/part.js
-          //   // or node_modules/packageName
-          //   const plain_name = String(
-          //     module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
-          //   ).replace("@","_at_")
-          //   return plain_name
-          // },
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const plain_name = String(
+              module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+            ).replace("@","_at_")
+            return plain_name
+          },
         }
       }
     },
@@ -115,10 +115,10 @@ module.exports = merge(common, {
 
   output: {
     path: distPath,
-    filename: '[contenthash].js',
-    chunkFilename: '[contenthash].js',
-    hashFunction: hashFunction,
-    hashDigestLength: hashDigestLength
+    // filename: '[contenthash].js',
+    // chunkFilename: '[contenthash].js',
+    // hashFunction: hashFunction,
+    // hashDigestLength: hashDigestLength
   },
 
   plugins: [

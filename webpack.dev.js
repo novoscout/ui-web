@@ -28,16 +28,16 @@ module.exports = merge(common, {
     minimize: false,
     splitChunks: {
       // For easier debugging, don't combine files into chunks.
-      // Also retain their path info.
       minSize: 1,
       maxSize: 1,
-      hidePathInfo: false,
+      // Also retain their path info.
+      // hidePathInfo: false,
     }
   },
   output: {
     path: distPath,
-    filename: "[name].js",
-    chunkFilename: "[name].js"
+    // filename: "[name].js",
+    // chunkFilename: "[name].js"
   },
 
   plugins: [

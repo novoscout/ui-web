@@ -1,24 +1,27 @@
 const path = require("path");
 const webpack = require("webpack");
 const copyPlugin = require("copy-webpack-plugin");
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
 const appCachePlugin = require("appcache-webpack-plugin");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const htmlInlineCssWebpackPlugin = require("html-inline-css-webpack-plugin").default;
 
+// const miniCssExtractPlugin = require('mini-css-extract-plugin'); //  FIXME :(
+
+
 // Webpack 5 no longer automatically bundles certain polyfills.
+// See module.resolve.fallback below.
 const bundleFallbacks = {
-  "assert": false, /* require.resolve("assert/"), */
-  "buffer": false, /* require.resolve("buffer/"), */
+  "assert": false,        /* require.resolve("assert/"), */
+  "buffer": false,        /* require.resolve("buffer/"), */
   "child_process": false, /* require.resolve("child_process"), */
-  "constants": false, /* require.resolve("constants-browserify"), */
-  "http": false, /* require.resolve("stream-http"), */
-  "https": false, /* require.resolve("https-browserify"), */
-  "stream": false, /* require.resolve("stream-browserify"), */
+  "constants": false,     /* require.resolve("constants-browserify"), */
+  "http": false,          /* require.resolve("stream-http"), */
+  "https": false,         /* require.resolve("https-browserify"), */
+  "stream": false,        /* require.resolve("stream-browserify"), */
 }
 
-// Fake file-system for web browsers. Need to do this so
-// trivial-api works. FIXME Move to trivial-api..?
+// Fake file-system for web browsers. Used by
+// some packages e.g. node-localstorage
 // Note: see externals below.
 const fs = require('graceful-fs');
 const realFs = require('fs');
@@ -36,7 +39,7 @@ const externals = [
     // a hernia. So ignore it when bundling for browser.
     "node-fetch": "node-fetch",
 
-    fs: fs
+    "fs": fs,
   }
 ];
 
@@ -90,6 +93,9 @@ const babelPlugins = [
 
 
 module.exports = {
+  experiments: {
+    topLevelAwait: true
+  },
   devServer: {
     host: "app.osteoscout.home",
     allowedHosts: [ ".nip.io", ".osteoscout.home" ],
@@ -114,15 +120,16 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        exclude: /node_modules/,
-        test: /\.s?css$/i,
-        use: [
-          miniCssExtractPlugin.loader,
-          "css-loader",
-          "sass-loader"
-        ]
-      },
+      // FIXME :(
+      // {
+      //   exclude: /node_modules/,
+      //   test: /\.s?css$/i,
+      //   use: [
+      //     miniCssExtractPlugin.loader,
+      //     "css-loader",
+      //     "sass-loader"
+      //   ]
+      // },
       {
         exclude: /node_modules/,
         test: /\.(js|jsx)$/i,

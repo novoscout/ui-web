@@ -114,9 +114,10 @@ class Desk extends Component {
 
     var activeDOI = this.state.activeDOI
           || DOIFromURL
-          || ((g[Math.floor(Math.random() * gLen)] || {}).article || {}).doi
+          || g[Math.floor((Math.random() * gLen))].article.front["article-meta"]["article-id"]["#text"]
           // || g[g.length-1].article.doi
 
+    console.debug("activeDOI",activeDOI)
     // if (! activeDOI) { return null }
 
     // Some offsetting calcs. Explanation:
@@ -171,17 +172,19 @@ class Desk extends Component {
     const windowStartOffset = (gLen + (offset - maxPad) ) % gLen
 
     const ret = []
-    for (let i = windowStartOffset; i < windowStartOffset + ( 2 * maxPad ) + 1; i ++) {
+    // for (let i = windowStartOffset; i < windowStartOffset + ( 2 * maxPad ) + 1; i ++) {
+    for (let i = 0 ; i < gLen; i++) {
       const pointer = i % gLen
       const article = g[pointer].article
       const prevPointer = pointer - 1 < 0 ? gLen - 1 < 0 ? 0 : gLen - 1 : pointer - 1
       const previous = g[prevPointer]
-      if (typeof(previous) != "object" || (! "article" in previous) || (! "front" in previous.article) || (! "article-meta" in previous.article.front) || (! "article-id" in previous.article.front["article-meta"]) || (! "#text" in previous.article.front["article-meta"]["article-id"]) || (! "@pub-id-type" in previous.article.front["article-meta"]["article-id"]) || (! previous.article.front["article-meta"]["article-id"]["@pub-id-type"] == "doi")) {
-        continue
-      }
+      // if (typeof(previous) != "object" || (! "article" in previous) || (! "front" in previous.article) || (! "article-meta" in previous.article.front) || (! "article-id" in previous.article.front["article-meta"]) || (! "#text" in previous.article.front["article-meta"]["article-id"]) || (! "@pub-id-type" in previous.article.front["article-meta"]["article-id"]) || (! previous.article.front["article-meta"]["article-id"]["@pub-id-type"] == "doi")) {
+      //   continue
+      // }
       const previousDOI = previous.article.front["article-meta"]["article-id"]["#text"]
       const nextDOI = g[(pointer + 1) % gLen].article.front["article-meta"]["article-id"]["#text"]
       const doi = article.front["article-meta"]["article-id"]["#text"]
+      console.debug("doi",doi)
       const title = (
         <h2>
           {article.front["article-meta"]["title-group"]["article-title"]}
@@ -236,18 +239,21 @@ class Desk extends Component {
     }
 
     // If no article is visible, make the middle one visible and active!
-    if (
-      ret.map( (e) => {
-        return (e.props.style || {}).display
-      }).filter( (e) => {
-        return e != "none"
-      }).length == 0) {
-      const selected = ret[Math.floor(ret.length / 2)];
-      selected.style = null;
-      activeDOI = selected.props.doi;
-      this.setState(function(state,props) {
-        return {activeDOI:activeDOI}
-      });
+    if (! activeDOI) {
+      if (
+        ret.map( (e) => {
+          console.debug(((e.props.style) || {}).display)
+          return (e.props.style || {}).display
+        }).filter( (e) => {
+          return e != "none"
+        }).length == 0) {
+        const selected = ret[Math.floor(ret.length / 2)];
+        selected.style = null;
+        activeDOI = selected.props.doi;
+        this.setState(function(state,props) {
+          return {activeDOI:activeDOI}
+        });
+      }
     }
 
     route("/doi/" + activeDOI)
