@@ -16,7 +16,8 @@ const promiseTimeout = function(ms, p){
 }
 
 module.exports = async (opts) => {
-  if (((process || {}).env || {}).forceOffline) {
+  const { forceOffline } = { forceOffline:false, ...opts || {} };
+  if (forceOffline) {
     return await new Promise((resolve,reject) => {
       reject()
     }).catch((e) => { return false })
@@ -31,6 +32,9 @@ module.exports = async (opts) => {
     }
   } catch (err) {
     const defaultSites = [
+      "https://1.1.1.1",
+      "https://8.8.8.8",
+      "https://8.8.4.4",
       "https://icanhazip.com",
       "https://api.ipify.org",
       "https://google.com/favicon.ico",
