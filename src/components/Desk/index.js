@@ -179,7 +179,8 @@ class Desk extends Component {
           : g[pointerBefore]
         ),"doi")
       )
-      const title = (<h2>{shrinkTitle(this.fromArticle(g[i],"title"))}</h2>)
+      const title = this.fromArticle(g[i],"title")
+      const shrunkTitle = shrinkTitle(title)
       const authors = this.fromArticle(g[i],"authors")
       const doiUrl = String("https://doi.org/" + doi).toLowerCase()
       const osUrl = String("https://app.osteoscout.com/doi/" + doi).toLowerCase()
@@ -197,29 +198,28 @@ class Desk extends Component {
           shouldPreventDefault={this.swiperShouldPreventDefault}
           startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
-        >{title}
-          <div style={{paddingTop:"0.5rem",fontSize:"0.8rem"}}>
-            <Details className="always-print">
-              <Summary className="not-print">Details</Summary>
-              <p>
-                <span class="print-only">
-                  Accessed at: <a style={{textDecoration:"underline !important"}} href={osUrl}>{osUrl}</a>
-                </span>
-              </p>
-              <p>
-                Full paper: <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
-              </p>
-              {
-                authors.length > 0 &&
+          >
+          <h2>{shrunkTitle}</h2>
+          <Details className="always-print">
+            <Summary className="not-print">Info</Summary>
+            <p>
+              <span class="print-only">
+                Accessed at: <a style={{textDecoration:"underline !important"}} href={osUrl}>{osUrl}</a>
+              </span>
+            </p>
+            <p>
+              Full title: {title}
+            </p>
+            <p>
+              Full paper: <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
+            </p>
+            {
+              authors.length > 0 &&
                 <p>Authors: {authors.map( (auth) => {
                     return (<span>{auth}. </span>)
-                  })}</p>
-              }
-            </Details>
-          </div>
-          <div style={{margin:"0 -1rem"}}>
-            <hr />
-          </div>
+                })}</p>
+            }
+          </Details>
           {summary}
         </Swiper>
       )

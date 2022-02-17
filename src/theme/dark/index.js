@@ -39,6 +39,15 @@ const dark = {
         color: color.background,
         margin: "0 -1rem",
         padding: "0.5rem 1rem 1rem 1rem"
+      },
+      " details": {
+        background: "#300",
+        " > summary > span": {
+          color: "#c00",
+        },
+        " a": {
+          color: "#c00",
+        }
       }
     },
     inner: {

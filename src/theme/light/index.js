@@ -40,11 +40,22 @@ const light = {
         color: color.textBright,
         margin: "0 -1rem",
         padding: "0.5rem 1rem 1rem 1rem"
+      },
+      " details": {
+        background: "#fcf",
+        " > summary > span": {
+          color: "red",
+          textDecorationColor: "red"
+        },
+        " a": {
+          color: "red",
+          textDecorationColor: "red"
+        }
       }
     },
     inner: {
       backgroundColor: color.background,
-      color: color.text
+      color: color.text,
     }
   },
   text: {

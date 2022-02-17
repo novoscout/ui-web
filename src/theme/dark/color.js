@@ -3,7 +3,7 @@ const color = {
   backgroundAlt: "#222",
   backgroundShadow: null,
 
-  text: "#765",
+  text: "#876",
   textBright: "#f03",
 
   accent: "#900",

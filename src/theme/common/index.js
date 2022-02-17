@@ -189,7 +189,14 @@ const common = {
 
       // This allows content to scroll up into the bottom of
       // the screen in Safari and Firefox on iOS. FIXME!
-      padding: "0 1rem 6rem 1rem"
+      padding: "0 1rem 6rem 1rem",
+
+      " details": {
+        paddingTop: "0.5rem",
+        fontSize: "0.8rem",
+        margin: "0 -1rem 1rem -1rem",
+        padding: "1rem",
+      },
     }
   },
   toolbar: {
