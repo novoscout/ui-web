@@ -16,6 +16,11 @@ const promiseTimeout = function(ms, p){
 }
 
 module.exports = async (opts) => {
+  if (((process || {}).env || {}).forceOffline) {
+    return await new Promise((resolve,reject) => {
+      reject()
+    }).catch((e) => { return false })
+  }
   try {
     if (navigator && (! navigator.onLine)) {
       return await new Promise((resolve,reject) => {
@@ -28,11 +33,12 @@ module.exports = async (opts) => {
     const defaultSites = [
       "https://icanhazip.com",
       "https://api.ipify.org",
-      "https://google.com/404",
-      "https://a0.awsstatic.com/404",
-      "https://a1.awsstatic.com/404",
-      "https://cdn.jsdelivr.net/404",
-      "https://www.fastly.io/404"
+      "https://google.com/favicon.ico",
+      // "https://a0.awsstatic.com/404",
+      // "https://a1.awsstatic.com/404",
+      "https://cdn.jsdelivr.net/favicon.ico",
+      // "https://cdn.jsdelivr.net/404",
+      // "https://www.fastly.io/404",
     ];
     const { sites, timeout } = { timeout:2000, sites:defaultSites, ...opts || {} };
 
@@ -40,10 +46,12 @@ module.exports = async (opts) => {
       sites.map((site) => {
         return promiseTimeout(
           timeout,
-          fetch(site).then((r) => {
+          fetch(site,{
+            cache: "no-cache",
+            method: "GET",
+            mode: "no-cors",
+          }).then((r) => {
             return true
-          }).catch((e) => {
-            return false
           })
         )
       })

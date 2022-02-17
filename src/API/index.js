@@ -1,62 +1,61 @@
 require("isomorphic-fetch");
 
-const deepmerge = require("deepmerge");
-
 const isOnline = require("../helpers/isOnline")
 const storage = require("../helpers/storage");
 
 const fakeData = require("./data.json");
 
+// For future referecnce, genius way of comparing semver strings:
+// https://stackoverflow.com/a/65687141
+// Not actually using it, but it might come in handy!
+
+// This var can be used to change versions of the local storage
+// cache. For example, to start new caches vs revoking old.
+const localVersion = 1;
 
 var apiHost = process.env.apiScheme + "://" + process.env.apiHostname;
 if (process.env.apiPort) {
   apiHost = apiHost + ":" + process.env.apiPort;
 }
-const apiUrlBase = apiHost + "/v1"
-
-const shouldUseCache = async (cache) => {
-  if (! navigator.onLine) { return true; }
-  if (! await isOnline()) { return true; }
-  return cache == undefined || cache == true ? true : false;
-}
+const apiUrlBase = apiHost + "/v1";
 
 const crummyCache = {
-  "setOrAdd": function(key,val) {
-    const previous = JSON.parse(storage.getItem(key) || '{}');
-    const updated = deepmerge.all([ previous, val ]);
-    storage.setItem(key, JSON.stringify(updated));
+  "set": function(key,val) {
+    const k = storageKey(key);
+    // const previous = JSON.parse(storage.getItem(k) || '{}');
+    storage.setItem(k, JSON.stringify(val));
   },
   "get": function(key) {
-    return JSON.parse(storage.getItem(key))
+    return JSON.parse(storage.getItem(storageKey(key)))
   },
   "keys": function() {
     try {
-      if (storage._keys) {
-        return storage._keys
-      } else {
-        return Object.keys(storage) || []
-      }
+      return storage._keys || Object.keys(storage) || []
     } catch (err) {
+      console.debug(err)
       return []
     }
   }
 }
 
-const generateStorageKey = (o) => {
+const storageKey = (o) => {
   // Ensure keys are generated in a consistent manner.
   // JSON.stringify introduces issues with quotes, so template literals are used instead.
   const {
-    documentType, documentIDName, documentID,
+    documentType, documentIDType, documentID,
     delayedActionName, delayedActionData } = o || {};
-  if (documentType && documentIDName && documentID) {
-    return `\{"type":"${documentType}","${documentIDName}":"${documentID}"\}`
+
+  if (documentType && documentIDType && documentID) {
+    return `\{"version":"${localVersion}","type":"${documentType}","${documentIDType}":"${documentID}"\}`
   }
+
+  // Store actions for processing later, e.g. when off-line.
   if (delayedActionName) {
     if (delayedActionData) {
       const d = JSON.stringify(delayedActionData)
-      return `\{"type":"delayedAction","name":"${delayedActionName}","data":"${d}"\}`
+      return `\{"version":"${localVersion}","type":"delayedAction","name":"${delayedActionName}","data":"${d}"\}`
     }
-    return `\{"type":"delayedAction","name":"${delayedActionName}"\}`
+    return `\{"version":"${localVersion}","type":"delayedAction","name":"${delayedActionName}"\}`
   }
 }
 
@@ -66,23 +65,25 @@ const getArticleByDOI = async (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
-  const useCache = await shouldUseCache(cache);
+  const _doi = typeof(doi) == "string" ? doi.toLowerCase() : undefined
+  if (! _doi) {
+    return new Promise((resolve,reject) => { reject("No DOI provided.") })
+  }
 
-  if (useCache) {
+  if (cache || ! await isOnline()) {
     try {
-      storageKey = generateStorageKey({
+      const article = crummyCache.get({
         documentType: "article",
-        documentIDName: "doi",
-        documentID: doi
+        documentIDType: "doi",
+        documentID: _doi
       });
-      const article = crummyCache.get(storageKey)
       if (article) {
         return new Promise((resolve,reject) => {
           resolve(article)
         })
       } else {
         return new Promise((resolve,reject) => {
-          reject("No article found with DOI " + String(doi))
+          reject("No article found with DOI " + _doi)
         })
       }
     } catch (err) {
@@ -91,7 +92,7 @@ const getArticleByDOI = async (o) => {
   } else {
     return new Promise((resolve,reject) => {
       fetch(
-        apiUrlBase + "/graph/doi/" + String(doi || ""), {
+        apiUrlBase + "/graph/doi/" + _doi, {
           headers: {
             "Content-Type": "application/json",
             "Authorization": String(apikey)
@@ -111,7 +112,7 @@ const doiKeysFromCache = () => {
   return crummyCache.keys().filter((i) => {
     try {
       let tmp = JSON.parse(i);
-      if ("type" in tmp && tmp.type == "article" && "doi" in tmp) {
+      if ((tmp || {}).type == "article" && (tmp || {}).doi){
         return true
       }
     } catch (err) {
@@ -127,17 +128,15 @@ const getGraph = async (o) => {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
-  // FIXME...
-  // const useCache = await shouldUseCache(cache);
-  if (false) {
+  const _doi = typeof(doi) == "string" ? doi.toLowerCase() : undefined
+
+  if (cache || ! await isOnline()) {
+    console.debug("Offline")
     const cacheKeys = doiKeysFromCache();
     const ret = [];
     for (const key of cacheKeys) {
       try {
-        const j = JSON.parse(key)
-        if (typeof j === "object" && "doi" in j) {
-          ret.push(crummyCache.get(key));
-        }
+        ret.push(crummyCache.get(JSON.parse(key)));
       } catch(err) {
         // Ignore JSON.parse errors.
         if (err.name != "SyntaxError") { throw err }
@@ -145,18 +144,17 @@ const getGraph = async (o) => {
     }
     return new Promise((resolve,reject) => { resolve(ret) })
   } else {
+    console.debug("Online")
     // Fetch graph from API.
     // Add graph and all its items to cache.
     for (const item of fakeData) {
-      if ("article" in item) {
-        if ("doi" in item.article) {
-          storageKey = generateStorageKey({
-            documentType: "article",
-            documentIDName: "doi",
-            documentID: item.article.doi
-          });
-          crummyCache.setOrAdd(storageKey, item);
-        }
+      const aid = ((((item || {}).article || {}).front || {})["article-meta"] || {})["article-id"]
+      if (aid && aid["@pub-id-type"] == "doi" && aid["#text"]) {
+        crummyCache.set({
+          documentType: "article",
+          documentIDType: "doi",
+          documentID: aid["#text"]
+        }, item);
       }
     }
 
@@ -191,7 +189,7 @@ const recordUserNavigateFromDOIToDOI = (o) => {
     fetch(
       apiUrlBase +
       "/graph/user/action/user_navigated_from/doi/" +
-      String(doiA),
+      String(doiA).toLowerCase(),
       {
         headers: {
           "Content-Type": "application/json",
@@ -205,7 +203,7 @@ const recordUserNavigateFromDOIToDOI = (o) => {
     fetch(
       apiUrlBase +
       "/graph/user/action/user_navigated_to/doi/" +
-      String(doiB),
+      String(doiB).toLowerCase(),
       {
         headers: {
           "Content-Type": "application/json",
@@ -228,6 +226,8 @@ const recordUserShareDOI = (o) => {
       reject("Need all of: apikey, doi.")
     })
   }
+
+  // FIXME! Implement this! :)
 }
 
 // const getAPIKey = (passphrase) => {
@@ -354,7 +354,6 @@ const validAPIKey = async (o) => {
         return r.json()
       }).then( j => {
         try {
-          console.debug(j);
           if (j.data[0].attributes.apikey) {
             resolve(true)
           }
@@ -371,14 +370,13 @@ const validAPIKey = async (o) => {
 const api = {
   cache: crummyCache,
   doiKeysFromCache,
-  generateStorageKey,
   getArticleByDOI,
   getGraph,
   login,
   recordUserNavigateFromDOIToDOI,
   recordUserShareDOI,
   register,
-  shouldUseCache,
+  storageKey,
   validAPIKey,
 };
 

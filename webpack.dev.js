@@ -12,6 +12,7 @@ const distPath = path.resolve(__dirname, distDir);
 const apiScheme = (( process || {}).env || {}).API_SCHEME || 'http';
 const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout.home';
 const apiPort = (( process || {}).env || {}).API_PORT || '';
+const forceOffline = (( process || {}).env || {}).FORCE_OFFLINE ? true : false
 
 
 module.exports = merge(common, {
@@ -47,6 +48,7 @@ module.exports = merge(common, {
           apiScheme: JSON.stringify(apiScheme),
           apiHostname: JSON.stringify(apiHostname),
           apiPort: JSON.stringify(apiPort),
+          forceOffline: forceOffline,
           development: true,
           production: false,
           "NODE_TLS_REJECT_UNAUTHORIZED": 0,

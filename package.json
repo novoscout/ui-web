@@ -1,6 +1,6 @@
 {
   "name": "ui-web",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Template for websites using Novoscout services",
   "author": "austinjp",
   "main": "src/index.js",
