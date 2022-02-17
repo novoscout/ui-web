@@ -81,7 +81,6 @@ const common = {
     display: "inline-block",
     visibility: "visible",
     " ul": {
-      transition: "all 1s",
       display: "flex",
       flexDirection: "column-reverse",
       position: "relative",
