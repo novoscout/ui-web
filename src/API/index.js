@@ -1,6 +1,6 @@
 require("isomorphic-fetch");
 
-const isOnline = require("../helpers/isOnline")
+const isOnline = require("../helpers/isOnline");
 const storage = require("../helpers/storage");
 
 const fakeData = require("./data.json");
