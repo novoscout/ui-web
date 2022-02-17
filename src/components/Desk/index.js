@@ -21,6 +21,7 @@ class Desk extends Component {
     this.checkRoute = this.checkRoute.bind(this)
     this.renderArticles = this.renderArticles.bind(this)
     this.swiperShouldPreventDefault = this.swiperShouldPreventDefault.bind(this)
+    this.fromArticle = this.fromArticle.bind(this)
     this.state = {
       apikey: undefined,
       // apikeyValidated: false,
@@ -100,60 +101,89 @@ class Desk extends Component {
     return coords.direction.left || coords.direction.right
   }
 
+  fromArticle(item,elem) {
+    if (! elem) { return undefined }
+    elem = elem.toLowerCase()
+    if (["title","authors","doi"].indexOf(elem) != -1) {
+      const meta = (((item || {}).article || {}).front || {})["article-meta"] || {}
+      if (elem == "doi") {
+        if ((meta["article-id"] || {})["@pub-id-type"] == "doi") {
+          return (meta["article-id"] || {})["#text"]
+        }
+        return undefined
+      }
+      else if (elem == "authors") {
+        return ((meta["contrib-group"] || {})["contrib"] || []).map( (c) => {
+          return c["string-name"]
+        }).filter( (i) => { if (i) { return true } })
+      }
+      else if (elem == "title") {
+        return (meta["title-group"] || {})["article-title"] || ""
+      }
+    }
+    else if (["summary"].indexOf(elem) != -1) {
+      const body = ((item || {}).article || {}).body || {}
+      if (elem == "summary") {
+        return (body.sec || []).map( (section) => {
+          return ( <p>{section.p}</p> )
+        })
+      }
+    }
+    return undefined
+  }
+
   renderArticles(DOIFromURL) {
+    /* This function performs a fun dance. The current article being viewed
+     * is identified from the state, or the URL. If there is no current
+     * article, one is selected at random.
+     * Next, the articles "either side" of the active article are
+     * identified by look-up in the state's articleGraph (a list). This is
+     * done in order to reveal them "underneath" the current article
+     * during swiping.
+     * Only the active article and the two either side (3 in total) are
+     * rendered to prevent unnecessary DOM node rendering.
+     */
     const g = this.state.articleGraph
-    console.debug("g",g)
     const gLen = ( g || []).length
-    console.debug("gLen",gLen)
     const doiFromUrl = DOI(DOIFromURL)
     var activeDOI = DOI(
       this.state.activeDOI ||
       doiFromUrl ||
-      ((((g[
-        Math.floor(
-          (Math.random() * gLen)
-        )
-      ].article || {}).front || {})["article-meta"] || {})["article-id"] || {})["#text"]
+      this.fromArticle(g[Math.floor((Math.random() * gLen))],"doi")
     )
-    console.debug("doiFromUrl",doiFromUrl)
-    console.debug("activeDOI",activeDOI)
 
     const pointer = g.findIndex( (i) => {
-      return (
-        (((i.article || {}).front || {})["article-meta"] || {})["article-id"] || {}
-      )["#text"] == activeDOI
+      return this.fromArticle(i,"doi") == activeDOI
     })
 
     const pointerBefore = pointer - 1 < 0 ? gLen - 1 : pointer - 1
     const pointerAfter = pointer + 1 >= gLen ? 0 : pointer + 1
 
-    console.debug("pointerBefore",pointerBefore)
-    console.debug("pointer",pointer)
-    console.debug("pointerAfter",pointerAfter)
-
     return [pointerBefore, pointer, pointerAfter].map( (i) => {
-      const doi = DOI(
-        ((((g[i].article || {}).front || {})["article-meta"] || {})["article-id"] || {})["#text"]
+      const doi = DOI(this.fromArticle(g[i],"doi"))
+      const previousDOI = DOI(
+        this.fromArticle((
+          i == pointer
+          ? g[pointerBefore]
+          : i == pointerBefore
+          ? g[pointerAfter]
+          : g[pointer]
+        ),"doi")
       )
-      const previousDOI = DOI((((((
-        i == pointer
-        ? g[pointerBefore]
-        : i == pointerBefore
-        ? g[pointerAfter]
-        : g[pointer]
-      ).article || {}).front || {})["article-meta"] || {})["article-id"] || {})["#text"])
-      const nextDOI = DOI((((((
-        i == pointer
-        ? g[pointerAfter]
-        : i == pointerBefore
-        ? g[pointer]
-        : g[pointerBefore]
-      ).article || {}).front || {})["article-meta"] || {})["article-id"] || {})["#text"])
-      const title = "TITLE"
-      const osUrl = "URL"
-      const doiUrl = "https://doi.org/" + doi
-      const authors = [ "AUTHOR ONE", "AUTHOR TWO" ]
-      const summary = "SUMMARY"
+      const nextDOI = DOI(
+        this.fromArticle((
+          i == pointer
+          ? g[pointerAfter]
+          : i == pointerBefore
+          ? g[pointer]
+          : g[pointerBefore]
+        ),"doi")
+      )
+      const title = (<h2>{shrinkTitle(this.fromArticle(g[i],"title"))}</h2>)
+      const authors = this.fromArticle(g[i],"authors")
+      const doiUrl = String("https://doi.org/" + doi).toLowerCase()
+      const osUrl = String("https://app.osteoscout.com/doi/" + doi).toLowerCase()
+      const summary = this.fromArticle(g[i],"summary")
       const ref = createRef()
       route("/doi/" + activeDOI)
       return (
