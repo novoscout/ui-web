@@ -8,9 +8,8 @@ import { Ident as _Ident } from "ui-shared/components"
 import { Button, Details, Summary, TextLink, TextInput } from ".."
 
 import { Theme } from "../../theme"
-
+import { storage } from "../../helpers/"
 const api = require("../../API")
-const storage = require("../../helpers/storage")
 
 
 class Ident extends Component {

@@ -9,8 +9,7 @@ import { Details, Ident, MemoizedArticles, Summary, Swiper, TextLink } from ".."
 import { Theme } from "../../theme"
 
 const api = require("../../API")
-const storage = require("../../helpers/storage")
-import { DOI } from "../../helpers/doi"
+import { DOI, shrinkTitle, storage } from "../../helpers/"
 
 // import { load as graphFromJson } from "ngraph.fromjson"
 // import { save as graphToJson } from "ngraph.tojson"
