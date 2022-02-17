@@ -255,10 +255,23 @@ input[type="text"], input[type="email"], input[type="password"], input[type="sea
 
 
 /* ====================================================================== */
+/* Tweaks to share polyfill */
+
 /* Adjust the WhatsApp share icon. */
 
 .tool-icon.whatsapp .the-icon {
   filter: brightness(160%) hue-rotate(-20deg)
+}
+
+/* Fonts */
+
+#shareAPIPolyfill-container .the-icon-title,
+#shareAPIPolyfill-container button.shareAPIPolyfill-footer {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+               "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+               "Helvetica Neue", arial, sans-serif,
+               "Microsoft JhengHei" !important;
+  font-size: 0.95rem !important;
 }
 
 /* ====================================================================== */
