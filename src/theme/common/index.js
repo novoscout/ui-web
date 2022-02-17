@@ -81,19 +81,26 @@ const common = {
     display: "inline-block",
     visibility: "visible",
     " ul": {
+      transition: "all 1s",
       display: "flex",
       flexDirection: "column-reverse",
       position: "relative",
-      margin: 0,
-      padding: 0,
-      height: "100%",
+      margin: "0 auto",
+      width: "15rem",
+      minWidth: "10rem",
+      maxWidth: "75%",
+      padding: "0 0 1rem 0",
+      margin: "0 auto -2rem auto",
+      // height: "100%",
       justifyContent: "space-evenly",
       listStyle: "none",
+      border: "1px solid",
+      borderBottom: 0
     },
     " ul > li": {
       display: "inline-block",
       lineHeight: "1rem",
-      margin: "1rem auto",
+      margin: "1rem 2rem",
       padding: 0,
       listStyle: "none",
     }
@@ -116,8 +123,13 @@ const common = {
     }
   },
   navActionIcon: {
-    display: "inline",
-    margin: 0, // "auto 0 auto 2rem !important"
+    display: "inline-block",
+    margin: "0 1rem 0 0", // "auto 0 auto 2rem !important"
+    width: "1rem !important",
+    overflow: "hidden",
+    textAlign: "center",
+    fontSize: "0.9rem",
+    verticalAlign: "top",
   },
 
   // These are visible on smallest screens (in modal) and on

@@ -14,11 +14,18 @@ const dark = {
     color: color.text
   },
   modal: {
-    backgroundColor: color.background,
-    color: color.text
+    // backgroundColor: color.background,
+    // color: color.text
   },
   navAction: {
     color: color.accent
+  },
+  navMenu: {},
+  navMenuModal: {
+    " ul": {
+      borderColor: color.accent,
+      background: color.background
+    }
   },
   navActionCancel: {
     color: color.error,
@@ -89,6 +96,7 @@ dark.input['[type="search"]'] = dark.input['[type="text"]']
 
 dark.a = dark.textLink
 
+// ===================================================================
 
 // dark.nav[mq.md] = {
 //   backgroundColor: color.background + " !important",

@@ -14,11 +14,19 @@ const light = {
     color: color.text
   },
   modal: {
-    backgroundColor: color.background,
-    color: color.accent
+    // backgroundColor: color.background,
+    // color: color.accent
   },
   navAction: {
     color: color.accent
+  },
+  navMenu: {},
+  navMenuModal: {
+    " ul": {
+      borderColor: "silver",
+      boxShadow: "rgba(0, 0, 0, 0.6) 0px 0px 18px 0px",
+      background: color.background
+    }
   },
   navActionCancel: {
     color: color.error,
@@ -90,6 +98,7 @@ light.input['[type="search"]'] = light.input['[type="text"]']
 
 light.a = light.textLink
 
+// ===================================================================
 
 // light.nav[mq.md] = {
 //   backgroundColor: color.background + " !important",
