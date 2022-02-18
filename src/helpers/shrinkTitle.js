@@ -47,29 +47,59 @@ const stopwords = [
 const startRegex = new RegExp('^\\s?(?:' + stopwords.join("|") + ')\\s', 'isu');
 const endRegex = new RegExp('\\s(?:' + stopwords.join("|") + ')\\s?$', 'isu');
 
+const types = {
+  review: [
+    'literature',
+
+    'narrative\\s+literature',
+    'narrative',
+
+    'qualitative\\s+systematic',
+    'systematic',
+  ],
+  trial: [
+    'randomi(?:s|z)ed\\s+controlled',
+    'randomi(?:s|z)ed',
+  ],
+  misc: [
+    'narrative\\s+synthesis',
+    'narrative\\s+syntheses',
+
+    'network\\s+meta(?:\-|\\s)analys(?:e|i)s',
+    'meta(?:\\-|\\s)analys(?:e|i)s',
+
+    'observational\\s+study',
+    'observational\\s+studies',
+
+    'synthes(?:e|i)s',
+  ]
+}
+
+const remove = {
+  review: new RegExp('\\s*(?:' + String(types.review.join('\\s+reviews?|')) + '\\s+reviews?)', 'i'),
+  trial:  new RegExp('\\s*(?:' + String(types.trial.join('\\s+trials?|')) + '\\s+trials?)',   'i'),
+  misc:   new RegExp('\\s*(?:' + types.misc.join('|') + ')', 'i'),
+}
+
 const shrink = (s) => {
   s = s.trimLeft().trimRight();
   s = " " + s;
-  s = s.replace(/\s?literature\sreview/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?narrative\sreview/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?observational\sstudy/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?observational\sstudies/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?randomised\scontrolled\strials/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?randomized\scontrolled\strials/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?randomised\scontrolled\strial/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?randomized\scontrolled\strial/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?systematic\sreview/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?reviews/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?review/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?meta\Wanalysis/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?meta\sanalysis/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?meta\Wanalyses/i, "").trimLeft().trimRight();
-  s = s.replace(/\s?meta\sanalyses/i, "").trimLeft().trimRight();
 
-  while (s.match(startRegex)) { s = s.replace(startRegex, "").trimLeft() }
-  while (s.match(endRegex)) { s = s.replace(endRegex, "").trimRight() }
-  s = s.replace(/^\s?a\s?$/i, "");
+  while (s.match(remove.review) || s.match(remove.trial) || s.match(remove.review) || s.match(startRegex) || s.match(endRegex)) {
+    s = s.replace(startRegex, "").trimLeft()
+    s = s.replace(endRegex, "").trimRight()
+    s = s.replace(remove.review, '').trimLeft().trimRight()
+    s = s.replace(startRegex, "").trimLeft()
+    s = s.replace(endRegex, "").trimRight()
+    s = s.replace(remove.trial, '').trimLeft().trimRight()
+    s = s.replace(startRegex, "").trimLeft()
+    s = s.replace(endRegex, "").trimRight()
+    s = s.replace(remove.misc, '').trimLeft().trimRight()
+    s = s.replace(startRegex, "").trimLeft()
+    s = s.replace(endRegex, "").trimRight()
+  }
 
+  // If only one word left, remove it.
   if (! s.match(/\s+/)) { s = "" }
 
   return s;
@@ -93,6 +123,8 @@ const elide = (s) => {
   s = s.replace(/^randomized\trial$/i, "").trimLeft().trimRight();
   s = s.replace(/^a\ssystematic\sreview$/i, "").trimLeft().trimRight();
   s = s.replace(/^systematic\sreview$/i, "").trimLeft().trimRight();
+  s = s.replace(/^a\squalitative\ssystematic\sreview$/i, "").trimLeft().trimRight();
+  s = s.replace(/^qualitative\ssystematic\sreview$/i, "").trimLeft().trimRight();
   if (! s) {
     return ""
   }
@@ -102,8 +134,8 @@ const elide = (s) => {
 const shrinkTitle = (title) => {
   const chunks = title.split(":");
   if (chunks.length == 2) {
-    chunks[0] = elide(chunks[0]);
-    chunks[1] = shrink(elide(chunks[1]));
+    chunks[0] = elide(chunks[0]).trimRight();
+    chunks[1] = shrink(elide(chunks[1])).trimLeft();
     if (chunks[0] && ! chunks[1]) {
       return chunks[0]
     }
