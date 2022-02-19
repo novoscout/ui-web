@@ -7,6 +7,7 @@ import { TextLink } from "ui-shared/components"
 import { Theme } from "../../theme"
 
 import { NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme } from ".."
+import { RangeSlider } from ".."
 
 // import { lazyLoad } from "../../helpers/lazyLoad"
 // var NavActionCancel = undefined;
@@ -32,7 +33,8 @@ const _Inner = (props) => {
       <li><NavActionIdent  order={2} {...commonActions} /></li>
       <li><NavActionPrint  order={3} {...commonActions} /></li>
       <li><NavActionTheme  order={4} {...commonActions} /></li>
-      <li><NavActionCancel order={5} {...commonActions} /></li>
+      { /* <li><NavActionCancel order={5} {...commonActions} /></li> */ }
+      <li><RangeSlider order={5} min={0} max={5} /></li>
     </ul>
   )
 }
