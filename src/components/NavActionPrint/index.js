@@ -32,7 +32,7 @@ class NavActionPrint extends Component {
         className={className}>
         <NavAction.Icon
           ariaLabel="Print"
-          role="none"><b style={{color:theme.text,fontSize:"1.4em"}}>&#128438;</b></NavAction.Icon>
+          role="none"><b style={{color:theme.text,fontSize:"1rem"}}>🖨️</b></NavAction.Icon>
         <NavAction.Text>&nbsp;Print</NavAction.Text>
       </NavAction>
     )
