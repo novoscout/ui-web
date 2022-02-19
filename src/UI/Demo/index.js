@@ -26,30 +26,41 @@ class Demo extends Component {
 
   toggleFunc(i) {
     if (i.target == this.state.modalRef.current.base) {
-      this.setState({modal:{visible:false}})
+      this.setState({ modal: { visible: false } })
     }
   }
 
   async toggleModal(e) {
     if (e && e.hasOwnProperty("visible")) {
-      await this.setState({ modal: { visible: e.visible }})
+      await this.setState({ modal: { visible: e.visible } })
     } else {
-      await this.setState({ modal: { visible: ! this.state.modal.visible }})
+      await this.setState({ modal: { visible: ! this.state.modal.visible } })
     }
+    const opts = {
+      capture: false,
+      once: false,
+      passive: false,
+    }
+    // Detect tap/click on modal outside menu to dismiss menu.
     if (this.state.modal.visible) {
       this.state.modalRef.current.base.addEventListener(
-        "touchend",
-        this.toggleFunc,
-        {
-          capture: false,
-          once: false,
-          passive: false,
-        }
+        "mouseup", this.toggleFunc, opts
+      )
+      this.state.modalRef.current.base.addEventListener(
+        "pointerend", this.toggleFunc, opts
+      )
+      this.state.modalRef.current.base.addEventListener(
+        "touchend", this.toggleFunc, opts
       )
     } else {
       this.state.modalRef.current.base.removeEventListener(
-        "touchend",
-        this.toggleFunc
+        "mouseup", this.toggleFunc
+      )
+      this.state.modalRef.current.base.removeEventListener(
+        "pointerend", this.toggleFunc
+      )
+      this.state.modalRef.current.base.removeEventListener(
+        "touchend", this.toggleFunc
       )
     }
   }
