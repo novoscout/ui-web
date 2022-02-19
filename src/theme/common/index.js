@@ -9,6 +9,39 @@ const invisible = {
 }
 
 const common = {
+  rangeSlider: {
+    WebkitAppearance: "none",
+    appearance: "none",
+    width: "100%",
+    height: "0.5rem",
+    outline: "none",
+    borderRadius: "6px",
+    "::-webkit-slider-thumb": {
+      appearance: "none",
+      borderRadius: 0,
+      cursor: "pointer",
+      width: "0.5rem",
+      height: "1rem",
+      border: "1px solid",
+      pointerEvents: "none",
+      WebkitAppearance: "none",
+      "-webkit-appearance": "none",
+    },
+    "::-moz-range-thumb": {
+      appearance: "none",
+      borderRadius: 0,
+      cursor: "pointer",
+      width: "0.5rem",
+      height: "1rem",
+      border: "1px solid",
+      pointerEvents: "none",
+      WebkitAppearance: "none",
+      "-webkit-appearance": "none",
+    },
+  },
+  rangeSliderContainer: {
+    width: "100%",
+  },
   summary: {
     cursor: "pointer"
   },

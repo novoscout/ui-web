@@ -2,6 +2,18 @@ import color from "./color"
 import mq from "../common/mq"
 
 const light = {
+  rangeSlider: {
+    boxShadow: "inset 0 4px 6px rgba(128,64,64,0.7)",
+    background: color.primaryDesat[2],
+    "::-webkit-slider-thumb": {
+      background: color.background,
+      borderColor: color.backgroundShadow,
+    },
+    "::-moz-range-thumb": {
+      background: color.background,
+      borderColor: color.backgroundShadow,
+    }
+  },
   nav: {
     backgroundColor: color.accent,
     color: color.textBright

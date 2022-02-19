@@ -2,6 +2,18 @@ import color from "./color"
 import mq from "../common/mq"
 
 const dark = {
+  rangeSlider: {
+    boxShadow: "none",
+    background: color.primaryDesat[2],
+    "::-webkit-slider-thumb": {
+      background: color.accent,
+      borderColor: color.accent,
+    },
+    "::-moz-range-thumb": {
+      background: color.accent,
+      borderColor: color.accent,
+    }
+  },
   nav: {
     backgroundColor: color.accent,
     color: color.background
