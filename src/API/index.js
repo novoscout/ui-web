@@ -131,7 +131,6 @@ const getGraph = async (o) => {
   const _doi = typeof(doi) == "string" ? doi.toLowerCase() : undefined
 
   if (cache || ! await isOnline()) {
-    console.debug("Offline")
     const cacheKeys = doiKeysFromCache();
     const ret = [];
     for (const key of cacheKeys) {
@@ -144,7 +143,6 @@ const getGraph = async (o) => {
     }
     return new Promise((resolve,reject) => { resolve(ret) })
   } else {
-    console.debug("Online")
     // Fetch graph from API.
     // Add graph and all its items to cache.
     for (const item of fakeData) {
