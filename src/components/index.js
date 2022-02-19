@@ -15,6 +15,7 @@ import { NavActionShare } from "./NavActionShare"
 import { NavActionTheme } from "./NavActionTheme"
 import { NavMenu } from "./NavMenu"
 import { NavTitle } from "./NavTitle"
+import { RangeSlider } from "./RangeSlider"
 import { Summary } from "./Summary"
 import { Swiper } from "./Swiper"
 import { TextInput } from "./TextInput"
@@ -31,6 +32,7 @@ export default {
   MemoizedArticles,
   Modal,
   Nav, NavAction, NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme, NavMenu, NavTitle,
+  RangeSlider,
   Summary,
   Swiper,
   TextInput,
@@ -48,6 +50,7 @@ export {
   MemoizedArticles,
   Modal,
   Nav, NavAction, NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme, NavMenu, NavTitle,
+  RangeSlider,
   Summary,
   Swiper,
   TextInput,
