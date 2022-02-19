@@ -34,7 +34,14 @@ const _Inner = (props) => {
       <li><NavActionPrint  order={3} {...commonActions} /></li>
       <li><NavActionTheme  order={4} {...commonActions} /></li>
       { /* <li><NavActionCancel order={5} {...commonActions} /></li> */ }
-      <li><RangeSlider order={5} min={0} max={5} /></li>
+      <li>
+        <RangeSlider
+          order={5}
+          min={props.rangeMin || 1}
+          max={props.rangeMax || 5}
+          name="levelOfDetail"
+        />
+      </li>
     </ul>
   )
 }

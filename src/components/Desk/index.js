@@ -385,7 +385,7 @@ class Desk extends Component {
     }
 
     const className = theme.desk
-                    ? cxs(theme.desk)
+                    ? cxs(theme.desk) || null
                     : null
 
     return (
