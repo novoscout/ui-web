@@ -1,10 +1,10 @@
 import { h, Component } from "preact"
 import { useContext } from "preact/compat"
+
 import { Theme, lightTheme, darkTheme } from "../theme"
-
 import { Demo } from "./Demo"
+import { storage } from "../helpers/"
 
-const storage = require("../helpers/storage")
 
 const Loading = () => {
   return (<div className="loading" />)
