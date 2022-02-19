@@ -32,6 +32,9 @@ const dark = {
   navAction: {
     color: color.accent
   },
+  navActionIcon: {
+    filter: "sepia(70%) brightness(60%)",
+  },
   navMenu: {},
   navMenuModal: {
     " ul": {
