@@ -55,6 +55,9 @@ const light = {
       },
       " details": {
         background: "#fcf",
+        " > summary": {
+          background: "rgba(128,0,0,0.2)",
+        },
         " > summary > span": {
           color: "red",
           textDecorationColor: "red"

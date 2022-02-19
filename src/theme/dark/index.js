@@ -57,6 +57,9 @@ const dark = {
       },
       " details": {
         background: "#300",
+        " > summary": {
+          background: "rgba(128,0,0,0.2)",
+        },
         " > summary > span": {
           color: "#c00",
         },

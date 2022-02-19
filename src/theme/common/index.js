@@ -229,8 +229,16 @@ const common = {
         fontSize: "0.8rem",
         margin: "0 -1rem 1rem -1rem",
         padding: "1rem",
+        " > summary": {
+          borderRadius: "1rem",
+          padding: "0.3rem 1rem 0.4rem 0.7rem",
+          display: "inline list-item",
+        },
+        " > summary + p + p": {
+          marginTop: "1rem",
+        },
       },
-    }
+    },
   },
   toolbar: {
     position: "absolute",
