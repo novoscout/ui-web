@@ -6,12 +6,17 @@ const dark = {
     boxShadow: "none",
     background: color.primaryDesat[2],
     "::-webkit-slider-thumb": {
+      boxShadow: "none",
       background: color.accent,
       borderColor: color.accent,
     },
     "::-moz-range-thumb": {
+      boxShadow: "none",
       background: color.accent,
       borderColor: color.accent,
+    },
+    " ~ label": {
+      color: color.text
     }
   },
   nav: {
@@ -58,7 +63,7 @@ const dark = {
       " details": {
         background: "#300",
         " > summary": {
-          background: "rgba(128,0,0,0.2)",
+          background: "rgba(0,0,0,0.5)",
         },
         " > summary > span": {
           color: "#c00",

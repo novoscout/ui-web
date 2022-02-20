@@ -38,6 +38,9 @@ const common = {
       WebkitAppearance: "none",
       "-webkit-appearance": "none",
     },
+    " ~ label": {
+      display: "block"
+    }
   },
   rangeSliderContainer: {
     width: "100%",

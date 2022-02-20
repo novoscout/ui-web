@@ -6,12 +6,17 @@ const light = {
     boxShadow: "inset 0 4px 6px rgba(128,64,64,0.7)",
     background: color.primaryDesat[2],
     "::-webkit-slider-thumb": {
+      boxShadow: "0 2px 8px 0 " + color.backgroundShadow,
       background: color.background,
       borderColor: color.backgroundShadow,
     },
     "::-moz-range-thumb": {
+      boxShadow: "0 2px 8px 0 " + color.backgroundShadow,
       background: color.background,
       borderColor: color.backgroundShadow,
+    },
+    " ~ label": {
+      color: color.text
     }
   },
   nav: {
