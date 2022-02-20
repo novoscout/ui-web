@@ -34,6 +34,7 @@ class RangeSlider extends Component {
     const theMin = this.props.min || 0
     const theMax = this.props.max || 10
     const name = this.props.name || "range"
+    const theId = this.props.id || null
 
     return (
       <View className={classNameContainer}>
@@ -43,6 +44,7 @@ class RangeSlider extends Component {
           min={theMin}
           max={theMax}
           name={name}
+          id={theId}
           value={
             parseInt(
               this.state.value
@@ -52,7 +54,24 @@ class RangeSlider extends Component {
           }
           oninput={this.storeValue.bind(this,name)}
           onchange={this.storeValue.bind(this,name)}
-        />
+          />
+        <label for={name}>
+          <span style={{
+                  display: "inline-block",
+                  width: "30%",
+                  textAlign: "left"
+                }}>min</span>
+          <span style={{
+                  display: "inline-block",
+                  width: "40%",
+                  textAlign: "center"
+                }}>{this.props.label}</span>
+          <span style={{
+                  display: "inline-block",
+                  width: "30%",
+                  textAlign: "right"
+                }}>max</span>
+        </label>
       </View>
     )
   }
