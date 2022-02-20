@@ -27,6 +27,7 @@ class Desk extends Component {
       // apikeyValidated: false,
       passphrase: undefined,
       loading: true,
+      levelOfDetail: 5,
       activeDOI: undefined,
       articleGraph: [],
     }
@@ -101,11 +102,11 @@ class Desk extends Component {
     return coords.direction.left || coords.direction.right
   }
 
-  fromArticle(item,elem) {
+  fromArticle(chunk,elem) {
     if (! elem) { return undefined }
     elem = elem.toLowerCase()
     if (["title","authors","doi"].indexOf(elem) != -1) {
-      const meta = (((item || {}).article || {}).front || {})["article-meta"] || {}
+      const meta = (((chunk || {}).article || {}).front || {})["article-meta"] || {}
       if (elem == "doi") {
         if ((meta["article-id"] || {})["@pub-id-type"] == "doi") {
           return (meta["article-id"] || {})["#text"]
@@ -121,11 +122,21 @@ class Desk extends Component {
         return (meta["title-group"] || {})["article-title"] || ""
       }
     }
-    else if (["summary"].indexOf(elem) != -1) {
-      const body = ((item || {}).article || {}).body || {}
-      if (elem == "summary") {
-        return (body.sec || []).map( (section) => {
-          return ( <p>{section.p}</p> )
+    else if (["body"].indexOf(elem) != -1) {
+      const body = ((chunk || {}).article || {}).body || {}
+      if (elem == "body") {
+        return (body.sec || []).map( (sec) => {
+          return ((sec || {}).p || []).map( (p) => {
+            return (
+              <p>
+                {
+                  (p || []).map( (sentence) => {
+                    return sentence.text ? sentence.text : undefined
+                  }).filter( (text) => { if (text) { return true } }).join(" ")
+                }
+              </p>
+            )
+          })
         })
       }
     }
@@ -141,7 +152,7 @@ class Desk extends Component {
      * done in order to reveal them "underneath" the current article
      * during swiping.
      * Only the active article and the two either side (3 in total) are
-     * rendered to prevent unnecessary DOM node rendering.
+     * returned to prevent unnecessary nodes in the DOM.
      */
     const g = this.state.articleGraph
     const gLen = ( g || []).length
@@ -184,7 +195,7 @@ class Desk extends Component {
       const authors = this.fromArticle(g[i],"authors")
       const doiUrl = String("https://doi.org/" + doi).toLowerCase()
       const osUrl = String("https://app.osteoscout.com/doi/" + doi).toLowerCase()
-      const summary = this.fromArticle(g[i],"summary")
+      const body = this.fromArticle(g[i],"body")
       const ref = createRef()
       route("/doi/" + activeDOI)
       return (
@@ -220,7 +231,7 @@ class Desk extends Component {
                 })}</p>
             }
           </Details>
-          {summary}
+          {body}
         </Swiper>
       )
     })
