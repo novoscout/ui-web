@@ -20,6 +20,7 @@ class Desk extends Component {
     this.renderArticles = this.renderArticles.bind(this)
     this.swiperShouldPreventDefault = this.swiperShouldPreventDefault.bind(this)
     this.fromArticle = this.fromArticle.bind(this)
+    this.handleRoute = this.handleRoute.bind(this)
     this.state = {
       apikey: undefined,
       // apikeyValidated: false,
@@ -243,6 +244,10 @@ class Desk extends Component {
     })
   }
 
+  async handleRoute(e) {
+    console.log(e)
+  }
+
   render() {
     const theme = useContext(Theme)
     if (this.state.loading) {
@@ -254,7 +259,7 @@ class Desk extends Component {
                     : null
 
     return (
-      <Router>
+      <Router onChange={this.handleRoute}>
         <View default id="desk" className={className}>
           <Router>
             <View default>
