@@ -65,8 +65,15 @@ class Demo extends Component {
       toggleModal: this.toggleModal
     }
 
+    // For some bizarre reason, the Modal.Context below
+    // only picks up changes to the state if the
+    // individual var is selected, rather than passing
+    // the state itself in here. This "bug" (?) only
+    // seems to happen on mobile, not desktop, Firefox.
+    const modalVisibility = this.state.modal.visible
+
     return (
-      <Modal.Context.Provider value={this.state.modal}>
+      <Modal.Context.Provider value={{visible:modalVisibility}}>
         <Nav
           {...commonActions}
           detailLevelCallback={this.detailLevelCallback}
