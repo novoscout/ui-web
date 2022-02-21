@@ -2,8 +2,25 @@
 /* Print-related styles. Also see base.css */
 
 @media print {
+  * {
+    color: black !important;
+    text-decoration-color: black !important;
+    overflow: visible !important;
+    overflow-y: visible !important;
+  }
   .print-only a { text-decoration: underline !important }
   .not-print { display: none !important }
   .always-print { display: block !important }
   details { display: block !important }
+
+  body.lod-0-shrink .lod.lod-0,
+  body.lod-1-shrink .lod.lod-1,
+  body.lod-2-shrink .lod.lod-2,
+  body.lod-3-shrink .lod.lod-3,
+  body.lod-4-shrink .lod.lod-4,
+  body.lod-5-shrink .lod.lod-5 {
+    font-size: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
 }
