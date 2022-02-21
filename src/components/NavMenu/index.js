@@ -49,11 +49,11 @@ const tempStyles = (theme, isInModal) => {
   const remove = (e) => {
     const sliderDiv = e.target.parentElement.parentElement
     const menu = sliderDiv.parentElement
-    sliderDiv.style = null
-    menu.style = null
+    sliderDiv.style = undefined
+    menu.style = undefined
     menu.childNodes.forEach( (n) => {
       if (n != sliderDiv) {
-        n.style = null
+        n.style = undefined
       }
     })
   }
