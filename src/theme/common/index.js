@@ -39,7 +39,9 @@ const common = {
       "-webkit-appearance": "none",
     },
     " ~ label": {
-      display: "block"
+      display: "block",
+      marginTop: "0.5rem",
+      fontSize: "0.8rem"
     }
   },
   rangeSliderContainer: {
@@ -135,8 +137,8 @@ const common = {
     " ul > li": {
       display: "inline-block",
       lineHeight: "1rem",
-      margin: "1rem 2rem",
-      padding: 0,
+      margin: 0,
+      padding: "1rem 2rem",
       listStyle: "none",
     }
     // ...invisible

@@ -4,7 +4,7 @@ import mq from "../common/mq"
 const dark = {
   rangeSlider: {
     boxShadow: "none",
-    background: color.primaryDesat[2],
+    background: color.background,
     "::-webkit-slider-thumb": {
       boxShadow: "none",
       background: color.accent,
@@ -16,7 +16,7 @@ const dark = {
       borderColor: color.accent,
     },
     " ~ label": {
-      color: color.text
+      color: color.accent
     }
   },
   nav: {
@@ -35,7 +35,10 @@ const dark = {
     // color: color.text
   },
   navAction: {
-    color: color.accent
+    color: color.primary,
+    " a": {
+      color: color.primary
+    }
   },
   navActionIcon: {
     filter: "sepia(70%) brightness(60%)",
@@ -43,8 +46,8 @@ const dark = {
   navMenu: {},
   navMenuModal: {
     " ul": {
-      borderColor: color.accent,
-      background: color.background
+      borderColor: color.primaryDesat[2],
+      background: color.primaryDesat[2]
     }
   },
   navActionCancel: {

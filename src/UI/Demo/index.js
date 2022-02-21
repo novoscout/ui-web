@@ -4,12 +4,14 @@ import { createRef, useContext } from "preact/compat"
 import { Text, View } from "ui-shared/components"
 import { Desk, Modal, Nav, Toolbar } from "../../components"
 
+import { storage } from "../../helpers"
 
 class Demo extends Component {
   constructor(props) {
     super(props)
     this.toggleModal = this.toggleModal.bind(this)
     this.toggleFunc = this.toggleFunc.bind(this)
+    this.detailLevelCallback = this.detailLevelCallback.bind(this)
     this.state = {
       loading: true,
       modal: { visible: false },
@@ -65,6 +67,20 @@ class Demo extends Component {
     }
   }
 
+  async detailLevelCallback(value) {
+    await this.setState({
+      levelOfDetail: value
+    })
+    console.debug("dLC got this.navMenuRef:",this.navMenuRef)
+    if (this.state.modal.visible && (this.navMenuRef || {}).base) {
+      this.navMenuRef.base.style = {
+        background: "none",
+        border: "1px solid transparent",
+        boxShadow: "none"
+      }
+    }
+  }
+
   render() {
     if (this.state.loading) { return null }
 
@@ -75,10 +91,18 @@ class Demo extends Component {
 
     return (
       <Modal.Context.Provider value={this.state.modal}>
-        <Nav {...commonActions} />
-        <Desk {...commonActions} />
+        <Nav {...commonActions}
+             detailLevelCallback={this.detailLevelCallback}
+             ref={this.navRef}
+             navMenuRef={this.navMenuRef}
+             />
+        <Desk {...commonActions} levelOfDetail={this.state.levelOfDetail} />
         <Toolbar {...commonActions} />
-        <Modal {...commonActions} ref={this.state.modalRef} />
+        <Modal {...commonActions}
+               detailLevelCallback={this.detailLevelCallback}
+               ref={this.modalRef}
+               modalNavMenuRef={this.modalNavMenuRef}
+               />
       </Modal.Context.Provider>
     )
   }
