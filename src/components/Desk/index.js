@@ -264,6 +264,7 @@ class Desk extends Component {
               renderCallback={this.renderArticles}
               renderChecks={[
                 this.state.activeDOI,
+                this.props.levelOfDetail,
                 theme
               ]}
               />
