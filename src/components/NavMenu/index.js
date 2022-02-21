@@ -31,7 +31,39 @@ import api from "../../API"
 // lazyLoad("NavActionTheme").then( m => { NavActionTheme = m.default })
 
 
+const tempStyles = (theme, isInModal) => {
+  const add = (e) => {
+    const sliderDiv = e.target.parentElement.parentElement
+    const menu = sliderDiv.parentElement
+    menu.style.backgroundColor = "transparent"
+    menu.style.borderColor = "transparent"
+    menu.style.boxShadow = "none"
+    sliderDiv.style = "box-shadow: 0 0 1px 1px rgba(0,0,0,0.3); background: " + theme.navMenuModal[" ul"].background + ";"
+    menu.childNodes.forEach( (n) => {
+      if (n != sliderDiv) {
+        n.style = "opacity: 0"
+      }
+    })
+  }
+
+  const remove = (e) => {
+    const sliderDiv = e.target.parentElement.parentElement
+    const menu = sliderDiv.parentElement
+    sliderDiv.style = null
+    menu.style = null
+    menu.childNodes.forEach( (n) => {
+      if (n != sliderDiv) {
+        n.style = null
+      }
+    })
+  }
+
+  return { add, remove }
+}
+
+
 const _Inner = (props) => {
+  const theme = useContext(Theme)
   const commonActions = {
     toggleModal: props.toggleModal,
     chooseTheme: props.chooseTheme
@@ -52,6 +84,12 @@ const _Inner = (props) => {
           id="levelOfDetail"
           label="Detail"
           callback={props.detailLevelCallback}
+          onmousedown={props.tempStyles.add}
+          onpointerstart={props.tempStyles.add}
+          ontouchstart={props.tempStyles.add}
+          onmouseup={props.tempStyles.remove}
+          onpointerend={props.tempStyles.remove}
+          ontouchend={props.tempStyles.remove}
         />
       </li>
     </ul>
@@ -64,9 +102,12 @@ const NavMenu = (props) => {
   const className = props.isInModal
                   ? cxs(theme.navMenuModal || {}) || null
                   : cxs(theme.navMenu || {}) || null
+
+  const ts = tempStyles(theme, props.isInModal)
+
   return (
     <div className={className}>
-      <_Inner {...props} />
+      <_Inner {...props} tempStyles={ts} />
     </div>
   )
 }

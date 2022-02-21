@@ -35,6 +35,13 @@ class RangeSlider extends Component {
     const theMax = this.props.max || 10
     const name = this.props.name || "range"
 
+    const newProps = {...this.props}
+    delete(newProps.id)
+    delete(newProps.max)
+    delete(newProps.min)
+    delete(newProps.name)
+    delete(newProps.step)
+
     return (
       <View className={classNameContainer}>
         <input
@@ -54,6 +61,7 @@ class RangeSlider extends Component {
           }
           oninput={this.storeValue.bind(this,name)}
           onchange={this.storeValue.bind(this,name)}
+          {...newProps}
           />
         <label for={name}>
           <span style={{
