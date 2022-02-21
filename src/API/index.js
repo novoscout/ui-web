@@ -19,6 +19,11 @@ if (process.env.apiPort) {
 }
 const apiUrlBase = apiHost + "/v1";
 
+// The number of "levels of detail" that the summarised text
+// from the real API will be broken into.
+const numLevelsOfDetail = 5;
+
+// A crummy cache :)
 const crummyCache = {
   "set": function(key,val) {
     const k = storageKey(key);
@@ -371,6 +376,7 @@ const api = {
   getArticleByDOI,
   getGraph,
   login,
+  numLevelsOfDetail,
   recordUserNavigateFromDOIToDOI,
   recordUserShareDOI,
   register,
