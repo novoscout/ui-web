@@ -300,6 +300,25 @@ input[type="text"], input[type="email"], input[type="password"], input[type="sea
 }
 
 /* ====================================================================== */
+/* Level of detail animations. */
+
+.lod {
+  font-size: inherit;
+  transition: font-size 0.7s, letter-spacing 0.5s, color 0.3s;
+}
+
+body.lod-0-shrink .lod.lod-0,
+body.lod-1-shrink .lod.lod-1,
+body.lod-2-shrink .lod.lod-2,
+body.lod-3-shrink .lod.lod-3,
+body.lod-4-shrink .lod.lod-4,
+body.lod-5-shrink .lod.lod-5 {
+  font-size: 0;
+  letter-spacing: -2px;
+  color: transparent;
+}
+
+/* ====================================================================== */
 /* Misc */
 
 hr {
@@ -310,6 +329,7 @@ hr {
   overflow: visible;
   height: 1px;
 }
+
 /* ====================================================================== */
 
 /* Font tweaks, minimising jarring from resizing. */
