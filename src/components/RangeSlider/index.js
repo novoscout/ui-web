@@ -22,8 +22,9 @@ class RangeSlider extends Component {
     }
     await this.setState({value:e.target.value})
     storage.setItem(name,e.target.value)
-    console.debug(name)
-    console.debug(e.target.value)
+    if (this.props.callback) {
+      this.props.callback(e.target.value)
+    }
   }
 
   render() {
@@ -31,20 +32,19 @@ class RangeSlider extends Component {
     const className = cxs(theme.rangeSlider || {}) || null
     const classNameContainer = cxs(theme.rangeSliderContainer || {}) || null
 
-    const theMin = this.props.min || 0
     const theMax = this.props.max || 10
     const name = this.props.name || "range"
-    const theId = this.props.id || null
 
     return (
       <View className={classNameContainer}>
         <input
           className={className}
           type="range"
-          min={theMin}
+          min={this.props.min || 0}
           max={theMax}
+          step={this.props.step || 1}
           name={name}
-          id={theId}
+          id={this.props.id || null}
           value={
             parseInt(
               this.state.value

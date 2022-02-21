@@ -7,9 +7,8 @@ import { View } from "ui-shared/components"
 
 import { Details, Ident, MemoizedArticles, Summary, Swiper, TextLink } from ".."
 import { Theme } from "../../theme"
-
-const api = require("../../API")
 import { DOI, shrinkTitle, storage } from "../../helpers/"
+import api from "../../API"
 
 // import { load as graphFromJson } from "ngraph.fromjson"
 // import { save as graphToJson } from "ngraph.tojson"
@@ -18,7 +17,6 @@ import { DOI, shrinkTitle, storage } from "../../helpers/"
 class Desk extends Component {
   constructor(props) {
     super(props)
-    this.checkRoute = this.checkRoute.bind(this)
     this.renderArticles = this.renderArticles.bind(this)
     this.swiperShouldPreventDefault = this.swiperShouldPreventDefault.bind(this)
     this.fromArticle = this.fromArticle.bind(this)
@@ -27,7 +25,6 @@ class Desk extends Component {
       // apikeyValidated: false,
       passphrase: undefined,
       loading: true,
-      levelOfDetail: 5,
       activeDOI: undefined,
       articleGraph: [],
     }
@@ -130,9 +127,18 @@ class Desk extends Component {
             return (
               <p>
                 {
-                  (p || []).map( (sentence) => {
-                    return sentence.text ? sentence.text : undefined
-                  }).filter( (text) => { if (text) { return true } }).join(" ")
+                  (p || []).map( (sentence,idx) => {
+                    return sentence.text
+                         ? (
+                           <span className={"lod lod-" + String(
+                             (sentence.levelOfDetail || 0) * api.numLevelsOfDetail
+                           )
+                           }>{sentence.text + " "}</span>
+                         )
+                         : undefined
+                  }).filter(
+                    (text) => { if (text) { return true }
+                  })
                 }
               </p>
             )
@@ -221,23 +227,21 @@ class Desk extends Component {
             <p>
               Full title: {title}
             </p>
-            <p>
-              Full paper: <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
-            </p>
             {
               authors.length > 0 &&
                 <p>Authors: {authors.map( (auth) => {
                     return (<span>{auth}. </span>)
                 })}</p>
             }
+            <p>
+              Full paper: <TextLink preventDefault={false} target="__blank" href={doiUrl}>{doiUrl}</TextLink>
+            </p>
           </Details>
           {body}
         </Swiper>
       )
     })
   }
-
-  checkRoute(e) { }
 
   render() {
     const theme = useContext(Theme)
@@ -254,7 +258,7 @@ class Desk extends Component {
         <View default id="desk" className={className}>
           <Router>
             <View default>
-              <p>
+              <p style={{marginTop:"2rem",textAlign:"center"}}>
                 <TextLink href={Ident.href}>Login</TextLink>
               </p>
             </View>

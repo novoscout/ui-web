@@ -14,7 +14,7 @@ const Nav = (props) => {
   return (
     <View id="nav" className={className}>
       <NavTitle>osteoscout</NavTitle>
-      <NavMenu {...props} />
+      <NavMenu {...props}/>
     </View>
   )
 }

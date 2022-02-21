@@ -6,8 +6,17 @@ import { TextLink } from "ui-shared/components"
 
 import { Theme } from "../../theme"
 
-import { NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme } from ".."
-import { RangeSlider } from ".."
+import {
+  NavActionCancel,
+  NavActionIdent,
+  NavActionPrint,
+  NavActionShare,
+  NavActionTheme,
+  RangeSlider,
+} from ".."
+
+import api from "../../API"
+
 
 // import { lazyLoad } from "../../helpers/lazyLoad"
 // var NavActionCancel = undefined;
@@ -36,11 +45,13 @@ const _Inner = (props) => {
       <li>
         <RangeSlider
           order={5}
-          min={props.rangeMin || 1}
-          max={props.rangeMax || 5}
+          min={0}
+          max={api.numLevelsOfDetail - 1}
+          step={1}
           name="levelOfDetail"
           id="levelOfDetail"
           label="Detail"
+          callback={props.detailLevelCallback}
         />
       </li>
     </ul>

@@ -1,108 +1,87 @@
-import { h, Component } from "preact"
-import { createRef, useContext } from "preact/compat"
+import { h, Component, createContext } from "preact"
+import { useContext } from "preact/compat"
 
 import { Text, View } from "ui-shared/components"
-import { Desk, Modal, Nav, Toolbar } from "../../components"
 
+import { Desk, Modal, Nav, Toolbar } from "../../components"
 import { storage } from "../../helpers"
+import api from "../../API"
+
+
 
 class Demo extends Component {
   constructor(props) {
     super(props)
     this.toggleModal = this.toggleModal.bind(this)
-    this.toggleFunc = this.toggleFunc.bind(this)
     this.detailLevelCallback = this.detailLevelCallback.bind(this)
     this.state = {
       loading: true,
       modal: { visible: false },
-      modalRef: createRef()
+      levelOfDetail: 3
     }
   }
 
   componentDidMount() {
-    this.setState({
-      loading: false,
-      modalRef: createRef()
-    })
-  }
-
-  toggleFunc(i) {
-    if (i.target == this.state.modalRef.current.base) {
-      this.setState({ modal: { visible: false } })
+    const lod = parseInt(storage.getItem("levelOfDetail"))
+    if (lod != NaN) {
+      this.detailLevelCallback(lod)
     }
-  }
-
-  async toggleModal(e) {
-    if (e && e.hasOwnProperty("visible")) {
-      await this.setState({ modal: { visible: e.visible } })
-    } else {
-      await this.setState({ modal: { visible: ! this.state.modal.visible } })
-    }
-    const opts = {
-      capture: false,
-      once: false,
-      passive: false,
-    }
-    // Detect tap/click on modal outside menu to dismiss menu.
-    if (this.state.modal.visible) {
-      this.state.modalRef.current.base.addEventListener(
-        "mouseup", this.toggleFunc, opts
-      )
-      this.state.modalRef.current.base.addEventListener(
-        "pointerend", this.toggleFunc, opts
-      )
-      this.state.modalRef.current.base.addEventListener(
-        "touchend", this.toggleFunc, opts
-      )
-    } else {
-      this.state.modalRef.current.base.removeEventListener(
-        "mouseup", this.toggleFunc
-      )
-      this.state.modalRef.current.base.removeEventListener(
-        "pointerend", this.toggleFunc
-      )
-      this.state.modalRef.current.base.removeEventListener(
-        "touchend", this.toggleFunc
-      )
-    }
-  }
-
-  async detailLevelCallback(value) {
-    await this.setState({
-      levelOfDetail: value
-    })
-    console.debug("dLC got this.navMenuRef:",this.navMenuRef)
-    if (this.state.modal.visible && (this.navMenuRef || {}).base) {
-      this.navMenuRef.base.style = {
-        background: "none",
-        border: "1px solid transparent",
-        boxShadow: "none"
+    this.setState((prevState) => {
+      return {
+        loading:false,
+        levelOfDetail: lod == NaN
+                     ? prevState.levelOfDetail
+                     : lod
       }
+    })
+  }
+
+  toggleModal(e) {
+    this.setState((prevState) => {
+      return {
+        modal: {
+          visible: ! prevState.modal.visible
+        }
+      }
+    })
+  }
+
+  detailLevelCallback(value) {
+    value = parseInt(value)
+    for (let i = 0; i <= value; i++) {
+      document.body.classList.remove("lod-" + i + "-shrink")
     }
+    for (let i = 4; i > value; i--) {
+      document.body.classList.add("lod-" + i + "-shrink")
+    }
+    this.setState({levelOfDetail:value})
   }
 
   render() {
     if (this.state.loading) { return null }
 
     const commonActions = {
-      toggleModal: this.toggleModal,
-      chooseTheme: this.props.chooseTheme
+      chooseTheme: this.props.chooseTheme,
+      toggleModal: this.toggleModal
     }
 
     return (
       <Modal.Context.Provider value={this.state.modal}>
-        <Nav {...commonActions}
-             detailLevelCallback={this.detailLevelCallback}
-             ref={this.navRef}
-             navMenuRef={this.navMenuRef}
-             />
-        <Desk {...commonActions} levelOfDetail={this.state.levelOfDetail} />
-        <Toolbar {...commonActions} />
-        <Modal {...commonActions}
-               detailLevelCallback={this.detailLevelCallback}
-               ref={this.modalRef}
-               modalNavMenuRef={this.modalNavMenuRef}
-               />
+        <Nav
+          {...commonActions}
+          detailLevelCallback={this.detailLevelCallback}
+        />
+        <Desk
+          {...commonActions}
+          levelOfDetail={this.state.levelOfDetail}
+        />
+        <Toolbar
+          {...commonActions}
+        />
+        <Modal
+          {...commonActions}
+          detailLevelCallback={this.detailLevelCallback}
+        />
       </Modal.Context.Provider>
     )
   }
