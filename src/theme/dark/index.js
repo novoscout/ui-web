@@ -5,16 +5,16 @@ const dark = {
   rangeSlider: {
     boxShadow: "none",
     background: color.background,
-    "::-webkit-slider-thumb": {
-      boxShadow: "none",
-      background: color.accent,
-      borderColor: color.accent,
-    },
-    "::-moz-range-thumb": {
-      boxShadow: "none",
-      background: color.accent,
-      borderColor: color.accent,
-    },
+    // "::-webkit-slider-thumb": {
+    //   boxShadow: "none",
+    //   background: color.accent,
+    //   borderColor: color.accent,
+    // },
+    // "::-moz-range-thumb": {
+    //   boxShadow: "none",
+    //   background: color.accent,
+    //   borderColor: color.accent,
+    // },
     " ~ label": {
       color: color.accent
     }

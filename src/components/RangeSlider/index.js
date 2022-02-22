@@ -32,7 +32,7 @@ class RangeSlider extends Component {
     const className = cxs(theme.rangeSlider || {}) || null
     const classNameContainer = cxs(theme.rangeSliderContainer || {}) || null
 
-    const theMax = this.props.max || 10
+    const theMax = this.props.max == 0 ? 0 : this.props.max ? this.props.max : 10
     const name = this.props.name || "range"
 
     const newProps = {...this.props}

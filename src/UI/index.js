@@ -58,7 +58,7 @@ class UI extends Component {
     const theme = this.state.theme == "light" ? lightTheme : darkTheme
 
     return (
-      <Theme.Provider value={theme} >
+      <Theme.Provider value={theme}>
         <Demo chooseTheme={this.chooseTheme} />
       </Theme.Provider>
     )
