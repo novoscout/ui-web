@@ -50,7 +50,7 @@ class NavActionShare extends Component {
     return (
       <NavAction
         href={null}
-        onclick={this.handleShare}
+        onClick={this.handleShare}
         className={className}>
         <NavAction.Icon ariaLabel="Share">🔗</NavAction.Icon>
         <NavAction.Text>&nbsp;Share</NavAction.Text>

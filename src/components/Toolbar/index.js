@@ -16,7 +16,7 @@ const Toolbar = (props) => {
     : "")  + " not-print"
   return (
     <_Toolbar id="toolbar" className={className} {...props}>
-      <FAB onclick={props.toggleModal} />
+      <FAB onClick={props.toggleModal} />
     </_Toolbar>
   )
 }

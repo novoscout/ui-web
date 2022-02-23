@@ -21,7 +21,6 @@ class TextLink extends Component {
       }
       if (props) {
         if (props.onClick) { props.onClick() }
-        if (props.onclick) { props.onclick() }
         if (props.href && props.preventDefault != false) {
           if (props.replaceHistory) {
             route(props.href, true)

@@ -28,7 +28,7 @@ class NavActionPrint extends Component {
     return (
       <NavAction
         href={null}
-        onclick={this.handlePrint}
+        onClick={this.handlePrint}
         className={className}>
         <NavAction.Icon
           ariaLabel="Print"

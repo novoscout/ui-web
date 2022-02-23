@@ -180,10 +180,10 @@ class Ident extends Component {
         <ID>
           <p><h4 style={{textAlign:"center"}}>About OsteoScout</h4></p>
           <p>
-            You can <TextLink onclick={this.forceRedirect}>browse articles</TextLink> and easily share them with your colleagues to discuss as part of your CPD.
+            You can <TextLink onClick={this.forceRedirect}>browse articles</TextLink> and easily share them with your colleagues to discuss as part of your CPD.
           </p>
           <p>
-            OsteoScout will remember you each time you visit, unless you <TextLink onclick={this.forceLogout}>logout</TextLink>.
+            OsteoScout will remember you each time you visit, unless you <TextLink onClick={this.forceLogout}>logout</TextLink>.
           </p>
           <p><h4 style={{textAlign:"center",paddingTop:"1.5rem"}}>FAQ</h4></p>
           <Details>
@@ -228,11 +228,11 @@ class Ident extends Component {
                   <Button
                     disabled={this.state.submittingForm}
                     type="submit" name="login"
-                    onclick={this.handleForm}>Login</Button>
+                    onClick={this.handleForm}>Login</Button>
                   <br/>
                   <Button
                     disabled={this.state.submittingForm}
-                    onclick={ () => { window.history.go(-1); return false; } }>Cancel</Button>
+                    onClick={ () => { window.history.go(-1); return false; } }>Cancel</Button>
                 </Fragment>
               }
             </p>
@@ -258,11 +258,11 @@ class Ident extends Component {
                   <Button
                     disabled={this.state.submittingForm}
                     name="register"
-                    onclick={this.handleForm}>Register</Button>
+                    onClick={this.handleForm}>Register</Button>
                   <br/>
                   <Button
                     disabled={this.state.submittingForm}
-                    onclick={ () => { window.history.go(-1); return false; } }>Cancel</Button>
+                    onClick={ () => { window.history.go(-1); return false; } }>Cancel</Button>
                 </p>
               </div>
             </Details>

@@ -32,7 +32,7 @@ class NavActionIdent extends Component {
       <NavAction
         href={Ident.href}
         className={className}
-        onclick={this.handleIdent}>
+        onClick={this.handleIdent}>
         <NavAction.Icon ariaLabel="Login/out">🔒</NavAction.Icon>
         <NavAction.Text>&nbsp;Login/out</NavAction.Text>
       </NavAction>

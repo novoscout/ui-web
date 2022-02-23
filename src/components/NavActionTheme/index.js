@@ -30,7 +30,7 @@ class NavActionTheme extends Component {
     return (
       <NavAction
         href={null}
-        onclick={this.handleChooseTheme}
+        onClick={this.handleChooseTheme}
         className={className}>
         <NavAction.Icon ariaLabel="Choose day/night theme">🌗</NavAction.Icon>
         <NavAction.Text>&nbsp;Day/night</NavAction.Text>

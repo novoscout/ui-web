@@ -222,7 +222,7 @@ export default Whatever
 //   return (
 //     <Base id="desk" className={className}>
 //       <div>
-//         <a href="#" onclick={props.toggle}>Global</a>
+//         <a href="#" onClick={props.toggle}>Global</a>
 //       </div>
 //       {props.children}
 //     </Base>
@@ -253,7 +253,7 @@ export default Whatever
 //     const className = cxs(style)
 //     return (
 //       <Base className={className}>
-//         <a href="#" className={className} onclick={this.change}>Local</a>
+//         <a href="#" className={className} onClick={this.change}>Local</a>
 //       </Base>
 //     )
 //   }
@@ -303,7 +303,7 @@ export default Whatever
 //     // console.log(this.props)
 //     return (
 //       <InnerStyled {...this.props}>
-//         <a href="#" style={{color:this.props.col}} onclick={this.props.action()}>Should not affect theme</a>
+//         <a href="#" style={{color:this.props.col}} onClick={this.props.action()}>Should not affect theme</a>
 //       </InnerStyled>
 //     )
 //   }

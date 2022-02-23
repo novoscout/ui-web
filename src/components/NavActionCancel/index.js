@@ -26,7 +26,7 @@ class NavActionCancel extends Component {
     return (
       <NavAction
         href={null}
-        onclick={this.handleCancel}
+        onClick={this.handleCancel}
         className={className}>
         <NavAction.Icon
           ariaLabel="Cancel"
