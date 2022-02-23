@@ -54,8 +54,8 @@ class RangeSlider extends Component {
                 || Math.round(theMax / 2)
             )
           }
-          oninput={this.storeValue.bind(this,name)}
-          onchange={this.storeValue.bind(this,name)}
+          onInput={this.storeValue.bind(this,name)}
+          onChange={this.storeValue.bind(this,name)}
           {...newProps}
           />
         <label for={name}>

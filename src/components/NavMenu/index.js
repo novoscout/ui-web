@@ -84,12 +84,14 @@ const _Inner = (props) => {
           id="levelOfDetail"
           label="Detail"
           callback={props.detailLevelCallback}
-          onmousedown={props.tempStyles.add}
-          onpointerstart={props.tempStyles.add}
-          ontouchstart={props.tempStyles.add}
-          onmouseup={props.tempStyles.remove}
-          onpointerend={props.tempStyles.remove}
-          ontouchend={props.tempStyles.remove}
+
+          onMouseDown={props.tempStyles.add}
+          onPointerStart={props.tempStyles.add}
+          onTouchStart={props.tempStyles.add}
+
+          onMouseUp={props.tempStyles.remove}
+          onPointerEnd={props.tempStyles.remove}
+          onTouchEnd={props.tempStyles.remove}
         />
       </li>
     </ul>

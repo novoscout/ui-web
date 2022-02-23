@@ -1,4 +1,4 @@
-import { h, Component, Fragment } from "preact"
+import { h, Component } from "preact"
 import { createRef, useContext } from "preact/compat"
 import { Router, route } from "preact-router"
 import cxs from "cxs"
@@ -91,6 +91,8 @@ class Desk extends Component {
       apikey: this.state.apikey,
       doiA: ref.props.doi,
       doiB: nextDOI
+    }).catch( (e) => {
+      console.debug("API error: ",e)
     })
   }
 
@@ -164,11 +166,10 @@ class Desk extends Component {
     const g = this.state.articleGraph
     const gLen = ( g || []).length
     const doiFromUrl = DOI(DOIFromURL)
-    var activeDOI = DOI(
-      this.state.activeDOI ||
-      doiFromUrl ||
-      this.fromArticle(g[Math.floor((Math.random() * gLen))],"doi")
-    )
+    var activeDOI = this.state.activeDOI ||
+                    doiFromUrl ||
+                    this.fromArticle(g[Math.floor((Math.random() * gLen))],"doi")
+    activeDOI = DOI(activeDOI)
 
     const pointer = g.findIndex( (i) => {
       return this.fromArticle(i,"doi") == activeDOI
@@ -176,6 +177,10 @@ class Desk extends Component {
 
     const pointerBefore = pointer - 1 < 0 ? gLen - 1 : pointer - 1
     const pointerAfter = pointer + 1 >= gLen ? 0 : pointer + 1
+
+    if (activeDOI) {
+      route("/doi/" + activeDOI)
+    }
 
     return [pointerBefore, pointer, pointerAfter].map( (i) => {
       const doi = DOI(this.fromArticle(g[i],"doi"))
@@ -197,14 +202,12 @@ class Desk extends Component {
           : g[pointerBefore]
         ),"doi")
       )
+      const doiUrl = "https://doi.org/" + (doi ? doi : "")
+      const osUrl = "https://app.osteoscout.com/doi/" + (doi ? doi : "")
       const title = this.fromArticle(g[i],"title")
-      const shrunkTitle = shrinkTitle(title)
       const authors = this.fromArticle(g[i],"authors")
-      const doiUrl = String("https://doi.org/" + doi).toLowerCase()
-      const osUrl = String("https://app.osteoscout.com/doi/" + doi).toLowerCase()
       const body = this.fromArticle(g[i],"body")
       const ref = createRef()
-      route("/doi/" + activeDOI)
       return (
         <Swiper
           id={"doi:"+doi}
@@ -217,7 +220,7 @@ class Desk extends Component {
           startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
           >
-          <h2>{shrunkTitle}</h2>
+          <h2>{shrinkTitle(title)}</h2>
           <Details className="always-print">
             <Summary className="not-print">Info</Summary>
             <p>
@@ -245,7 +248,7 @@ class Desk extends Component {
   }
 
   async handleRoute(e) {
-    console.log(e)
+    // console.log(e)
   }
 
   render() {
@@ -271,10 +274,10 @@ class Desk extends Component {
               id="articles"
               path="/doi/:doi*"
               renderCallback={this.renderArticles}
-              renderChecks={[
-                this.state.activeDOI,
-                this.props.levelOfDetail,
-                theme
+              checkIfUpdated={[
+                theme.desk.backgroundColor,
+                theme.swiper.inner.backgroundColor,
+                this.state.activeDOI
               ]}
               />
           </Router>
