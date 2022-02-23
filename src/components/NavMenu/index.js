@@ -70,13 +70,9 @@ const _Inner = (props) => {
   }
   return (
     <ul>
-      <li><NavActionShare order={1} {...commonActions} /></li>
-      <li><NavActionIdent order={2} {...commonActions} /></li>
-      <li><NavActionPrint order={3} {...commonActions} /></li>
-      <li><NavActionTheme order={4} {...commonActions} /></li>
       <li>
         <RangeSlider
-          order={5}
+          order={1}
           min={0}
           max={api.numLevelsOfDetail - 1}
           step={1}
@@ -94,6 +90,10 @@ const _Inner = (props) => {
           onTouchEnd={props.tempStyles.remove}
         />
       </li>
+      <li><NavActionShare order={2} {...commonActions} /></li>
+      <li><NavActionIdent order={3} {...commonActions} /></li>
+      <li><NavActionPrint order={4} {...commonActions} /></li>
+      <li><NavActionTheme order={5} {...commonActions} /></li>
     </ul>
   )
 }
