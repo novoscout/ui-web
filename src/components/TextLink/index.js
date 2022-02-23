@@ -37,7 +37,7 @@ class TextLink extends Component {
     const className = theme.textLink ? cxs(theme.textLink) : null
 
     // Ignore some unnecessary items in new props.
-    const { href:{}, onClick:{}, ...newProps } = ...this.props
+    const { href, onClick, ...newProps } = this.props
 
     return (
       <a

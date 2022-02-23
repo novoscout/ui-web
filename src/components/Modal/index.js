@@ -76,7 +76,7 @@ class Modal extends Component {
     if (this.state.loading) { return null }
 
     // Ignore some unnecessary items in new props.
-    const { style:{}, ...newProps } = this.props
+    const { style, ...newProps } = this.props
 
     const modalContext = useContext(_ModalContext)
 

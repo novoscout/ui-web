@@ -12,7 +12,7 @@ const TextInput = (props) => {
         : null
 
   // Ignore some unnecessary items in new props.
-  const { href:{}, onClick:{}, ...newProps } = props
+  const { href, onClick, ...newProps } = props
 
   return (
     <_TextInput

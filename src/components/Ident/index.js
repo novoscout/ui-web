@@ -162,7 +162,7 @@ class Ident extends Component {
     }
 
     // Ignore some unnecessary items in new props.
-    const { path:{}, url:{}, ...newProps } = this.props
+    const { path, url, ...newProps } = this.props
 
     const className = theme.ident ? cxs(theme.ident) : null
 

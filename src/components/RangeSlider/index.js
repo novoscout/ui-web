@@ -33,10 +33,9 @@ class RangeSlider extends Component {
     const classNameContainer = cxs(theme.rangeSliderContainer || {}) || null
 
     const theMax = this.props.max == 0 ? 0 : this.props.max ? this.props.max : 10
-    const name = this.props.name || "range"
 
     // Ignore some unnecessary items in new props.
-    const { id:{}, max:{}, min:{}, name:{}, step:{}, ...newProps } = this.props
+    const { id, max, min, name, step, ...newProps } = this.props
 
     return (
       <View className={classNameContainer}>
@@ -46,7 +45,7 @@ class RangeSlider extends Component {
           min={this.props.min || 0}
           max={theMax}
           step={this.props.step || 1}
-          name={name}
+          name={name || "range"}
           id={this.props.id || null}
           value={
             parseInt(
