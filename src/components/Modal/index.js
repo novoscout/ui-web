@@ -74,8 +74,9 @@ class Modal extends Component {
 
   render() {
     if (this.state.loading) { return null }
-    const newProps = {...this.props}
-    delete(newProps.style)
+
+    // Ignore some unnecessary items in new props.
+    const { style:{}, ...newProps } = this.props
 
     const modalContext = useContext(_ModalContext)
 

@@ -35,12 +35,8 @@ class RangeSlider extends Component {
     const theMax = this.props.max == 0 ? 0 : this.props.max ? this.props.max : 10
     const name = this.props.name || "range"
 
-    const newProps = {...this.props}
-    delete(newProps.id)
-    delete(newProps.max)
-    delete(newProps.min)
-    delete(newProps.name)
-    delete(newProps.step)
+    // Ignore some unnecessary items in new props.
+    const { id:{}, max:{}, min:{}, name:{}, step:{}, ...newProps } = this.props
 
     return (
       <View className={classNameContainer}>

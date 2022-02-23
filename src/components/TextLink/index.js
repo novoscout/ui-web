@@ -35,10 +35,10 @@ class TextLink extends Component {
   render() {
     const theme = useContext(Theme)
     const className = theme.textLink ? cxs(theme.textLink) : null
-    var newProps = {...this.props}
-    delete(newProps.href)
-    delete(newProps.onClick)
-    delete(newProps.onclick)
+
+    // Ignore some unnecessary items in new props.
+    const { href:{}, onClick:{}, ...newProps } = ...this.props
+
     return (
       <a
         onClick={this.handleOnClick.bind(this,this.props)}

@@ -161,9 +161,8 @@ class Ident extends Component {
       return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
     }
 
-    const newProps = {...this.props}
-    delete(newProps.path)
-    delete(newProps.url)
+    // Ignore some unnecessary items in new props.
+    const { path:{}, url:{}, ...newProps } = this.props
 
     const className = theme.ident ? cxs(theme.ident) : null
 

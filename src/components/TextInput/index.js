@@ -10,10 +10,10 @@ const TextInput = (props) => {
   const className = theme.input
         ? cxs(theme.input)
         : null
-  var newProps = {...props}
-  delete(newProps.href)
-  delete(newProps.onClick)
-  delete(newProps.onclick)
+
+  // Ignore some unnecessary items in new props.
+  const { href:{}, onClick:{}, ...newProps } = props
+
   return (
     <_TextInput
       type="text"
