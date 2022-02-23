@@ -237,7 +237,8 @@ const common = {
         " > summary": {
           borderRadius: "1rem",
           padding: "0.3rem 1rem 0.4rem 0.7rem",
-          display: "inline list-item",
+          display: "inline-block list-item",
+          width: "fit-content"
         },
         " > summary + p + p": {
           marginTop: "1rem",
