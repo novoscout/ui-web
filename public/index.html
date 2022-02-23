@@ -12,17 +12,28 @@
     <!-- Disable 300ms delay in IE -->
     <style>html{touch-action:manipulation;-ms-touch-action:manipulation}</style>
 
+    <!-- 
+         Scripts policy kudos https://stackoverflow.com/a/39711009
+           - defer where feasible (execution happens after page has been parsed);
+           - async if we can continue while downloading in background (execution happens immediately when download completes);
+           - Omit both if we must halt until download is finished (execution happens immediately when download completes).
+    -->
+
     <!-- HTML5shiv: HTML5 elements for older versions of IE -->
     <!-- respond.js: media-queries for older versions of IE -->
+    <!-- Omit both async and defer so loading will block until these are downloaded. Sorry IE 8 users :( -->
     <!-- [if lt IE 9]>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha512-UDJtJXfzfsiPPgnI5S1000FPLBHMhvzAMX15I+qG2E2OAzC9P1JzUwJOfnypXiOH7MRPaqzhPbBGDNNj7zBfoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha512-qWVvreMuH9i0DrugcOtifxdtZVBBL0X75r9YweXsdCHtXUidlctw7NXg5KVP3ITPtqZ2S575A0wFkvgS2anqSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
          <![endif] -->
 
-    <!-- Scripts policy: defer instead of async where feasible. Kudos https://stackoverflow.com/a/39711009 -->
-
     <!-- Polyfill.io: automatic polyfills for many features/browsers -->
-    <script defer src="https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default" crossorigin="anonymous"></script>
+    <!-- Download async so polyfills will download in background but then exectue. -->
+    <script
+      async
+      src="//polyfill.io/v3/polyfill.min.js?flags=gated&features=default"
+      crossorigin="anonymous">
+    </script>
 
     <!-- Font Face Observer, used to address issues with font flashes when styling. -->
     <script>/* Font Face Observer v2.1.0 - © Bram Stein. License: BSD-3-Clause */(function(){function l(a,b){document.addEventListener?a.addEventListener("scroll",b,!1):a.attachEvent("scroll",b)}function m(a){document.body?a():document.addEventListener?document.addEventListener("DOMContentLoaded",function c(){document.removeEventListener("DOMContentLoaded",c);a()}):document.attachEvent("onreadystatechange",function k(){if("interactive"==document.readyState||"complete"==document.readyState)document.detachEvent("onreadystatechange",k),a()})};function t(a){this.a=document.createElement("div");this.a.setAttribute("aria-hidden","true");this.a.appendChild(document.createTextNode(a));this.b=document.createElement("span");this.c=document.createElement("span");this.h=document.createElement("span");this.f=document.createElement("span");this.g=-1;this.b.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.c.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";
@@ -36,9 +47,11 @@ L(c,'"'+c.family+'",sans-serif'));A(p,function(a){g=a;v()});u(p,L(c,'"'+c.family
 
     <!-- Fallback for Navigator.share() which is not widely supported. -->
     <!-- See https://unpkg.com/share-api-polyfill/ -->
+    <!-- Defer download because this is not needed immediately. -->
     <script defer src="/assets/js/share-min.js"></script>
 
     <!-- Fallback for details/share elements, mainly for IE or whatever :) -->
+    <!-- Defer download because this is not needed immediately. -->
     <script defer src="/assets/js/details-polyfill.js"></script>
 
     <script>
