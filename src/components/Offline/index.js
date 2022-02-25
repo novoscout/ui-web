@@ -1,8 +1,10 @@
 import { h } from "preact"
 
-const Offline = () => {
+const Offline = (props) => {
   return (
-    <div className="offline" />
+    <div className="offline">
+      {props.children}
+    </div>
   )
 }
 
