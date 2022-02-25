@@ -9,12 +9,11 @@ const MemoizedArticles = (props) => {
   // The doi prop is inserted by preact-router, in the Desk component.
   const doi = (props || {}).doi
 
-  const checkIfUpdated = props.checkIfUpdated.filter( x => x )
+  const monitorForChange = props.monitorForChange.filter( x => x )
 
-  const memoizedArticles = useMemo(
-    () => { return props.renderCallback(doi) },
-    checkIfUpdated
-  )
+  const memoizedArticles = useMemo( () => {
+    return props.renderCallback(doi)
+  }, monitorForChange )
 
   return (
     <View style={{height:"100%"}}>

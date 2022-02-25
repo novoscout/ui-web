@@ -278,11 +278,9 @@ class Desk extends Component {
               id="articles"
               path="/doi/:doi*"
               renderCallback={this.renderArticles}
-              checkIfUpdated={[
-                theme.desk.backgroundColor,
-                theme.swiper.inner.backgroundColor,
+              monitorForChange={this.props.monitorForChange.concat([
                 this.state.activeDOI
-              ]}
+              ])}
               />
           </Router>
         </View>

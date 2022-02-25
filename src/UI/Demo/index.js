@@ -81,6 +81,7 @@ class Demo extends Component {
         <Desk
           {...commonActions}
           levelOfDetail={this.state.levelOfDetail}
+          monitorForChange={this.props.monitorForChange || []}
         />
         <Toolbar
           {...commonActions}

@@ -59,7 +59,13 @@ class UI extends Component {
 
     return (
       <Theme.Provider value={theme}>
-        <Demo chooseTheme={this.chooseTheme} />
+        <Demo
+          chooseTheme={this.chooseTheme}
+          monitorForChange={[
+            theme.desk.backgroundColor,
+            theme.swiper.inner.backgroundColor,
+          ]}
+        />
       </Theme.Provider>
     )
   }
