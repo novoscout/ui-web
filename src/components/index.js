@@ -21,6 +21,7 @@ import { Swiper } from "./Swiper"
 import { TextInput } from "./TextInput"
 import { TextLink } from "./TextLink"
 import { Toolbar } from "./Toolbar"
+import { View } from "./View"
 
 export default {
   Button,
@@ -37,7 +38,8 @@ export default {
   Swiper,
   TextInput,
   TextLink,
-  Toolbar
+  Toolbar,
+  View
 }
 
 export {
@@ -55,5 +57,6 @@ export {
   Swiper,
   TextInput,
   TextLink,
-  Toolbar
+  Toolbar,
+  View
 }
