@@ -3,12 +3,9 @@ import { useContext } from "preact/compat"
 
 import { Theme, lightTheme, darkTheme } from "../theme"
 import { Demo } from "./Demo"
+import { Loading } from "../components/"
 import { storage } from "../helpers/"
 
-
-const Loading = () => {
-  return (<div className="loading" />)
-}
 
 class UI extends Component {
   constructor(props) {

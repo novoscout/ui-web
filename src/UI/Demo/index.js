@@ -3,7 +3,7 @@ import { useContext } from "preact/compat"
 
 import { Text, View } from "ui-shared/components"
 
-import { Desk, Modal, Nav, Toolbar } from "../../components"
+import { Desk, Loading, Modal, Nav, Toolbar } from "../../components"
 import { storage } from "../../helpers"
 import api from "../../API"
 
@@ -58,7 +58,7 @@ class Demo extends Component {
   }
 
   render() {
-    if (this.state.loading) { return null }
+    if (this.state.loading) { return <Loading /> }
 
     const commonActions = {
       chooseTheme: this.props.chooseTheme,

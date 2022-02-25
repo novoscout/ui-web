@@ -4,6 +4,7 @@ import { Desk } from "./Desk"
 import { Details } from "./Details"
 import { FAB } from "./FAB"
 import { Ident } from "./Ident"
+import { Loading } from "./Loading"
 import { MemoizedArticles } from "./MemoizedArticles"
 import { Modal } from "./Modal"
 import { Nav } from "./Nav"
@@ -30,6 +31,7 @@ export default {
   Details,
   FAB,
   Ident,
+  Loading,
   MemoizedArticles,
   Modal,
   Nav, NavAction, NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme, NavMenu, NavTitle,
@@ -49,6 +51,7 @@ export {
   Details,
   FAB,
   Ident,
+  Loading,
   MemoizedArticles,
   Modal,
   Nav, NavAction, NavActionCancel, NavActionIdent, NavActionPrint, NavActionShare, NavActionTheme, NavMenu, NavTitle,
