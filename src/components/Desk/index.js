@@ -4,9 +4,18 @@ import { Router, route } from "preact-router"
 
 import { View } from ".."
 
-import { Details, Ident, MemoizedArticles, Summary, Swiper, TextLink } from ".."
-import { DOI, storage } from "../../helpers/"
+import { DOI, isOnline, storage } from "../../helpers/"
 import api from "../../API"
+import {
+  Details,
+  ErrorMessage,
+  Ident,
+  MemoizedArticles,
+  Offline,
+  Summary,
+  Swiper,
+  TextLink,
+} from ".."
 
 // import { load as graphFromJson } from "ngraph.fromjson"
 // import { save as graphToJson } from "ngraph.tojson"
@@ -56,7 +65,9 @@ class Desk extends Component {
       apikey
     }).then( async (res) => {
       if (res) {
-        await this.setState({ articleGraph: res })
+        await this.setState({
+          articleGraph: res.filter( x => x )
+        })
       }
     }).catch( (err) => {
       console.debug("Couldn't get graph: " + String(err))
@@ -165,7 +176,17 @@ class Desk extends Component {
      * returned to prevent unnecessary nodes in the DOM.
      */
     const g = this.state.articleGraph
-    const gLen = ( g || []).length
+    const gLen = (g || []).length
+
+    if (gLen == 0) {
+      return (
+        <ErrorMessage>
+          <p>No articles found!</p>
+          <p>Are you online?</p>
+        </ErrorMessage>
+      )
+    }
+
     const doiFromUrl = DOI(DOIFromURL)
     var activeDOI = this.state.activeDOI ||
                     doiFromUrl ||
@@ -176,8 +197,30 @@ class Desk extends Component {
       return this.fromArticle(i,"doi") == activeDOI
     })
 
+    // This "should never happen", but just in case:
+    if (pointer == -1) {
+      return (
+        <ErrorMessage>
+          <p>Could not find article {String(activeDOI)}</p>
+        </ErrorMessage>
+      )
+    }
+
     const pointerBefore = pointer - 1 < 0 ? gLen - 1 : pointer - 1
     const pointerAfter = pointer + 1 >= gLen ? 0 : pointer + 1
+
+    // Again, this shouldn't happen.
+    if ((pointer + pointerBefore + pointerAfter) < 0) {
+      return (
+        <ErrorMessage>
+          <p>Hmm. Can't work out which articles you're looking for.</p>
+          <p>This is probably our mistake, not yours.</p>
+          <p>Maybe try refreshing the page?
+            <span role="none">&nbsp;🤔</span>
+          </p>
+        </ErrorMessage>
+      )
+    }
 
     if (activeDOI) {
       route("/doi/" + activeDOI)
@@ -212,7 +255,7 @@ class Desk extends Component {
       const ref = createRef()
       return (
         <Swiper
-          id={"doi:"+doi}
+          id={doi ? "doi:" + doi : null}
           uniaxial={true}
           end={this.swipeEnd.bind(this,{doi,previousDOI,nextDOI})}
           path={"/doi/" + doi}

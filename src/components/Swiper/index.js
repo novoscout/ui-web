@@ -3,7 +3,7 @@ import { useContext } from "preact/compat"
 import cxs from "cxs"
 
 import { Swiper as _Swiper } from "ui-shared/components"
-
+import { Loading } from ".."
 import { Theme } from "../../theme"
 
 
@@ -138,7 +138,7 @@ class Swiper extends Component {
   }
 
   render() {
-    if (this.state.loading) { return null }
+    if (this.state.loading) { return <Loading /> }
     const theme = useContext(Theme)
 
     const className = (theme.swiper || {}).frame
