@@ -6,6 +6,12 @@ const miniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const common = require('./webpack.common.js');
 
+// This plugin gives more detailed error messages.
+// Ensure it is NOT used in prod.
+common.module.rules[0].use.options.plugins.push(
+  [ '@babel/plugin-transform-react-jsx-source', {} ]
+);
+
 const distDir = "dev";
 const distPath = path.resolve(__dirname, distDir);
 
@@ -24,6 +30,10 @@ module.exports = merge(common, {
     static: {
       directory: distDir
     }
+  },
+  module: {
+    rules: [
+    ]
   },
   optimization: {
     minimize: false,
