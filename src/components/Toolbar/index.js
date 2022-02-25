@@ -1,23 +1,13 @@
 import { h } from "preact"
-import { useContext } from "preact/compat"
-import cxs from "cxs"
 
-import { Toolbar as _Toolbar } from "ui-shared/components"
-
-import { FAB } from "../FAB"
-import { Theme } from "../../theme"
+import { FAB, View } from ".."
 
 
 const Toolbar = (props) => {
-  const theme = useContext(Theme)
-  const className = String(
-    theme.toolbar
-    ? cxs(theme.toolbar)
-    : "")  + " not-print"
   return (
-    <_Toolbar id="toolbar" className={className} {...props}>
+    <View id="toolbar" themeItem="toolbar" {...props}>
       <FAB onClick={props.toggleModal} />
-    </_Toolbar>
+    </View>
   )
 }
 
