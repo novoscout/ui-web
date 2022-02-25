@@ -282,6 +282,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="sea
   background-image: url("../img/offline.png");
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 4rem;
 }
 
 /* ====================================================================== */
