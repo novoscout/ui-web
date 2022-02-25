@@ -105,7 +105,7 @@ class Desk extends Component {
   fromArticle(chunk,elem) {
     if (! elem) { return undefined }
     elem = elem.toLowerCase()
-    if (["title","authors","doi"].indexOf(elem) != -1) {
+    if (["title","shrunk-title","authors","doi"].indexOf(elem) != -1) {
       const meta = (((chunk || {}).article || {}).front || {})["article-meta"] || {}
       if (elem == "doi") {
         if ((meta["article-id"] || {})["@pub-id-type"] == "doi") {
@@ -120,6 +120,9 @@ class Desk extends Component {
       }
       else if (elem == "title") {
         return (meta["title-group"] || {})["article-title"] || ""
+      }
+      else if (elem == "shrunk-title") {
+        return (meta["title-group"] || {})["article-title-shrunk"] || ""
       }
     }
     else if (["body"].indexOf(elem) != -1) {
@@ -205,6 +208,7 @@ class Desk extends Component {
       const doiUrl = "https://doi.org/" + (doi ? doi : "")
       const osUrl = "https://app.osteoscout.com/doi/" + (doi ? doi : "")
       const title = this.fromArticle(g[i],"title")
+      const shrunkTitle = this.fromArticle(g[i],"shrunk-title")
       const authors = this.fromArticle(g[i],"authors")
       const body = this.fromArticle(g[i],"body")
       const ref = createRef()
@@ -220,7 +224,7 @@ class Desk extends Component {
           startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
           >
-          <h2>{shrinkTitle(title)}</h2>
+          <h2>{shrunkTitle}</h2>
           <Details className="always-print">
             <Summary className="not-print">Info</Summary>
             <p>

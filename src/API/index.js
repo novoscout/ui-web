@@ -2,6 +2,7 @@ require("isomorphic-fetch");
 
 const isOnline = require("../helpers/isOnline");
 const storage = require("../helpers/storage");
+const shrinkTitle = require("../helpers/shrinkTitle");
 
 const fakeData = require("./data.json");
 
@@ -149,8 +150,10 @@ const getGraph = async (o) => {
     return new Promise((resolve,reject) => { resolve(ret) })
   } else {
     // Fetch graph from API.
+    // Shrink the title of each item.
     // Add graph and all its items to cache.
-    for (const item of fakeData) {
+    fakeData.forEach( (item,idx) => {
+      fakeData[idx].article.front["article-meta"]["title-group"]["article-title-shrunk"] = shrinkTitle(item.article.front["article-meta"]["title-group"]["article-title"])
       const aid = ((((item || {}).article || {}).front || {})["article-meta"] || {})["article-id"]
       if (aid && aid["@pub-id-type"] == "doi" && aid["#text"]) {
         crummyCache.set({
@@ -159,7 +162,7 @@ const getGraph = async (o) => {
           documentID: aid["#text"]
         }, item);
       }
-    }
+    });
 
     return new Promise((resolve,reject) => {
       resolve(fakeData);
