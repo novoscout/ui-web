@@ -2,6 +2,9 @@ import color from "./color"
 import mq from "../common/mq"
 
 const dark = {
+  loading: {
+    backgroundColor: color.background,
+  },
   rangeSlider: {
     boxShadow: "none",
     background: color.background,
@@ -43,15 +46,15 @@ const dark = {
   navActionIcon: {
     filter: "sepia(70%) brightness(60%)",
   },
+  navActionCancel: {
+    color: color.error,
+  },
   navMenu: {},
   navMenuModal: {
     " ul": {
       borderColor: color.primaryDesat[2],
       background: color.primaryDesat[2]
     }
-  },
-  navActionCancel: {
-    color: color.error,
   },
   swiper: {
     frame: {

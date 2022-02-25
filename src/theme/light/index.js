@@ -2,6 +2,9 @@ import color from "./color"
 import mq from "../common/mq"
 
 const light = {
+  loading: {
+    backgroundColor: color.background,
+  },
   rangeSlider: {
     boxShadow: "inset 0 4px 6px rgba(128,64,64,0.7)",
     background: color.primaryDesat[2],
@@ -37,6 +40,9 @@ const light = {
   navAction: {
     color: color.accent
   },
+  navActionCancel: {
+    color: color.error,
+  },
   navMenu: {},
   navMenuModal: {
     " ul": {
@@ -44,9 +50,6 @@ const light = {
       boxShadow: "rgba(0, 0, 0, 0.6) 0px 0px 18px 0px",
       background: color.background
     }
-  },
-  navActionCancel: {
-    color: color.error,
   },
   swiper: {
     frame: {
