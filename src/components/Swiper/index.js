@@ -53,10 +53,9 @@ class Swiper extends Component {
         s.style.transition = "all " + this.state.delay + "s ease-out"
         s.style.removeProperty("transform")
         s.style.removeProperty("box-shadow")
-        const timeoutID = setTimeout(function(s,timeoutID) {
+        setTimeout( (s) => {
           s.style.display = "none"
-          clearTimeout(timeoutID)
-        }, ms, s, timeoutID)
+        }, ms, s)
       })
     }
   }
@@ -88,7 +87,7 @@ class Swiper extends Component {
     }
     // After the swipe animation has finished, remove transitions etc
     // from this element, and call the end() func.
-    const timeoutID = setTimeout(function(that,delta,timeoutID) {
+    setTimeout( (that,delta) => {
       that.base.style.removeProperty("transition")
       that.base.style.removeProperty("transform")
       that.base.style.removeProperty("z-index")
@@ -98,8 +97,7 @@ class Swiper extends Component {
           that.props.end(that,delta)
         }
       }
-      clearTimeout(timeoutID)
-    }, ms, this, delta, timeoutID)
+    }, ms, this, delta)
   }
 
   move(coords) {
