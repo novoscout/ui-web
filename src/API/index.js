@@ -6,7 +6,7 @@ const shrinkTitle = require("../helpers/shrinkTitle");
 
 const fakeData = require("./data.json");
 
-// For future referecnce, genius way of comparing semver strings:
+// For future reference, genius way of comparing semver strings:
 // https://stackoverflow.com/a/65687141
 // Not actually using it, but it might come in handy!
 
