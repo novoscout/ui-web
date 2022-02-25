@@ -1,6 +1,6 @@
 const DOI = (d) => {
   if (! d) {
-    console.warn("Could not parse DOI.");
+    console.warn("Could not parse DOI:",d);
     return undefined;
   }
   return String(d).toLowerCase()
