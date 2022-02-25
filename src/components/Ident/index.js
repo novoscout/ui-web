@@ -1,13 +1,9 @@
 import { h, Component, Fragment } from "preact"
 import { createRef } from "preact/compat"
-import { useContext } from "preact/compat"
 import { route } from "preact-router"
-import cxs from "cxs"
 
-import { Ident as _Ident } from "ui-shared/components"
-import { Button, Details, Summary, TextLink, TextInput } from ".."
+import { Button, Details, Summary, TextLink, TextInput, View } from ".."
 
-import { Theme } from "../../theme"
 import { storage } from "../../helpers/"
 const api = require("../../API")
 
@@ -156,19 +152,16 @@ class Ident extends Component {
   }
 
   render() {
-    const theme = useContext(Theme)
     if (this.state.loading || this.state.submittingForm) {
-      return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
+      return <View ident="loading" class="loading" />
     }
 
     // Ignore some unnecessary items in new props.
     const { path, url, ...newProps } = this.props
 
-    const className = theme.ident ? cxs(theme.ident) : null
-
     const ID = (p) => {
       return (
-        <_Ident id="ident" className={className} {...newProps}>{p.children}</_Ident>
+        <View themeItem="ident" id="ident" {...newProps}>{p.children}</View>
       )
     }
 
@@ -221,20 +214,18 @@ class Ident extends Component {
                 style={{textAlign:"initial"}} /><br/>
             </p>
 
-            <p style={{paddingTop:"1rem"}}>
-              { this.state.formPurpose == "login" &&
-                <Fragment>
-                  <Button
-                    disabled={this.state.submittingForm}
-                    type="submit" name="login"
-                    onClick={this.handleForm}>Login</Button>
-                  <br/>
-                  <Button
-                    disabled={this.state.submittingForm}
-                    onClick={ () => { window.history.go(-1); return false; } }>Cancel</Button>
-                </Fragment>
-              }
-            </p>
+            { this.state.formPurpose == "login" &&
+              <p style={{paddingTop:"1rem"}}>
+                <Button
+                  disabled={this.state.submittingForm}
+                  type="submit" name="login"
+                  onClick={this.handleForm}>Login</Button>
+                <br/>
+                <Button
+                  disabled={this.state.submittingForm}
+                  onClick={ () => { window.history.go(-1); return false; } }>Cancel</Button>
+              </p>
+            }
             <Details
               open={detailsOpen}
               ref={this.registerDetailsRef}

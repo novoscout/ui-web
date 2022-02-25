@@ -1,42 +1,26 @@
-import { h, Component } from "preact"
-import { useContext } from "preact/compat"
-import cxs from "cxs"
+import { h } from "preact"
 
 import { NavAction } from "../NavAction"
 
-import { Theme } from "../../theme"
 
+const handleChooseTheme = (props) => {
+  if (props.chooseTheme) {
+    props.chooseTheme()
+  }
+  if (props.toggleModal) {
+    props.toggleModal({visible:false})
+  }
+}
 
-class NavActionTheme extends Component {
-  constructor(props) {
-    super(props)
-    this.handleChooseTheme = this.handleChooseTheme.bind(this)
-  }
-
-  handleChooseTheme() {
-    if (this.props.toggleModal) {
-      this.props.toggleModal({visible:false})
-    }
-    if (this.props.chooseTheme) {
-      this.props.chooseTheme()
-    }
-  }
-  
-  render() {
-    const theme = useContext(Theme)
-    const className = theme.navActionTheme
-                    ? cxs(theme.navActionTheme)
-                    : null
-    return (
-      <NavAction
-        href={null}
-        onClick={this.handleChooseTheme}
-        className={className}>
-        <NavAction.Icon ariaLabel="Choose day/night theme">🌗</NavAction.Icon>
-        <NavAction.Text>&nbsp;Day/night</NavAction.Text>
-      </NavAction>
-    )
-  }
+const NavActionTheme = (props) => {
+  return (
+    <NavAction
+      href={null}
+      onClick={ () => { handleChooseTheme(props) } }>
+      <NavAction.Icon ariaLabel="Choose day/night theme">🌗</NavAction.Icon>
+      <NavAction.Text>&nbsp;Day/night</NavAction.Text>
+    </NavAction>
+  )
 }
 
 export default NavActionTheme

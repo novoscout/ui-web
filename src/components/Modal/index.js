@@ -2,10 +2,8 @@ import { h, Component, createContext } from "preact"
 import { useContext } from "preact/compat"
 import cxs from "cxs"
 
-import { Modal as _Modal } from "ui-shared/components"
-
 import { Theme } from "../../theme"
-import { NavMenu } from ".."
+import { NavMenu, View } from ".."
 
 
 const _ModalContext = createContext("modal")
@@ -86,14 +84,14 @@ class Modal extends Component {
           : cxs(theme.invisible || {})
 
     return (
-      <_Modal
+      <View
         id="modal"
         style={this.props.style}
         className={className}
         {...newProps}
         >
         { this.showComponents(modalContext) }
-      </_Modal>
+      </View>
     )
   }
 }

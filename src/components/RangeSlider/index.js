@@ -1,9 +1,6 @@
 import { h, Component } from "preact"
-import { useContext } from "preact/compat"
-import cxs from "cxs"
 
-import { View } from "ui-shared/components"
-import { Theme } from "../../theme"
+import { View } from ".."
 import { storage } from "../../helpers"
 
 
@@ -28,22 +25,17 @@ class RangeSlider extends Component {
   }
 
   render() {
-    const theme = useContext(Theme)
-    const className = cxs(theme.rangeSlider || {}) || null
-    const classNameContainer = cxs(theme.rangeSliderContainer || {}) || null
-
-    const theMax = this.props.max == 0 ? 0 : this.props.max ? this.props.max : 10
-
     // Ignore some unnecessary items in new props.
     const { id, max, min, name, step, ...newProps } = this.props
 
     return (
-      <View className={classNameContainer}>
-        <input
-          className={className}
+      <View themeItem="rangeSliderContainer">
+        <View
+          elem="input"
+          themeItem="rangeSlider"
           type="range"
           min={this.props.min || 0}
-          max={theMax}
+          max={max == 0 ? 0 : max ? max : 10}
           step={this.props.step || 1}
           name={name || "range"}
           id={this.props.id || null}

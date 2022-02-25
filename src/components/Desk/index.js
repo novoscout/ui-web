@@ -1,13 +1,11 @@
 import { h, Component } from "preact"
-import { createRef, useContext } from "preact/compat"
+import { createRef } from "preact/compat"
 import { Router, route } from "preact-router"
-import cxs from "cxs"
 
-import { View } from "ui-shared/components"
+import { View } from ".."
 
 import { Details, Ident, MemoizedArticles, Summary, Swiper, TextLink } from ".."
-import { Theme } from "../../theme"
-import { DOI, shrinkTitle, storage } from "../../helpers/"
+import { DOI, storage } from "../../helpers/"
 import api from "../../API"
 
 // import { load as graphFromJson } from "ngraph.fromjson"
@@ -256,18 +254,13 @@ class Desk extends Component {
   }
 
   render() {
-    const theme = useContext(Theme)
     if (this.state.loading) {
-      return <div class="loading" style={{backgroundColor:theme.desk.backgroundColor}} />
+      return <View class="loading" themeItem="loading" />
     }
-
-    const className = theme.desk
-                    ? cxs(theme.desk) || null
-                    : null
 
     return (
       <Router onChange={this.handleRoute}>
-        <View default id="desk" className={className}>
+        <View default id="desk" theme="desk">
           <Router>
             <View default>
               <p style={{marginTop:"2rem",textAlign:"center"}}>

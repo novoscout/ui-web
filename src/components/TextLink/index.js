@@ -1,10 +1,7 @@
 import { h, Component } from "preact"
-import { useContext } from "preact/compat"
 import { route } from "preact-router"
-import cxs from "cxs"
 
-import { Theme } from "../../theme"
-
+import { View } from ".."
 
 class TextLink extends Component {
   handleOnClick(props,e) {
@@ -33,18 +30,16 @@ class TextLink extends Component {
   }
 
   render() {
-    const theme = useContext(Theme)
-    const className = theme.textLink ? cxs(theme.textLink) : null
-
     // Ignore some unnecessary items in new props.
     const { href, onClick, ...newProps } = this.props
 
     return (
-      <a
+      <View
+        elem="a"
+        themeItem="textLink"
         onClick={this.handleOnClick.bind(this,this.props)}
         href={this.props.href}
-        className={className}
-        {...newProps}>{this.props.children}</a>
+        {...newProps}>{this.props.children}</View>
     )
   }
 }

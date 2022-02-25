@@ -1,47 +1,30 @@
-import { h, Component } from "preact"
-import { useContext } from "preact/compat"
-import cxs from "cxs"
+import { h } from "preact"
 
-import { TextLink } from ".."
+import { TextLink, View } from ".."
 
-import { Theme } from "../../theme"
-
-// FIXME Better handling of onClick!!
 
 const NavAction = (props) => {
-  const theme = useContext(Theme)
-  const className = theme.navAction
-                  ? cxs(theme.navAction)
-                  : null
   return (
-    <TextLink href={props.href} onClick={props.onClick} className={className}>
-      {props.children}
-    </TextLink>
+    <TextLink
+      href={props.href}
+      onClick={props.onClick}
+      themeItem={props.themeItem || "navAction"}>{props.children}</TextLink>
   )
 }
 
 const _NavActionIcon = (props) => {
-  const theme = useContext(Theme)
-  const className = theme.navActionIcon
-                  ? cxs(theme.navActionIcon)
-                  : null
-  const role = props.role || "img"
   return (
-    <span className={className} aria-label={props.ariaLabel} role={role} {...props}>
-      {props.children}
-    </span>
+    <View
+      elem="span"
+      themeItem="navActionIcon"
+      aria-label={props.ariaLabel}
+      role={props.role || "img"}>{props.children}</View>
   )
 }
 
 const _NavActionText = (props) => {
-  const theme = useContext(Theme)
-  const className = theme.navActionText
-                  ? cxs(theme.navActionText)
-                  : null
   return (
-    <span className={className} {...props}>
-      {props.children}
-    </span>
+    <View themeItem="navActionText">{props.children}</View>
   )
 }
 

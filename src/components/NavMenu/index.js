@@ -1,8 +1,5 @@
-import { h, Component } from "preact"
+import { h } from "preact"
 import { useContext } from "preact/compat"
-import cxs from "cxs"
-
-import { TextLink } from "ui-shared/components"
 
 import { Theme } from "../../theme"
 
@@ -13,6 +10,7 @@ import {
   NavActionShare,
   NavActionTheme,
   RangeSlider,
+  View,
 } from ".."
 
 import api from "../../API"
@@ -63,7 +61,6 @@ const tempStyles = (theme, isInModal) => {
 
 
 const _Inner = (props) => {
-  const theme = useContext(Theme)
   const commonActions = {
     toggleModal: props.toggleModal,
     chooseTheme: props.chooseTheme
@@ -101,16 +98,11 @@ const _Inner = (props) => {
 const NavMenu = (props) => {
   // FIXME Try useContext(Modal.Context) to determine whether modal active?
   const theme = useContext(Theme)
-  const className = props.isInModal
-                  ? cxs(theme.navMenuModal || {}) || null
-                  : cxs(theme.navMenu || {}) || null
-
   const ts = tempStyles(theme, props.isInModal)
-
   return (
-    <div className={className}>
+    <View themeItem={props.isInModal ? "navMenuModal" : "navMenu"}>
       <_Inner {...props} tempStyles={ts} />
-    </div>
+    </View>
   )
 }
 

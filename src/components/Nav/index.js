@@ -1,18 +1,14 @@
-import { h, Component } from "preact"
-import { useContext } from "preact/compat"
-import cxs from "cxs"
+import { h } from "preact"
 
-import { View } from "ui-shared/components"
+import { View } from ".."
 
 import { NavMenu, NavTitle } from ".."
 import { Theme } from "../../theme"
 
 
 const Nav = (props) => {
-  const theme = useContext(Theme)
-  const className = theme.nav ? cxs(theme.nav) : null
   return (
-    <View id="nav" className={className}>
+    <View id="nav" themeItem="nav">
       <NavTitle>osteoscout</NavTitle>
       <NavMenu {...props}/>
     </View>

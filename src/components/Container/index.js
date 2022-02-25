@@ -1,20 +1,13 @@
-import { h, Component } from "preact"
-import { useContext } from "preact/compat"
-import cxs from "cxs"
+import { h } from "preact"
 
-import { View } from "ui-shared/components"
-
-import { Theme } from "../../theme"
+import { View } from ".."
 
 
 const Container = (props) => {
-  const theme = useContext(Theme)
-  const className = theme.container ? String(cxs({...theme.container})) : null
   return (
     <View
-      className={className} {...props}>
-      {props.children}
-    </View>
+      themeItem={props.themeItem ? props.themeItem : "container"}
+      {...props}>{props.children}</View>
   )
 }
 
