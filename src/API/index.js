@@ -141,7 +141,7 @@ const getGraph = async (o) => {
     const ret = [];
     for (const key of cacheKeys) {
       try {
-        ret.push(crummyCache.get(JSON.parse(key)));
+        ret.push(JSON.parse(storage.getItem(key)))
       } catch(err) {
         // Ignore JSON.parse errors.
         if (err.name != "SyntaxError") { throw err }
