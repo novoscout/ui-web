@@ -17,50 +17,44 @@ const promiseTimeout = function(ms, p){
 
 module.exports = async (opts) => {
   const { forceOffline } = { forceOffline:false, ...opts || {} };
-  if (forceOffline) {
+  if (forceOffline || ((process || {}).env || {}).forceOffline) {
     return await new Promise((resolve,reject) => {
       reject()
     }).catch((e) => { return false })
   }
-  try {
-    if (navigator && (! navigator.onLine)) {
-      return await new Promise((resolve,reject) => {
-        reject()
-      }).catch((e) => { return false })
-    } else {
-      throw new Error() // proceed to the below.
-    }
-  } catch (err) {
-    const defaultSites = [
-      "https://1.1.1.1",
-      "https://8.8.8.8",
-      "https://8.8.4.4",
-      "https://icanhazip.com",
-      "https://api.ipify.org",
-      "https://google.com/favicon.ico",
-      // "https://a0.awsstatic.com/404",
-      // "https://a1.awsstatic.com/404",
-      "https://cdn.jsdelivr.net/favicon.ico",
-      // "https://cdn.jsdelivr.net/404",
-      // "https://www.fastly.io/404",
-    ];
-    const { sites, timeout } = { timeout:2000, sites:defaultSites, ...opts || {} };
+  const defaultSites = [
+    "https://app.osteoscout.home",
+    "https://api.osteoscout.home",
+    "https://app.osteoscout.com",
+    "https://api.osteoscout.com",
+    "https://1.1.1.1",
+    "https://8.8.8.8",
+    "https://8.8.4.4",
+    "https://icanhazip.com",
+    "https://api.ipify.org",
+    "https://google.com/favicon.ico",
+    // "https://a0.awsstatic.com/404",
+    // "https://a1.awsstatic.com/404",
+    "https://cdn.jsdelivr.net/favicon.ico",
+    // "https://cdn.jsdelivr.net/404",
+    // "https://www.fastly.io/404",
+  ];
+  const { sites, timeout } = { timeout:2000, sites:defaultSites, ...opts || {} };
 
-    return await Promise.any(
-      sites.map((site) => {
-        return promiseTimeout(
-          timeout,
-          fetch(site,{
-            cache: "no-cache",
-            method: "GET",
-            mode: "no-cors",
-          }).then((r) => {
-            return true
-          })
-        )
-      })
-    ).catch((e) => {
-      return false
+  return await Promise.any(
+    sites.map((site) => {
+      return promiseTimeout(
+        timeout,
+        fetch(site,{
+          cache: "no-cache",
+          method: "GET",
+          mode: "no-cors",
+        }).then((r) => {
+          return true
+        })
+      )
     })
-  }
+  ).catch((e) => {
+    return false
+  })
 }
