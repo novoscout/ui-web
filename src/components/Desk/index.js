@@ -52,7 +52,7 @@ class Desk extends Component {
 
     if (! apikey) {
       forceLogout();
-      return // Quit!
+      return false // Quit!
     }
 
     await this.setState({apikey})
@@ -216,7 +216,7 @@ class Desk extends Component {
           <p>Hmm. Can't work out which articles you're looking for.</p>
           <p>This is probably our mistake, not yours.</p>
           <p>Maybe try refreshing the page?
-            <span role="none">&nbsp;🤔</span>
+            <span aria-visibility="hidden" role="none">&nbsp;🤔</span>
           </p>
         </ErrorMessage>
       )
