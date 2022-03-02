@@ -360,6 +360,10 @@ hr {
   height: 1px;
 }
 
+/* Paragraph sub-titles in swipers */
+details ~ p h3 { margin-top: 2rem; }
+details + p h3 { margin-top: 0; }
+
 /* ====================================================================== */
 
 /* Font tweaks, minimising jarring from resizing. */
@@ -404,7 +408,7 @@ hr {
 
 .font-zilla-slab h1, .font-zilla-slab-700 h1 { font-size: 1.42rem; line-height: 1.25 }
 .font-zilla-slab h2, .font-zilla-slab-700 h2 { font-size: 1.30rem }
-.font-zilla-slab h3, .font-zilla-slab-700 h3 { font-size: 1.20rem }
+.font-zilla-slab h3, .font-zilla-slab-700 h3 { font-size: 1.10rem }
 .font-zilla-slab h4, .font-zilla-slab-700 h4 { font-size: 1.10rem; line-height: 1 }
 .font-zilla-slab h5, .font-zilla-slab-700 h5 { font-size: 1.10rem }
 .font-zilla-slab h6, .font-zilla-slab-700 h6 { font-size: 1.10rem }
