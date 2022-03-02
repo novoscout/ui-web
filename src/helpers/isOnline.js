@@ -23,21 +23,12 @@ module.exports = async (opts) => {
     }).catch((e) => { return false })
   }
   const defaultSites = [
-    "https://app.osteoscout.home",
-    "https://api.osteoscout.home",
-    "https://app.osteoscout.com",
-    "https://api.osteoscout.com",
-    "https://1.1.1.1",
-    "https://8.8.8.8",
-    "https://8.8.4.4",
-    "https://icanhazip.com",
-    "https://api.ipify.org",
-    "https://google.com/favicon.ico",
-    // "https://a0.awsstatic.com/404",
-    // "https://a1.awsstatic.com/404",
-    "https://cdn.jsdelivr.net/favicon.ico",
-    // "https://cdn.jsdelivr.net/404",
-    // "https://www.fastly.io/404",
+    "https://app.osteoscout.com/",
+    "https://api.osteoscout.com/",
+    "https://www.quad9.net/favicon.svg",
+    "https://1.1.1.1/favicon.ico",
+    "https://icanhazip.com/",
+    "https://api.ipify.org/",
   ];
   const { sites, timeout } = { timeout:2000, sites:defaultSites, ...opts || {} };
 
