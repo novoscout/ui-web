@@ -4,8 +4,6 @@ const isOnline = require("../helpers/isOnline");
 const storage = require("../helpers/storage");
 const shrinkTitle = require("../helpers/shrinkTitle");
 
-const fakeData = require("./data.json");
-
 // For future reference, genius way of comparing semver strings:
 // https://stackoverflow.com/a/65687141
 // Not actually using it, but it might come in handy!
@@ -143,8 +141,12 @@ const getGraph = async (o) => {
       try {
         ret.push(JSON.parse(storage.getItem(key)))
       } catch(err) {
-        // Ignore JSON.parse errors.
-        if (err.name != "SyntaxError") { throw err }
+        // Log JSON.parse errors but continue. Throw others.
+        if (err.name == "SyntaxError") {
+          console.debug(err)
+        } else {
+          throw err
+        }
       }
     }
     return new Promise((resolve,reject) => { resolve(ret) })
@@ -152,33 +154,43 @@ const getGraph = async (o) => {
     // Fetch graph from API.
     // Shrink the title of each item.
     // Add graph and all its items to cache.
-    fakeData.forEach( (item,idx) => {
-      fakeData[idx].article.front["article-meta"]["title-group"]["article-title-shrunk"] = shrinkTitle(item.article.front["article-meta"]["title-group"]["article-title"])
-      const aid = ((((item || {}).article || {}).front || {})["article-meta"] || {})["article-id"]
-      if (aid && aid["@pub-id-type"] == "doi" && aid["#text"]) {
-        crummyCache.set({
-          documentType: "article",
-          documentIDType: "doi",
-          documentID: aid["#text"]
-        }, item);
-      }
-    });
 
     return new Promise((resolve,reject) => {
-      resolve(fakeData);
-      // fetch(
-      //   apiUrlBase + "/graph/doi/" + String(doi || ""), {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "Authorization": String(apikey)
-      //     },
-      //     method: "GET",
-      //     mode: "cors"
-      // }).then( r => {
-      //   if (r.ok) { return r.json() } else { reject(r) }
-      // }).then( j => {
-      //   resolve(j)
-      // })
+      fetch(
+        apiUrlBase + "/graph/doi/" + String(doi || ""), {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": String(apikey)
+          },
+          method: "GET",
+          mode: "cors"
+      }).then( r => {
+        if (r.ok) {
+          return r.json()
+        } else {
+          reject(r)
+        }
+      }).then( j => {
+        // console.debug(j.data[0].attributes.nodes.map((i) => { return i.data }));
+        resolve(j.data[0].attributes.nodes.map((i) => {
+          const article = ((i || {}).data || {}).article;
+          if (article) {
+            if (article.front) {
+              article.front["article-meta"]["title-group"]["article-title-shrunk"] =
+                shrinkTitle(article.front["article-meta"]["title-group"]["article-title"]);
+              const aid = (article.front["article-meta"] || {})["article-id"]
+              if (aid && aid["@pub-id-type"] && aid["@pub-id-type"] == "doi" && aid["#text"]) {
+                crummyCache.set({
+                  documentType: "article",
+                  documentIDType: "doi",
+                  documentID: aid["#text"]
+                }, article);
+              }
+          }
+          return article
+          }
+        }).filter( (i) => { if (i) { return true } } ))
+      })
     })
   }
 }

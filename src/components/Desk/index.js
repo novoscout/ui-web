@@ -108,14 +108,14 @@ class Desk extends Component {
   swiperShouldPreventDefault(ref,coords) {
     // Default action (vertical scrolling) should be prevented
     // if the user is swiping left or right.
-    return coords.direction.left || coords.direction.right
+    return coords.direction.left || coords.direction.right ? true : false
   }
 
-  fromArticle(chunk,elem) {
+  fromArticle(article,elem) {
     if (! elem) { return undefined }
     elem = elem.toLowerCase()
     if (["title","shrunk-title","authors","doi"].indexOf(elem) != -1) {
-      const meta = (((chunk || {}).article || {}).front || {})["article-meta"] || {}
+      const meta = ((article || {}).front || {})["article-meta"] || {}
       if (elem == "doi") {
         if ((meta["article-id"] || {})["@pub-id-type"] == "doi") {
           return (meta["article-id"] || {})["#text"]
@@ -131,33 +131,46 @@ class Desk extends Component {
         return (meta["title-group"] || {})["article-title"] || ""
       }
       else if (elem == "shrunk-title") {
-        return (meta["title-group"] || {})["article-title-shrunk"] || ""
+        return (meta["title-group"] || {})["article-title-shrunk"]
+            || (meta["title-group"] || {})["article-title"]
+            || ""
       }
     }
     else if (["body"].indexOf(elem) != -1) {
-      const body = ((chunk || {}).article || {}).body || {}
       if (elem == "body") {
-        return (body.sec || []).map( (sec) => {
-          return ((sec || {}).p || []).map( (p) => {
-            return (
-              <p>
-                {
-                  (p || []).map( (sentence,idx) => {
-                    return sentence.text
-                         ? (
-                           <span className={"lod lod-" + String(
-                             (sentence.levelOfDetail || 0) * api.numLevelsOfDetail
-                           )
-                           }>{sentence.text + " "}</span>
-                         )
-                         : undefined
-                  }).filter(
-                    (text) => { if (text) { return true }
-                  })
-                }
-              </p>
+        if (! article.body) {
+          return []
+        }
+        return (article.body.sec || []).map( (sec) => {
+          const ret = []
+          if (sec.title) {
+            ret.push(
+              <p><h3>{sec.title}</h3></p>
             )
-          })
+          }
+          if (sec.p) {
+            sec.p.forEach( (para) => {
+              if (para) {
+                ret.push(
+                  <p>{
+                    para.map( (sentence,idx) => {
+                      return sentence.text
+                           ? (
+                             <span className={"lod lod-" + String(
+                               (sentence.levelOfDetail || 0) * api.numLevelsOfDetail
+                             )
+                             }>{sentence.text + " "}</span>
+                           )
+                           : undefined
+                    }).filter(
+                      (text) => { if (text) { return true }
+                    })
+                  }</p>
+                )
+              }
+            })
+          }
+          return ret
         })
       }
     }
