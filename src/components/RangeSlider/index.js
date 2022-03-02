@@ -27,6 +27,8 @@ class RangeSlider extends Component {
   render() {
     // Ignore some unnecessary items in new props.
     const { id, max, min, name, step, ...newProps } = this.props
+    const theMax = max == 0 ? 0 : max ? max : 10
+    const theName = name || "range"
 
     return (
       <View themeItem="rangeSliderContainer">
@@ -35,14 +37,14 @@ class RangeSlider extends Component {
           themeItem="rangeSlider"
           type="range"
           min={this.props.min || 0}
-          max={max == 0 ? 0 : max ? max : 10}
+          max={theMax}
           step={this.props.step || 1}
-          name={name || "range"}
+          name={theName}
           id={this.props.id || null}
           value={
             parseInt(
               this.state.value
-                || storage.getItem(name)
+                || storage.getItem(theName)
                 || Math.round(theMax / 2)
             )
           }
