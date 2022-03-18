@@ -15,7 +15,7 @@ common.module.rules[0].use.options.plugins.push(
 const distDir = "dev";
 const distPath = path.resolve(__dirname, distDir);
 
-const apiScheme = (( process || {}).env || {}).API_SCHEME || 'http';
+const apiScheme = (( process || {}).env || {}).API_SCHEME || 'https';
 const apiHostname = (( process || {}).env || {}).API_HOSTNAME || 'api.osteoscout.home';
 const apiPort = (( process || {}).env || {}).API_PORT || '';
 const forceOffline = (( process || {}).env || {}).FORCE_OFFLINE ? true : false
