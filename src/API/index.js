@@ -44,7 +44,7 @@ const crummyCache = {
 
 const storageKey = (o) => {
   // Ensure keys are generated in a consistent manner.
-  // JSON.stringify introduces issues with quotes, so template literals are used instead.
+  // JSON.stringify introduces issues with quotes, so template strings are used instead.
   const {
     documentType, documentIDType, documentID,
     delayedActionName, delayedActionData } = o || {};
@@ -56,7 +56,7 @@ const storageKey = (o) => {
   // Store actions for processing later, e.g. when off-line.
   if (delayedActionName) {
     if (delayedActionData) {
-      const d = JSON.stringify(delayedActionData)
+      const d = JSON.stringify(delayedActionData);
       return `\{"version":"${localVersion}","type":"delayedAction","name":"${delayedActionName}","data":"${d}"\}`
     }
     return `\{"version":"${localVersion}","type":"delayedAction","name":"${delayedActionName}"\}`
@@ -195,40 +195,30 @@ const getGraph = async (o) => {
   }
 }
 
-const recordUserNavigateFromDOIToDOI = (o) => {
-  const { doiA, doiB, apikey } = o || {};
-  if (! apikey || ! doiA || ! doiB) {
+const recordUserNavigateBetweenDocs = (o) => {
+  const { from, to, apikey } = o || {};
+  if (! apikey || ! to) {
     return new Promise((resolve,reject) => {
-      reject("Need all of: apikey, doiA, doiB.")
+      reject("Need both of: apikey, to.")
     })
   }
 
+  const payload = JSON.stringify({
+    from_doi: from.doi,
+    to_doi: to.doi
+  })
   return Promise.all([
     fetch(
       apiUrlBase +
-      "/graph/user/action/user_navigated_from/doi/" +
-      String(doiA).toLowerCase(),
+      "/graph/user/action/user_navigated_between_docs/",
       {
         headers: {
           "Content-Type": "application/json",
           "Authorization": String(apikey)
         },
         method: "POST",
-        mode: "cors"
-    }).then( r => {
-      if (! r.ok) { reject("API problem: " + String(r)) }
-    }),
-    fetch(
-      apiUrlBase +
-      "/graph/user/action/user_navigated_to/doi/" +
-      String(doiB).toLowerCase(),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": String(apikey)
-        },
-        method: "POST",
-        mode: "cors"
+        mode: "cors",
+        body: payload
     }).then( r => {
       if (! r.ok) { reject("API problem: " + String(r)) }
     })
@@ -392,7 +382,7 @@ const api = {
   getGraph,
   login,
   numLevelsOfDetail,
-  recordUserNavigateFromDOIToDOI,
+  recordUserNavigateBetweenDocs,
   recordUserShareDOI,
   register,
   storageKey,

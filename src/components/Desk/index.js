@@ -96,10 +96,10 @@ class Desk extends Component {
       }
     }
 
-    api.recordUserNavigateFromDOIToDOI({
+    api.recordUserNavigateBetweenDocs({
       apikey: this.state.apikey,
-      doiA: ref.props.doi,
-      doiB: nextDOI
+      from: { doi: ref.props.doi },
+      to: { doi: nextDOI }
     }).catch( (e) => {
       console.debug("API error: ",e)
     })
