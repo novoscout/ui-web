@@ -24,13 +24,30 @@ const numLevelsOfDetail = 5;
 
 // A crummy cache :)
 const crummyCache = {
+  "remove": function(key) {
+    const k = storageKey(key);
+    storage.removeItem(k);
+  },
   "set": function(key,val) {
     const k = storageKey(key);
     // const previous = JSON.parse(storage.getItem(k) || '{}');
     storage.setItem(k, JSON.stringify(val));
   },
   "get": function(key) {
-    return JSON.parse(storage.getItem(storageKey(key)))
+    var ret;
+    if (typeof(key) == "string") {
+      try {
+        ret = storage.getItem(key)
+      } catch { }
+    } else {
+      ret = storage.getItem(storageKey(key))
+      try {
+      } catch { }
+    }
+    try {
+      ret = JSON.parse(ret)
+    } catch { }
+    return ret
   },
   "keys": function() {
     try {
@@ -63,40 +80,45 @@ const storageKey = (o) => {
   }
 }
 
-const getArticleByDOI = async (o) => {
+const getArticle = async (o) => {
   const { doi, apikey, cache } = o || {};
   if (! apikey) {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
   const _doi = typeof(doi) == "string" ? doi.toLowerCase() : undefined
-  if (! _doi) {
-    return new Promise((resolve,reject) => { reject("No DOI provided.") })
-  }
 
   if (cache || ! await isOnline()) {
-    try {
-      const article = crummyCache.get({
-        documentType: "article",
-        documentIDType: "doi",
-        documentID: _doi
-      });
-      if (article) {
-        return new Promise((resolve,reject) => {
-          resolve(article)
-        })
-      } else {
-        return new Promise((resolve,reject) => {
-          reject("No article found with DOI " + _doi)
-        })
+    if (_doi) {
+      try {
+        const article = crummyCache.get({
+          documentType: "article",
+          documentIDType: "doi",
+          documentID: _doi
+        });
+        if (article) {
+          return new Promise((resolve,reject) => {
+            resolve(article)
+          })
+        } else {
+          return new Promise((resolve,reject) => {
+            reject("No article found with DOI " + _doi)
+          })
+        }
+      } catch (err) {
+        console.debug(err) // FIXME
       }
-    } catch (err) {
-      console.debug(err) // FIXME
     }
   } else {
+    // Fetch recommended article from API.
+    // Shrink the title.
+    // Add article to cache.
+
     return new Promise((resolve,reject) => {
+      let u = "/document/doi/"
+      if (_doi) { u = u + String(_doi) }
       fetch(
-        apiUrlBase + "/graph/doi/" + _doi, {
+        apiUrlBase + u, {
           headers: {
             "Content-Type": "application/json",
             "Authorization": String(apikey)
@@ -106,7 +128,25 @@ const getArticleByDOI = async (o) => {
       }).then( r => {
         if (r.ok) { return r.json() } else { reject("API problem: " + String(r)) }
       }).then( j => {
-        resolve(j)
+        const article = ((j||{}).data||[])[0].attributes.json.article
+        resolve( (() => {
+          if (article) {
+            if (article.front) {
+              article.front["article-meta"]["title-group"]["article-title-shrunk"] =
+                shrinkTitle(article.front["article-meta"]["title-group"]["article-title"]);
+              const aid = (article.front["article-meta"] || {})["article-id"]
+              if (aid && aid["@pub-id-type"] && aid["@pub-id-type"] == "doi" && aid["#text"]) {
+                crummyCache.set({
+                  documentType: "article",
+                  documentIDType: "doi",
+                  documentID: aid["#text"]
+                }, article);
+              }
+            }
+            j.data[0].attributes.json.article = article
+            return j.data[0]
+          }
+        })())
       })
     })
   }
@@ -126,13 +166,16 @@ const doiKeysFromCache = () => {
   })
 }
 
-const getGraph = async (o) => {
+const getRecommended = async (o) => {
   const { doi, apikey, cache } = o || {};
   if (! apikey) {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
   const _doi = typeof(doi) == "string" ? doi.toLowerCase() : undefined
+  if (! _doi) {
+    return new Promise((resolve,reject) => { reject("DOI must be provided.") })
+  }
 
   if (cache || ! await isOnline()) {
     const cacheKeys = doiKeysFromCache();
@@ -151,13 +194,13 @@ const getGraph = async (o) => {
     }
     return new Promise((resolve,reject) => { resolve(ret) })
   } else {
-    // Fetch graph from API.
-    // Shrink the title of each item.
-    // Add graph and all its items to cache.
+    // Fetch recommended article from API.
+    // Shrink the title.
+    // Add article to cache.
 
     return new Promise((resolve,reject) => {
       fetch(
-        apiUrlBase + "/graph/doi/" + String(doi || ""), {
+        apiUrlBase + "/recommend/doi/" + String(doi || ""), {
           headers: {
             "Content-Type": "application/json",
             "Authorization": String(apikey)
@@ -171,9 +214,8 @@ const getGraph = async (o) => {
           reject(r)
         }
       }).then( j => {
-        // console.debug(j.data[0].attributes.nodes.map((i) => { return i.data }));
-        resolve(j.data[0].attributes.nodes.map((i) => {
-          const article = ((i || {}).data || {}).article;
+        const article = ((j||{}).data||[])[0].attributes.json.article
+        resolve( (() => {
           if (article) {
             if (article.front) {
               article.front["article-meta"]["title-group"]["article-title-shrunk"] =
@@ -186,10 +228,11 @@ const getGraph = async (o) => {
                   documentID: aid["#text"]
                 }, article);
               }
+            }
+            j.data[0].attributes.json.article = article
+            return j.data[0]
           }
-          return article
-          }
-        }).filter( (i) => { if (i) { return true } } ))
+        })())
       })
     })
   }
@@ -378,8 +421,8 @@ const validAPIKey = async (o) => {
 const api = {
   cache: crummyCache,
   doiKeysFromCache,
-  getArticleByDOI,
-  getGraph,
+  getArticle,
+  getRecommended,
   login,
   numLevelsOfDetail,
   recordUserNavigateBetweenDocs,

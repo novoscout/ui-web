@@ -4,7 +4,7 @@ import { Router, route } from "preact-router"
 
 import { View } from ".."
 
-import { DOI, isOnline, storage } from "../../helpers/"
+import { DOI } from "../../helpers/"
 import api from "../../API"
 import {
   Details,
@@ -42,14 +42,14 @@ class Desk extends Component {
 
   async componentDidMount() {
     const forceLogout = async () => {
-      storage.removeItem("apikey")
+      api.cache.remove("apikey")
       if (window.location.pathname != Ident.href) {
         window.location.replace(Ident.href)
       }
       await this.setState({loading:false})
     }
 
-    var apikey = storage.getItem("apikey");
+    var apikey = api.cache.get("apikey");
 
     if (! apikey) {
       forceLogout();
@@ -60,19 +60,59 @@ class Desk extends Component {
 
     // const apikeyValidated = await api.validAPIKey(apikey)
     // await this.setState({apikeyValidated})
-    // storage.setItem("apikey_validated",true)
+    // api.cache.get("apikey_validated",true)
 
-    await api.getGraph({
+    var prevDoi = undefined
+
+    await api.getArticle({
       apikey
     }).then( async (res) => {
       if (res) {
-        await this.setState({
-          articleGraph: res.filter( x => x )
+        await this.setState(function(prevState) {
+          const ret = {
+            articleGraph: [ ...prevState.articleGraph, res ]
+          }
+          prevDoi = ret.articleGraph[0].id
+          return ret
         })
       }
     }).catch( (err) => {
-      console.debug("Couldn't get graph: " + String(err))
+      console.debug("Couldn't get info from API: ", err)
     })
+
+    const someArbitraryLimit = 3
+
+    if (this.state.articleGraph.length < someArbitraryLimit) {
+      if (api.cache.keys().length - 1 >= someArbitraryLimit) { // ignore apikey in count
+        const toUse = []
+        api.cache.keys().forEach(function(k) {
+          if (k != "apikey") {
+            toUse.push(k)
+          }
+        })
+        toUse.forEach(function(i) {
+          console.debug(api.cache.get(i))
+        })
+      } else {
+        for (let i=0; i<=someArbitraryLimit; i++) {
+          await api.getRecommended({
+            apikey, doi:prevDoi
+          }).then( async (res) => {
+            if (res) {
+              await this.setState(function(prevState) {
+                const ret = {
+                  articleGraph: [ ...prevState.articleGraph, res ]
+                }
+                prevDoi = ret.articleGraph[0].id
+                return ret
+              })
+            }
+          }).catch( (err) => {
+            console.debug("Couldn't get info from API: ", err)
+          })
+        }
+      }
+    }
     await this.setState({loading:false})
   }
 
@@ -152,22 +192,28 @@ class Desk extends Component {
           if (sec.p) {
             sec.p.forEach( (para) => {
               if (para) {
-                ret.push(
-                  <p>{
-                    para.map( (sentence,idx) => {
-                      return sentence.text
-                           ? (
-                             <span className={"lod lod-" + String(
-                               (sentence.levelOfDetail || 0) * api.numLevelsOfDetail
+                if (para.map) {
+                  ret.push(
+                    <p>{
+                      para.map( (sentence,idx) => {
+                        return sentence.text
+                             ? (
+                               <span className={"lod lod-" + String(
+                                 (sentence.levelOfDetail || 0) * api.numLevelsOfDetail
+                               )
+                               }>{sentence.text + " "}</span>
                              )
-                             }>{sentence.text + " "}</span>
-                           )
-                           : undefined
-                    }).filter(
-                      (text) => { if (text) { return true }
-                    })
-                  }</p>
-                )
+                             : undefined
+                      }).filter(
+                        (text) => { if (text) { return true }
+                      })
+                    }</p>
+                  )
+                } else if (typeof(para)=="string") {
+                  ret.push(
+                    <p>{para}</p>
+                  )
+                }
               }
             })
           }
@@ -180,15 +226,22 @@ class Desk extends Component {
 
   async deleteData() {
     const toKill = []
-    for (var i=0, sl = storage.length; i<sl; ++i ) {
-      const k = storage.key(i)
-      console.log(k)
+    api.cache.keys().forEach(function(k) {
       if (k != "apikey") {
-        toKill.push(k)
+        try {
+          const o = JSON.parse(k)
+          toKill.push({
+            documentType: o["type"],
+            documentIDType: "doi",
+            documentID: o["doi"],
+          })
+        } catch(err) {
+          console.debug("Failed to remove item: ",k)
+        }
       }
-    }
+    })
     toKill.forEach(function(i) {
-      storage.removeItem(i)
+      api.cache.remove(i)
     })
     await this.setState(function(prevState) {
       return { articleGraph: [] }
@@ -332,6 +385,8 @@ class Desk extends Component {
     if (this.state.loading) {
       return <View class="loading" themeItem="loading" />
     }
+
+    console.debug(this.state.articleGraph)
 
     return (
       <Router onChange={this.handleRoute}>
