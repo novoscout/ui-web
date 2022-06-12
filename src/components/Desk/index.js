@@ -4,7 +4,7 @@ import { Router, route } from "preact-router"
 
 import { View } from ".."
 
-import { DOI } from "../../helpers/"
+import { DOI, isOnline } from "../../helpers/"
 import api from "../../API"
 import {
   Details,
@@ -62,58 +62,88 @@ class Desk extends Component {
     // await this.setState({apikeyValidated})
     // api.cache.get("apikey_validated",true)
 
-    var prevDoi = undefined
+    var previousDOI = undefined
 
-    await api.getArticle({
-      apikey
-    }).then( async (res) => {
-      if (res) {
+    if (! this.state.activeDOI) {
+      console.debug("No active DOI in state, trying to find and set...")
+      var possibleDOI = window.location.pathname.replace(/^\/doi\//,"").replace(/\/+$/,"")
+      console.debug("Got possible DOI:",possibleDOI)
+      if (possibleDOI) {
         await this.setState(function(prevState) {
-          const ret = {
-            articleGraph: [ ...prevState.articleGraph, res ]
-          }
-          prevDoi = ret.articleGraph[0].id
-          return ret
+          return {activeDOI:possibleDOI}
         })
       }
-    }).catch( (err) => {
-      console.debug("Couldn't get info from API: ", err)
-    })
+    }
+    if (this.state.activeDOI) {
+      console.debug("Got activeDOI from state:",this.state.activeDOI)
+      await api.getArticle({
+        apikey:apikey, doi:possibleDOI
+      }).then( async (res) => {
+        if (res) {
+          console.debug("res")
+          console.debug(res)
+          // console.debug("No res, unsetting activeDOI in state")
+          // await this.setState(function(prevState) {
+          //   return {activeDOI:undefined}
+          // })
+          await this.setState(function(prevState) {
+            const ret = {
+              articleGraph: [ ...prevState.articleGraph, res ]
+            }
+            previousDOI = ret.articleGraph[ret.articleGraph.length-1].id
+            return ret
+          })
+        }
+      }).catch( (err) => {
+        console.debug("Couldn't get info from API: ", err)
+      })
+    }
 
     const someArbitraryLimit = 3
 
-    if (this.state.articleGraph.length < someArbitraryLimit) {
-      if (api.cache.keys().length - 1 >= someArbitraryLimit) { // ignore apikey in count
-        const toUse = []
-        api.cache.keys().forEach(function(k) {
-          if (k != "apikey") {
-            toUse.push(k)
+    var online = await isOnline()
+
+    while (online && this.state.articleGraph.length < someArbitraryLimit) {
+      if (previousDOI) {
+        await api.getRecommended({
+          apikey:apikey, doi:previousDOI
+        }).then( async (res) => {
+          if (res) {
+            await this.setState(function(prevState) {
+              const ret = {
+                articleGraph: [ ...prevState.articleGraph, res ]
+              }
+              previousDOI = ret.articleGraph[ret.articleGraph.length-1].id
+              return ret
+            })
           }
-        })
-        toUse.forEach(function(i) {
-          console.debug(api.cache.get(i))
+        }).catch( async (err) => {
+          console.debug("Couldn't get info from API: ", err)
+          online = await isOnline()
         })
       } else {
-        for (let i=0; i<=someArbitraryLimit; i++) {
-          await api.getRecommended({
-            apikey, doi:prevDoi
-          }).then( async (res) => {
-            if (res) {
-              await this.setState(function(prevState) {
-                const ret = {
-                  articleGraph: [ ...prevState.articleGraph, res ]
-                }
-                prevDoi = ret.articleGraph[0].id
-                return ret
-              })
-            }
-          }).catch( (err) => {
-            console.debug("Couldn't get info from API: ", err)
-          })
-        }
+        await api.getArticle({
+          apikey:apikey
+        }).then( async (res) => {
+          if (res) {
+            await this.setState(function(prevState) {
+              const ret = {
+                articleGraph: [ ...prevState.articleGraph, res ]
+              }
+              previousDOI = ret.articleGraph[ret.articleGraph.length-1].id
+              return ret
+            })
+          }
+        }).catch( async (err) => {
+          console.debug("Couldn't get info from API: ", err)
+          online = await isOnline()
+        })
       }
     }
-    await this.setState({loading:false})
+    await this.setState(function(prevState) {
+      console.debug("Setting loading = false!")
+      return {loading:false}
+    })
   }
 
 
@@ -176,8 +206,7 @@ class Desk extends Component {
             || (meta["title-group"] || {})["article-title"]
             || ""
       }
-    }
-    else if (["body"].indexOf(elem) != -1) {
+    } else if (["body"].indexOf(elem) != -1) {
       if (elem == "body") {
         if (! article.body) {
           return []
@@ -275,12 +304,24 @@ class Desk extends Component {
     const doiFromUrl = DOI(DOIFromURL)
     var activeDOI = this.state.activeDOI ||
                     doiFromUrl ||
-                    this.fromArticle(g[Math.floor((Math.random() * gLen))],"doi")
+                    this.fromArticle(
+                      g[Math.floor((Math.random() * gLen))],
+                      "doi"
+                    )
     activeDOI = DOI(activeDOI)
+    console.debug("activeDOI",activeDOI)
 
-    const pointer = g.findIndex( (i) => {
-      return this.fromArticle(i,"doi") == activeDOI
-    })
+    console.debug("Trying to find all DOIs...")
+    g.forEach( (i) => {
+      console.debug(this.fromArticle(i,"doi"))
+    })      
+
+    const pointer = g.findIndex( (i) =>
+      // this.fromArticle((((i||{}).attributes||{}).json||{}).article,"doi") == activeDOI
+      this.fromArticle(i,"doi") == activeDOI
+    )
+
+    console.log("Pointer",pointer)
 
     // This "should never happen", but just in case:
     if (pointer == -1) {
@@ -349,7 +390,7 @@ class Desk extends Component {
           shouldPreventDefault={this.swiperShouldPreventDefault}
           startThreshold={100}
           style={{display:activeDOI == doi ? undefined : "none"}}
-          >
+        >
           <h2>{shrunkTitle}</h2>
           <Details className="always-print">
             <Summary className="not-print">Info</Summary>
@@ -363,8 +404,8 @@ class Desk extends Component {
             </p>
             {
               authors.length > 0 &&
-                <p>Authors: {authors.map( (auth) => {
-                    return (<span>{auth}. </span>)
+              <p>Authors: {authors.map( (auth) => {
+                  return (<span>{auth}. </span>)
                 })}</p>
             }
             <p>
@@ -386,6 +427,7 @@ class Desk extends Component {
       return <View class="loading" themeItem="loading" />
     }
 
+    console.debug("Desk:render:state.articleGraph")
     console.debug(this.state.articleGraph)
 
     return (

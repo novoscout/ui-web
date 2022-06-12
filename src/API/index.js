@@ -81,17 +81,21 @@ const storageKey = (o) => {
 }
 
 const getArticle = async (o) => {
-  const { doi, apikey, cache } = o || {};
+  const { doi, apikey, cache } = o || {cache:true};
   if (! apikey) {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
 
   const _doi = typeof(doi) == "string" ? doi.toLowerCase() : undefined
 
-  if (cache || ! await isOnline()) {
+  let article = undefined
+
+  const online = await isOnline()
+
+  if (cache || ! online) {
     if (_doi) {
       try {
-        const article = crummyCache.get({
+        article = crummyCache.get({
           documentType: "article",
           documentIDType: "doi",
           documentID: _doi
@@ -100,36 +104,52 @@ const getArticle = async (o) => {
           return new Promise((resolve,reject) => {
             resolve(article)
           })
-        } else {
-          return new Promise((resolve,reject) => {
-            reject("No article found with DOI " + _doi)
-          })
         }
       } catch (err) {
         console.debug(err) // FIXME
       }
     }
-  } else {
-    // Fetch recommended article from API.
-    // Shrink the title.
-    // Add article to cache.
+  }
+  if ( ! online) {
+    // Try to return a random item from the cache.
+    try {
+      return new Promise((resolve,reject) => {
+        resolve(
+          api.cache.get(
+            // FIXME Maybe make the cache responsible for filtering.
+            api.cache.keys().filter( i => ["apikey","theme"].indexOf(i) == -1 )[
+              Math.floor(Math.random() * api.cache.keys().length)
+            ]
+          )
+        )
+      })
+    } catch {
+      return new Promise((resolve,reject) => {
+        reject("Not online and could not find anything in cache!")
+      })
+    }
+  }
 
-    return new Promise((resolve,reject) => {
-      let u = "/document/doi/"
-      if (_doi) { u = u + String(_doi) }
-      fetch(
-        apiUrlBase + u, {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": String(apikey)
-          },
-          method: "GET",
-          mode: "cors"
-      }).then( r => {
-        if (r.ok) { return r.json() } else { reject("API problem: " + String(r)) }
-      }).then( j => {
-        const article = ((j||{}).data||[])[0].attributes.json.article
-        resolve( (() => {
+  // Fetch a random article from API.
+  // Shrink the title.
+  // Add article to cache.
+
+  return new Promise((resolve,reject) => {
+    fetch(
+      apiUrlBase + "/document/doi", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": String(apikey)
+        },
+        method: "GET",
+        mode: "cors"
+    }).then( r => {
+      if (r.ok) { return r.json() } else { reject("API problem: " + String(r)) }
+    }).then( j => {
+      resolve( (() => {
+        const data = (j||{}).data || []
+        if (data.length > 0) {
+          const article = (((data[0]||{}).attributes||{}).json||{}).article
           if (article) {
             if (article.front) {
               article.front["article-meta"]["title-group"]["article-title-shrunk"] =
@@ -143,13 +163,12 @@ const getArticle = async (o) => {
                 }, article);
               }
             }
-            j.data[0].attributes.json.article = article
-            return j.data[0]
+            return article
           }
-        })())
-      })
+        }
+      })())
     })
-  }
+  })
 }
 
 const doiKeysFromCache = () => {
@@ -167,7 +186,7 @@ const doiKeysFromCache = () => {
 }
 
 const getRecommended = async (o) => {
-  const { doi, apikey, cache } = o || {};
+  const { doi, apikey, cache } = o || {cache:true};
   if (! apikey) {
     return new Promise((resolve,reject) => { reject("No API key provided.") })
   }
@@ -214,7 +233,7 @@ const getRecommended = async (o) => {
           reject(r)
         }
       }).then( j => {
-        const article = ((j||{}).data||[])[0].attributes.json.article
+        const article = (((((j||{}).data||[])[0]||{}).attributes||{}).json||{}).article
         resolve( (() => {
           if (article) {
             if (article.front) {
@@ -229,9 +248,8 @@ const getRecommended = async (o) => {
                 }, article);
               }
             }
-            j.data[0].attributes.json.article = article
-            return j.data[0]
           }
+          return article
         })())
       })
     })
