@@ -132,6 +132,7 @@ const elide = (s) => {
 }
 
 const shrinkTitle = (title) => {
+  if (! title) { return title }
   const chunks = title.split(":");
   if (chunks.length == 2) {
     chunks[0] = elide(chunks[0]).trimRight();
