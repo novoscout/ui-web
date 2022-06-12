@@ -157,7 +157,7 @@ class Ident extends Component {
     }
 
     // Ignore some unnecessary items in new props.
-    const { path, url, ...newProps } = this.props
+    const { path, url, deleteDataCallback, ...newProps } = this.props
 
     const ID = (p) => {
       return (
@@ -177,6 +177,14 @@ class Ident extends Component {
           <p>
             OsteoScout will remember you each time you visit, unless you <TextLink onClick={this.forceLogout}>logout</TextLink>.
           </p>
+          <p><h4 style={{textAlign:"center",paddingTop:"1.5rem"}}>Recommendations</h4></p>
+          <p>
+            OsteoScout recommends articles to you based on articles you've read, and articles other people have read too. To do this, OsteoScout asks your device to store your data. <b>You</b> stay in control of this data.
+          </p>
+          <p>
+            If want to delete this data, you can do so right here: <TextLink onClick={deleteDataCallback}>delete my data immediately</TextLink>. You will remain logged in, and OsteoScout will start learning about your preferences from scratch.
+          </p>
+          <hr />
           <p><h4 style={{textAlign:"center",paddingTop:"1.5rem"}}>FAQ</h4></p>
           <Details>
             <Summary>What information does OsteoScout store about me?</Summary>

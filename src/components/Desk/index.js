@@ -24,6 +24,7 @@ import {
 class Desk extends Component {
   constructor(props) {
     super(props)
+    this.deleteData = this.deleteData.bind(this)
     this.renderArticles = this.renderArticles.bind(this)
     this.swiperShouldPreventDefault = this.swiperShouldPreventDefault.bind(this)
     this.fromArticle = this.fromArticle.bind(this)
@@ -175,6 +176,24 @@ class Desk extends Component {
       }
     }
     return undefined
+  }
+
+  async deleteData() {
+    const toKill = []
+    for (var i=0, sl = storage.length; i<sl; ++i ) {
+      const k = storage.key(i)
+      console.log(k)
+      if (k != "apikey") {
+        toKill.push(k)
+      }
+    }
+    toKill.forEach(function(i) {
+      storage.removeItem(i)
+    })
+    await this.setState(function(prevState) {
+      return { articleGraph: [] }
+    })
+    alert("Done!")
   }
 
   renderArticles(DOIFromURL) {
@@ -333,7 +352,7 @@ class Desk extends Component {
               />
           </Router>
         </View>
-        <Ident path={Ident.path} />
+        <Ident path={Ident.path} deleteDataCallback={this.deleteData} />
       </Router>
     )
   }
