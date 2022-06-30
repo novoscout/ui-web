@@ -108,35 +108,34 @@ const getArticle = async (o) => {
       } catch (err) {
         console.debug(err) // FIXME
       }
-    }
-  }
-  if ( ! online) {
-    // Try to return a random item from the cache.
-    try {
-      return new Promise((resolve,reject) => {
-        resolve(
-          api.cache.get(
-            // FIXME Maybe make the cache responsible for filtering.
-            api.cache.keys().filter( i => ["apikey","theme"].indexOf(i) == -1 )[
-              Math.floor(Math.random() * api.cache.keys().length)
-            ]
+    } else {
+      // Try to return a random item from the cache.
+      try {
+        return new Promise((resolve,reject) => {
+          resolve(
+            api.cache.get(
+              // FIXME Maybe make the cache responsible for filtering.
+              api.cache.keys().filter( i => ["apikey","theme","levelOfDetail"].indexOf(i) == -1 )[
+                Math.floor(Math.random() * api.cache.keys().length)
+              ]
+            )
           )
-        )
-      })
-    } catch {
-      return new Promise((resolve,reject) => {
-        reject("Not online and could not find anything in cache!")
-      })
+        })
+      } catch {
+        return new Promise((resolve,reject) => {
+          reject("Not online and could not find anything in cache!")
+        })
+      }
     }
   }
 
-  // Fetch a random article from API.
+  // Fetch an article from API (random if no DOI).
   // Shrink the title.
   // Add article to cache.
 
   return new Promise((resolve,reject) => {
     fetch(
-      apiUrlBase + "/document/doi", {
+      apiUrlBase + "/document/doi/" + String(_doi ? _doi : ""), {
         headers: {
           "Content-Type": "application/json",
           "Authorization": String(apikey)
@@ -271,7 +270,7 @@ const recordUserNavigateBetweenDocs = (o) => {
   return Promise.all([
     fetch(
       apiUrlBase +
-      "/graph/user/action/user_navigated_between_docs/",
+      "/user/action/user_navigated_between_docs",
       {
         headers: {
           "Content-Type": "application/json",

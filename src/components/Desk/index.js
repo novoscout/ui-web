@@ -64,10 +64,10 @@ class Desk extends Component {
 
     var previousDOI = undefined
 
+    var online = await isOnline()
+
     if (! this.state.activeDOI) {
-      console.debug("No active DOI in state, trying to find and set...")
       var possibleDOI = window.location.pathname.replace(/^\/doi\//,"").replace(/\/+$/,"")
-      console.debug("Got possible DOI:",possibleDOI)
       if (possibleDOI) {
         await this.setState(function(prevState) {
           return {activeDOI:possibleDOI}
@@ -75,17 +75,10 @@ class Desk extends Component {
       }
     }
     if (this.state.activeDOI) {
-      console.debug("Got activeDOI from state:",this.state.activeDOI)
       await api.getArticle({
-        apikey:apikey, doi:possibleDOI
+        apikey:apikey, doi:this.state.activeDOI
       }).then( async (res) => {
         if (res) {
-          console.debug("res")
-          console.debug(res)
-          // console.debug("No res, unsetting activeDOI in state")
-          // await this.setState(function(prevState) {
-          //   return {activeDOI:undefined}
-          // })
           await this.setState(function(prevState) {
             const ret = {
               articleGraph: [ ...prevState.articleGraph, res ]
@@ -99,12 +92,17 @@ class Desk extends Component {
       })
     }
 
-    const someArbitraryLimit = 3
+    const someArbitraryLimit = 10
 
-    var online = await isOnline()
+    while (this.state.articleGraph.length < someArbitraryLimit) {
 
-    while (online && this.state.articleGraph.length < someArbitraryLimit) {
-      if (previousDOI) {
+      // Render early once three articles are ready.
+      if (this.state.articleGraph.length >= 3) {
+        this.setState({loading:false})
+      }
+
+      if (previousDOI && online) {
+        // Get a recommendation from the API.
         await api.getRecommended({
           apikey:apikey, doi:previousDOI
         }).then( async (res) => {
@@ -122,6 +120,7 @@ class Desk extends Component {
           online = await isOnline()
         })
       } else {
+        // Get a random article from the API.
         await api.getArticle({
           apikey:apikey
         }).then( async (res) => {
@@ -141,7 +140,6 @@ class Desk extends Component {
       }
     }
     await this.setState(function(prevState) {
-      console.debug("Setting loading = false!")
       return {loading:false}
     })
   }
@@ -194,9 +192,14 @@ class Desk extends Component {
         return undefined
       }
       else if (elem == "authors") {
-        return ((meta["contrib-group"] || {})["contrib"] || []).map( (c) => {
-          return c["string-name"]
-        }).filter( (i) => { if (i) { return true } })
+        const athrs = (meta["contrib-group"] || {})["contrib"] || []
+        if (athrs.map) {
+          return ((meta["contrib-group"] || {})["contrib"] || []).map( (c) => {
+            return c["string-name"]
+          }).filter( (i) => { if (i) { return true } })
+        } else if (athrs["string-name"]) {
+          return [ athrs["string-name"] ]
+        }
       }
       else if (elem == "title") {
         return (meta["title-group"] || {})["article-title"] || ""
@@ -208,10 +211,11 @@ class Desk extends Component {
       }
     } else if (["body"].indexOf(elem) != -1) {
       if (elem == "body") {
-        if (! article.body) {
-          return []
-        }
-        return (article.body.sec || []).map( (sec) => {
+        if ( ! article.body) { return [] }
+        var theSec = article.body.sec
+        if ( ! theSec) { return [] }
+        if ( ! theSec.map) { theSec = [ theSec ] }
+        return theSec.map( (sec) => {
           const ret = []
           if (sec.title) {
             ret.push(
@@ -219,32 +223,40 @@ class Desk extends Component {
             )
           }
           if (sec.p) {
-            sec.p.forEach( (para) => {
-              if (para) {
-                if (para.map) {
-                  ret.push(
-                    <p>{
-                      para.map( (sentence,idx) => {
-                        return sentence.text
-                             ? (
-                               <span className={"lod lod-" + String(
-                                 (sentence.levelOfDetail || 0) * api.numLevelsOfDetail
-                               )
-                               }>{sentence.text + " "}</span>
-                             )
-                             : undefined
-                      }).filter(
-                        (text) => { if (text) { return true }
-                      })
-                    }</p>
-                  )
-                } else if (typeof(para)=="string") {
-                  ret.push(
-                    <p>{para}</p>
-                  )
+            if (typeof(sec.p) == "string") {
+              ret.push(
+                <p>{sec.p}</p>
+              )
+            } else if (sec.p.forEach) {
+              sec.p.forEach( (para) => {
+                if (para) {
+                  if (para.map) {
+                    ret.push(
+                      <p>{
+                          para.map( (sentence,idx) => {
+                            return sentence.text ?
+                              (
+                                <span
+                                  className={"lod lod-" + String(
+                                    (sentence.levelOfDetail || 0) * api.numLevelsOfDetail
+                                    )
+                                  }>{sentence.text + " "}</span>
+                              )
+                              : undefined
+                          }).filter(
+                            (text) => {
+                              if (text) { return true }
+                            })
+                      }</p>
+                    )
+                  } else if (typeof(para)=="string") {
+                    ret.push(
+                      <p>{para}</p>
+                    )
+                  }
                 }
-              }
-            })
+              })
+            }
           }
           return ret
         })
@@ -256,17 +268,18 @@ class Desk extends Component {
   async deleteData() {
     const toKill = []
     api.cache.keys().forEach(function(k) {
-      if (k != "apikey") {
-        try {
-          const o = JSON.parse(k)
+      // Delete all cached items with a DOI.
+      try {
+        const o = JSON.parse(k)
+        if (o["type"] && o["doi"]) {
           toKill.push({
             documentType: o["type"],
             documentIDType: "doi",
             documentID: o["doi"],
           })
-        } catch(err) {
-          console.debug("Failed to remove item: ",k)
         }
+      } catch(err) {
+        console.debug("Failed to remove item: ",k)
       }
     })
     toKill.forEach(function(i) {
@@ -309,19 +322,10 @@ class Desk extends Component {
                       "doi"
                     )
     activeDOI = DOI(activeDOI)
-    console.debug("activeDOI",activeDOI)
 
-    console.debug("Trying to find all DOIs...")
-    g.forEach( (i) => {
-      console.debug(this.fromArticle(i,"doi"))
-    })      
-
-    const pointer = g.findIndex( (i) =>
-      // this.fromArticle((((i||{}).attributes||{}).json||{}).article,"doi") == activeDOI
-      this.fromArticle(i,"doi") == activeDOI
+    const pointer = g.findIndex(
+      (i) => this.fromArticle(i,"doi") == activeDOI
     )
-
-    console.log("Pointer",pointer)
 
     // This "should never happen", but just in case:
     if (pointer == -1) {
@@ -426,9 +430,6 @@ class Desk extends Component {
     if (this.state.loading) {
       return <View class="loading" themeItem="loading" />
     }
-
-    console.debug("Desk:render:state.articleGraph")
-    console.debug(this.state.articleGraph)
 
     return (
       <Router onChange={this.handleRoute}>
