@@ -16,7 +16,7 @@ const MemoizedArticles = (props) => {
   }, monitorForChange )
 
   return (
-    <View style={{height:"100%"}}>
+    <View key={doi} style={{height:"100%"}}>
       {memoizedArticles}
     </View>
   )

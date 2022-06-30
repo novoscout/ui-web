@@ -24,6 +24,8 @@ class Swiper extends Component {
   }
 
   componentDidMount() {
+    // See MemoizedArticle, each article is given a random
+    // key to ensure they all mount/unmount.
     this.setState({
       loading: false,
       delay: this.props.delay || 0.1,
@@ -110,16 +112,20 @@ class Swiper extends Component {
     if (delta < 0) {
       if (this.base.previousElementSibling) {
         this.base.previousElementSibling.style.display = "none"
+        this.base.previousElementSibling.scrollTop = 0
       }
       if (this.base.nextElementSibling) {
         this.base.nextElementSibling.style.display = "block"
+        this.base.nextElementSibling.scrollTop = 0
       }
     } else if (delta > 0) {
       if (this.base.previousElementSibling) {
         this.base.previousElementSibling.style.display = "block"
+        this.base.previousElementSibling.scrollTop = 0
       }
       if (this.base.nextElementSibling) {
         this.base.nextElementSibling.style.display = "none"
+        this.base.nextElementSibling.scrollTop = 0
       }
     }
     this.base.style.transform = "translateX(" + String(delta) + "px)"
