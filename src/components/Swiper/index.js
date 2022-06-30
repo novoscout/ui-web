@@ -58,6 +58,11 @@ class Swiper extends Component {
         }, ms, s)
       })
     }
+    // Close all open <summary> items. This kludge addresses UI issue
+    // with summary details remaining open between swipes.
+    document.querySelectorAll("details[open]").forEach(function(e) {
+      e.removeAttribute("open")
+    })
   }
 
   start() {
